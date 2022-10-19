@@ -81,7 +81,7 @@ function storePortArrayString(){
 }
 
 
-function remove_array_duplicates() {
+function removeArrayDuplicates() {
     declare -A tmp_array
     for i in "$@"; do
         [[ $i ]] && IFS=" " tmp_array["${i:- }"]=1
@@ -92,7 +92,7 @@ function remove_array_duplicates() {
 
 function getArrayWithoutDuplicate(){
     duplicateArray=($@)
-    echo $(remove_array_duplicates "${duplicateArray[@]}")
+    echo $(removeArrayDuplicates "${duplicateArray[@]}")
 }
 
 
