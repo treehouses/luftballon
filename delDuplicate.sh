@@ -7,7 +7,7 @@ source $manageConfigPath/dependencies/manage-config.sh
 
 #function getArrayWithoutDuplicate(){
 #    duplicateArray=($(extractValueFromTreehousesConfig sshtunnelArray | sed 's/:/,/g' | sed 's/,/ /g'))
-#    echo $(remove_array_duplicates "${duplicateArray[@]}")
+#    echo $(removeArrayDuplicates "${duplicateArray[@]}")
 #}
 
 arr=$(getArrayWithoutDuplicate $(extractValueFromTreehousesConfig sshtunnelArray | sed 's/:/,/g' | sed 's/,/ /g' ) )

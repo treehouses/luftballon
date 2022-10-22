@@ -6,9 +6,9 @@ source $manageConfigPath/dependencies/manage-config.sh
 BASE=/home/pi
 groupName=luftballons-sg
 
-instance_ip=$(extractValueFromTreehousesConfig instanceIp)
-bastions_host_port=$1
-server_port=$2
+instanceIp=$(extractValueFromTreehousesConfig instanceIp)
+bastionsHostPort=$1
+serverPort=$2
 
 port_array=($(aws ec2 describe-security-groups | jq ".SecurityGroups[].IpPermissions[].FromPort"))
 port_array_length=$((${#port_array[@]}-1))
@@ -52,9 +52,9 @@ function add_port_security_groups(){
 }
 
 
-add_port_security_groups $bastions_host_port $server_port
-echo $instance_ip
-treehouses sshtunnel add port actual "$server_port" "$bastions_host_port" root@"$instance_ip"
+add_port_security_groups $bastionsHostPort $serverPort
+echo $instanceIp
+treehouses sshtunnel add port actual "$serverPort" "$bastionsHostPort" root@"$instanceIp"
 
 storePortArrayString
 storeSshtunnelConfiguration
