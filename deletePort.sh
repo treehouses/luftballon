@@ -1,6 +1,6 @@
 
 manageConfigPath=$(pwd)
-source $manageConfigPath/dependencies/manage-config.sh
+source $manageConfigPath/dependencies/manageConfig.sh
 
 luftballonHostPort=$1
 localHostPort=$2

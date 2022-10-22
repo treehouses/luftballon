@@ -2,7 +2,7 @@
 #!/bin/bash
 
 manageConfigPath=$(pwd)
-source $manageConfigPath/dependencies/manage-config.sh
+source $manageConfigPath/dependencies/manageConfig.sh
 
 
 #function getArrayWithoutDuplicate(){
