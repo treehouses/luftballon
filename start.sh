@@ -1,8 +1,8 @@
 #!/bin/bash
 
 manageConfigPath=$(pwd)
-source $manageConfigPath/dependencies/manage-config.sh
-source $manageConfigPath/dependencies/reverse-shell.sh
+source $manageConfigPath/dependencies/manageConfig.sh
+source $manageConfigPath/dependencies/reverseShell.sh
 source $manageConfigPath/dependencies/getLatestIpAddress.sh
 
 keyname=

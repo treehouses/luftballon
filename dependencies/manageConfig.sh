@@ -52,7 +52,7 @@ function findfuncName(){
     keyword=$1
     query=$2
     echo $keyword
-    funcNameArray=($(cat manage-config.sh | grep $keyword | sed "s/$keyword //g" | sed "s/(){//g"))
+    funcNameArray=($(cat manageConfig.sh | grep $keyword | sed "s/$keyword //g" | sed "s/(){//g"))
     for funcName in ${funcNameArray[@]}
     do
         cat $query | grep ${funcName}
