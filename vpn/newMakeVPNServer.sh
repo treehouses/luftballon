@@ -11,6 +11,11 @@ function makeVPNServer(){
     ./easyrsa gen-dh
 }
 
+function makeTlsKey(){
+    ./easytls init-tls
+    ./easytls build-tls-auth
+}
+
 function makeServerConfiguration(){
     # Make server conf file
     cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz /etc/openvpn/server/
@@ -48,6 +53,7 @@ function startVPMServer(){
 }
 
 makeVPNServer
+makeTlsKey
 makeServerConfiguration
 openFireWall
 startVPMServer

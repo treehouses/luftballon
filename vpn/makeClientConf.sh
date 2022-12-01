@@ -3,7 +3,7 @@ client=client1
 
 function makeClientConf(){
     clientName=$1
-    fileName=${clientName}.conf
+    fileName=$clientName.conf
     cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf /etc/openvpn/client/$fileName
 
     sed -i '/ca ca.crt/d' /etc/openvpn/client/$fileName
@@ -22,19 +22,18 @@ function makeClient(){
     ./easyrsa sign-req client $clientName
 }
 
-# Make tls-auth.key and make a part of the inline client conf
-# The client-1 contains ca, cert, key, and tls-auth
-function makeTlsKey(){
-    ./easytls init-tls
-    ./easytls build-tls-auth
-}
 
 function makeTlsAuthInline(){
     clientName=$1
     ./easytls inline-tls-auth $clientName
 }
 
-makeClient $client
-makeTlsKey
-makeTlsAuthInline $client
-makeClientConf $client
+function makeClientCertificate(){
+    client=$1
+    makeClient $client
+    makeTlsAuthInline $client
+    makeClientConf $client
+}
+
+cd /usr/share/easy-rsa/
+makeClientCertificate $client
