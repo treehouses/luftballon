@@ -4,6 +4,9 @@
 function makeVPNServer(){
     cd /usr/share/easy-rsa/
     cp vars.example vars
+    #echo "luftballon\nluftballon\nyes\n" | ./easyrsa init-pki
+    #echo "luftballon\nluftballon\nyes\n" | ./easyrsa build-ca nopass
+    #echo "luftballon\nluftballon\nyes\n" | ./easyrsa gen-req openvpn-server nopass
     ./easyrsa init-pki
     ./easyrsa build-ca nopass
     ./easyrsa gen-req openvpn-server nopass
