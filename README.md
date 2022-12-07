@@ -26,6 +26,21 @@ If you do not have AWS CLI on your Raspberry Pi, execute the below script.
 
 Then, configure your AWS CLI.
 Please consult [this page](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-prereqs.html) for setting up your AWS CLI if you use the AWS CLI at the first time.
+Also, [this page](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-creds-create) 
+explains the configuration basics.
+
+```
+**Note**  
+Please set up the output format as `json`
+```
+
+The below is the example of the config. 
+```bash
+AWS Access Key ID [***your access key***] 
+AWS Secret Access Key [***your access key***] 
+Default region name [your region]: 
+Default output format [json]:
+```
 
 ### Start Luftballon
 
