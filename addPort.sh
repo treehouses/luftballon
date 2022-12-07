@@ -25,7 +25,7 @@ function checkPort() {
 	return $result
 }
 
-function call_aws_add_port_command() {
+function callAwsAddPortCommand() {
 	aws ec2 authorize-security-group-ingress \
 		--group-name $groupName \
 		--protocol tcp \
@@ -35,24 +35,23 @@ function call_aws_add_port_command() {
 
 
 
-function add_port_security_groups(){
+function addPortSecurityGroups(){
 	checkPort $1 
 	if [ $? -eq 0 ]  
 	then              
 		echo $1
-		call_aws_add_port_command $1
+		callAwsAddPortCommand $1
 	fi                 
 
 	checkPort $2 
 	if [ $? -eq 0 ]   
 	then              
 		echo $2
-		call_aws_add_port_command $2
+		callAwsAddPortCommand $2
 	fi                 
 }
 
-
-add_port_security_groups $bastionsHostPort $serverPort
+addPortSecurityGroups $bastionsHostPort $serverPort
 echo $instanceIp
 treehouses sshtunnel add port actual "$serverPort" "$bastionsHostPort" root@"$instanceIp"
 

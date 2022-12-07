@@ -14,7 +14,14 @@ instanceName=luftballon
 
 function importSshKey()
 {
-	aws ec2 import-key-pair --key-name "$keyname" --public-key-material fileb://~/.ssh/$publickey  
+    if [[ -f ~/.ssh/$publickey ]]
+    then
+        aws ec2 import-key-pair --key-name "$keyname" --public-key-material fileb://~/.ssh/$publickey  
+    else
+        echo 'ssh key pair (~/.ssh/$publickey) do not exist ~/.ssh/$publickey'
+        echo 'Please generate the ssh key by the commad "ssh-keygen -t rsa"'
+        exit 1
+    fi
 }
 
 function addPort(){
