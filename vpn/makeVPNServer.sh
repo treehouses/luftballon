@@ -58,7 +58,7 @@ function startVPMServer(){
 makeVPNServer
 makeTlsKey
 makeServerConfiguration
-openFireWall
+#openFireWall
 startVPMServer
 
 systemctl status openvpn-server@server.service
