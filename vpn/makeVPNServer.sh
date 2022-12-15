@@ -3,6 +3,7 @@ serverName=openvpn-server
 
 # Make pki, one master ca, one server, and one client
 function makeVPNServer(){
+    cp ./server.conf /etc/openvpn/server/
     cd /usr/share/easy-rsa/
     cp vars.example vars
     #echo "luftballon\nluftballon\nyes\n" | ./easyrsa init-pki
@@ -38,6 +39,12 @@ function makeServerConfigurationOld(){
 
 function makeServerConfiguration(){
     ./easytls ita $serverName 0
+    cat /usr/share/easy-rsa/pki/easytls/$serverName.inline  >> /etc/openvpn/server/server.conf
+    sed -i '/dh none/d' /etc/openvpn/server/server.conf
+    echo <dh> >> /etc/openvpn/server/server.conf
+    cat /usr/share/easy-rsa/pki/dh.pem >> /etc/openvpn/server/server.conf
+    echo </dh> >> /etc/openvpn/server/server.conf
+
 }
 
 function openFireWall(){
