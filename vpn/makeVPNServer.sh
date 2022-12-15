@@ -41,10 +41,9 @@ function makeServerConfiguration(){
     ./easytls ita $serverName 0
     cat /usr/share/easy-rsa/pki/easytls/$serverName.inline  >> /etc/openvpn/server/server.conf
     sed -i '/dh none/d' /etc/openvpn/server/server.conf
-    echo <dh> >> /etc/openvpn/server/server.conf
+    echo \<dh\> >> /etc/openvpn/server/server.conf
     cat /usr/share/easy-rsa/pki/dh.pem >> /etc/openvpn/server/server.conf
-    echo </dh> >> /etc/openvpn/server/server.conf
-
+    echo \<\/dh\> >> /etc/openvpn/server/server.conf
 }
 
 function openFireWall(){
