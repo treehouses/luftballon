@@ -1,4 +1,5 @@
 
+serverName=openvpn-server
 
 # Make pki, one master ca, one server, and one client
 function makeVPNServer(){
@@ -9,8 +10,8 @@ function makeVPNServer(){
     #echo "luftballon\nluftballon\nyes\n" | ./easyrsa gen-req openvpn-server nopass
     ./easyrsa init-pki
     ./easyrsa build-ca nopass
-    ./easyrsa gen-req openvpn-server nopass
-    ./easyrsa sign-req server openvpn-server
+    ./easyrsa gen-req $serverName nopass
+    ./easyrsa sign-req server $serverName
     ./easyrsa gen-dh
 }
 
@@ -19,7 +20,7 @@ function makeTlsKey(){
     ./easytls build-tls-auth
 }
 
-function makeServerConfiguration(){
+function makeServerConfigurationOld(){
     # Make server conf file
     cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz /etc/openvpn/server/
     gunzip /etc/openvpn/server/server.conf.gz
@@ -32,6 +33,11 @@ function makeServerConfiguration(){
     sed -i 's/;push "dhcp-option DNS 208.67.222.222"/push "dhcp-option DNS 208.67.222.222"/' /etc/openvpn/server/server.conf 
     sed -i 's/;push "dhcp-option DNS 208.67.220.220"/push "dhcp-option DNS 208.67.220.220"/' /etc/openvpn/server/server.conf 
     sed -i 's/tls-auth ta.key 0/tls-auth \/usr\/share\/easy-rsa\/pki\/easytls\/tls-auth.key 0/' /etc/openvpn/server/server.conf
+}
+
+
+function makeServerConfiguration(){
+    ./easytls ita $serverName 0
 }
 
 function openFireWall(){
