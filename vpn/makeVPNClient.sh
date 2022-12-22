@@ -1,4 +1,9 @@
 
+manageConfigPath=$(pwd)
+source $manageConfigPath/../dependencies/manageConfig.sh
+
+publicIp=$(extractValueFromTreehousesConfig publicIp)
+
 client=client1
 
 function makeClientConf(){
@@ -28,11 +33,17 @@ function makeTlsAuthInline(){
     ./easytls inline-tls-auth $clientName
 }
 
+function addIPAddress(){
+    fileName=$1
+    sed -i '/my-server-1/$publicIp/' /etc/openvpn/client/$fileName
+}
+
 function makeClientCertificate(){
     client=$1
     makeClient $client
     makeTlsAuthInline $client
     makeClientConf $client
+    addIPAddress $client
 }
 
 cd /usr/share/easy-rsa/
