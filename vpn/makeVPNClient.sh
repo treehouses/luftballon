@@ -30,12 +30,16 @@ function makeClient(){
 
 function makeTlsAuthInline(){
     clientName=$1
+    # TODO 
+    # Need to conditonal statement to execute it.
+    # I do not understand why the command is needed.
+    # ./easytls rehash
     ./easytls inline-tls-auth $clientName
 }
 
 function addIPAddress(){
     fileName=$1
-    sed -i '/my-server-1/$publicIp/' /etc/openvpn/client/$fileName
+    sed -i  "s/my-server-1/$publicIp/" /etc/openvpn/client/$fileName.conf
 }
 
 function makeClientCertificate(){
