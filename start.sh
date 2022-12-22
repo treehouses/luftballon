@@ -32,6 +32,14 @@ function addPort(){
 		--cidr 0.0.0.0/0
 }
 
+function addUDPPort() {
+	aws ec2 authorize-security-group-ingress \
+		--group-name $groupName \
+		--protocol udp \
+		--port $1 \
+		--cidr 0.0.0.0/0
+}
+
 function createSecurityGroups(){
 	aws ec2 create-security-group \
 		--group-name $groupName \
@@ -49,6 +57,9 @@ function createSecurityGroups(){
 		addPort $i
 		echo $i
 	done
+
+	addUDPPort 1194
+	echo 1194
 }
 
 
