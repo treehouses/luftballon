@@ -45,6 +45,6 @@ function startVPMServer(){
 makeVPNServer
 makeTlsKey
 makeServerConfiguration
-startVPMServer
+#startVPMServer
 
-systemctl status openvpn-server@server.service
+#systemctl status openvpn-server@server.service
