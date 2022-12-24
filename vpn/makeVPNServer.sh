@@ -32,8 +32,14 @@ function makeServerConfiguration(){
 
 function startVPMServer(){
     # Start openvpn-server
-    systemctl -f enable openvpn-server@server.service
-    systemctl start openvpn-server@server.service
+    # If the previous server is running, restart the service.
+    status=$(systemctl status openvpn-server@server.service)
+    if [[ $status == *"Active: active (running)"* ]]; then
+        systemctl restart openvpn-server@server.service;;
+    else
+        systemctl -f enable openvpn-server@server.service
+        systemctl start openvpn-server@server.service
+    fi
 }
 
 makeVPNServer
