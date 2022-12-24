@@ -50,5 +50,20 @@ function makeClientCertificate(){
     addIPAddress $client
 }
 
+function checkFile(){
+    directory=/usr/share/easy-rsa/pki/easytls/
+    fileName=$1
+    FILE=$directory$fileName
+    if [ -f "$FILE" ]; then
+        read -p "File exists. Do you want to delete it? [Y/n] " choice
+        case "$choice" in
+            Y|y ) rm $FILE;;
+            N|n ) exit;;
+            * ) echo "Invalid input. Exiting."; exit;;
+        esac
+    fi
+}
+
+checkFile $client
 cd /usr/share/easy-rsa/
 makeClientCertificate $client
