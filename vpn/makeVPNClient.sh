@@ -67,3 +67,4 @@ function checkFile(){
 checkFile $client
 cd /usr/share/easy-rsa/
 makeClientCertificate $client
+systemctl start openvpn-client@$client.service
