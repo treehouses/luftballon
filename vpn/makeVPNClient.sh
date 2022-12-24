@@ -4,7 +4,6 @@ source $manageConfigPath/../dependencies/manageConfig.sh
 
 publicIp=$(extractValueFromTreehousesConfig publicIp)
 
-client=client1
 
 function makeClientConf(){
     clientName=$1
@@ -64,7 +63,38 @@ function checkFile(){
     fi
 }
 
-checkFile $client
-cd /usr/share/easy-rsa/
-makeClientCertificate $client
-systemctl start openvpn-client@$client.service
+function getClientName(){
+    read -p "Enter the name for the client openVPN config. [default is client1]" client
+
+    if [[ -z "$client" ]]; then
+        client=client1
+    fi
+    echo $client
+}
+
+function makeClientConfig(){
+    client=$(getClientName)
+    checkFile $client
+    cd /usr/share/easy-rsa/
+    makeClientCertificate $client
+}
+
+function makeClientConfigAndStart(){
+    client=$(getClientName)
+    checkFile $client
+    cd /usr/share/easy-rsa/
+    makeClientCertificate $client
+    systemctl enable openvpn-client@$client.service
+    systemctl start openvpn-client@$client.service
+    systemctl status openvpn-client@$client.service
+}
+
+
+read -p "Do you start openVPN client on this machine? If not, the script just make client config [Y/n] " choice
+case "$choice" in
+    Y/y ) makeClientConfigAndStart;; 
+    N/n ) makeClientConfig;;
+    * ) echo "Invalid input. Exiting."; exit;;
+esac
+
+
