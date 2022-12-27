@@ -1,7 +1,7 @@
 
 manageConfigPath=$(pwd)
 source $manageConfigPath/../dependencies/manageConfig.sh
-source getRunningVPNServerConfName
+source $manageConfigPath/getRunningVPNServerConfName.sh
 
 publicIp=$(extractValueFromTreehousesConfig publicIp)
 
@@ -101,9 +101,10 @@ function stopVPNServerIfRunning(){
 
 stopVPNServerIfRunning
 read -p "Do you start openVPN client on this machine? If not, the script just make client config [Y/n] " choice
-case "$choice" in
-    Y/y ) makeClientConfigAndStart;; 
-    N/n ) makeClientConfig;;
+echo $choice
+case $choice in
+    Y|y ) makeClientConfigAndStart;; 
+    N|n ) makeClientConfig;;
     * ) echo "Invalid input. Exiting."; exit;;
 esac
 
