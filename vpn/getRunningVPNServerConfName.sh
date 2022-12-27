@@ -1,3 +1,7 @@
+#!/bin/bash
+
+# If there is a running OpenVPN server in a machine, the script print out the config name
+# Otherwise, it print out empty string
 
 ServerDir=/etc/openvpn/server/
 
@@ -31,5 +35,6 @@ function getRunningVPNServerConfName(){
     IFS=$OLD_IFS
     echo $confName
 }
+
 
 
