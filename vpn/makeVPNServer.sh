@@ -33,7 +33,7 @@ function makeServerConfiguration(){
 function startVPMServer(){
     # Start openvpn-server
     systemctl -f enable openvpn-server@server.service
-    systemctl start openvpn-server@server.service
+    systemctl restart openvpn-server@server.service
 }
 
 makeVPNServer
