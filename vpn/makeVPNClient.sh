@@ -1,7 +1,7 @@
 
 manageConfigPath=$(pwd)
 source $manageConfigPath/../dependencies/manageConfig.sh
-source getRunningVPNEntityConfName
+source getRunningVPNEntityConfName.sh
 
 publicIp=$(extractValueFromTreehousesConfig publicIp)
 
