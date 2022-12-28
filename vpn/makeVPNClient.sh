@@ -2,6 +2,7 @@
 manageConfigPath=$(pwd)
 source $manageConfigPath/../dependencies/manageConfig.sh
 source getRunningVPNEntityConfName.sh
+source deleteEasytlsIClientnline.sh
 
 publicIp=$(extractValueFromTreehousesConfig publicIp)
 
@@ -102,8 +103,8 @@ function stopVPNEntityIfRunning(){
 
 stopVPNEntityIfRunning server
 stopVPNEntityIfRunning client
+deleteEasytlsIClientnline
 read -p "Do you start openVPN client on this machine? If not, the script just make client config [Y/n] " choice
-echo $choice
 case $choice in
     Y|y ) makeClientConfigAndStart;; 
     N|n ) makeClientConfig;;
