@@ -1,7 +1,7 @@
 
 manageConfigPath=$(pwd)
 source $manageConfigPath/../dependencies/manageConfig.sh
-source $manageConfigPath/getRunningVPNServerConfName.sh
+source getRunningVPNEntityConfName
 
 publicIp=$(extractValueFromTreehousesConfig publicIp)
 
@@ -90,16 +90,18 @@ function makeClientConfigAndStart(){
     systemctl status openvpn-client@$client.service
 }
 
-function stopVPNServerIfRunning(){
-    vpnServerName=$(getRunningVPNServerConfName)
-    if [ -n "$vpnServerName" ]; then
-        echo "Stop VPNServer whose name is $vpnServerName"
-        systemctl stop openvpn-server@$vpnServerName.service
-        systemctl disable openvpn-server@$vpnServerName.service
+function stopVPNEntityIfRunning(){
+    entityType=$1
+    vpnEntityName=$(getRunningVPNEntityConfName $entityType)
+    if [ -n "$vpnEntityName" ]; then
+        echo "Stop VPN $entityType whose name is $vpnEntityName"
+        systemctl stop openvpn-$entityType@$vpnEntityName.service
+        systemctl disable openvpn-$entityType@$vpnEntityName.service
     fi
 }
 
-stopVPNServerIfRunning
+stopVPNEntityIfRunning server
+stopVPNEntityIfRunning client
 read -p "Do you start openVPN client on this machine? If not, the script just make client config [Y/n] " choice
 echo $choice
 case $choice in
