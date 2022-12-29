@@ -37,7 +37,10 @@ function getRunningVPNEntityConfName(){
     OLD_IFS=$IFS
     IFS=' '
 
-    if [ $entityType == 'server' || $entityType == 'client' ]; then
+    echo $entityType
+
+    if [[ $entityType == 'server' || $entityType == 'client' ]]
+    then
 
         while read -ra confFiles; do
             for confFile in "${confFiles[@]}"; do
@@ -46,10 +49,10 @@ function getRunningVPNEntityConfName(){
         done <<< $(getFiles $entityType) 
     else
         echo 'Invalid input: Please use server or client as an argument'
+    fi
 
     # Restore the original value of IFS
     IFS=$OLD_IFS
     echo $confName
 }
-
 

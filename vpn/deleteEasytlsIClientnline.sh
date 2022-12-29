@@ -1,9 +1,9 @@
 
 easytlsDir=/usr/share/easy-rsa/pki/easytls/
 
-fileName=$1.inline
 
 function getFilePathIfExist(){
+    fileName=$1
     filePath=$easytlsDir$fileName.inline
     if [ -f "$filePath" ]; then
         echo $filePath
@@ -13,20 +13,25 @@ function getFilePathIfExist(){
 }
 
 function removeFile(){
-    fileName=$1
-    rm $1
+    filePath=$1
+    fileName=$2
+    rm $filePath
     echo "Delete $fileName"
 }
 
 function deleteEasytlsIClientnline(){
-    filaPath=$(getFilePathIfExist)
-    if [ -n "$filePath" ]; then
+    fileName=$1
+    echo "$fileName is called?"
+    filePath=$(getFilePathIfExist "$fileName")
+    echo $filePath
+    echo 'get File Path?'
+    if [ ! -z "$filePath" ]; then
         correctChoice=false
-        while [ "$correct"=false ]
+        while [ "$correctChoice"=true ]
             do
             read -p "Delete $fileName? [Y/n] If not, the script stops" choice
             case $choice in
-                Y|y ) removeFile $filePath; correctChoice=true ;; 
+                Y|y ) removeFile $filePath $fileName; correctChoice=true ;; 
                 N|n ) echo "Not delete $fileName. The script stops"; exit;;
                 * ) echo "Invalid input. Enter [Y/n].";;
             esac
@@ -34,4 +39,4 @@ function deleteEasytlsIClientnline(){
     fi
 }
 
-
+getFilePathIfExist client1

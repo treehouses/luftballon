@@ -77,6 +77,7 @@ function getClientName(){
 function makeClientConfig(){
     client=$(getClientName)
     checkFile $client
+    deleteEasytlsIClientnline $client
     cd /usr/share/easy-rsa/
     makeClientCertificate $client
 }
@@ -84,6 +85,7 @@ function makeClientConfig(){
 function makeClientConfigAndStart(){
     client=$(getClientName)
     checkFile $client
+    deleteEasytlsIClientnline $client
     cd /usr/share/easy-rsa/
     makeClientCertificate $client
     systemctl enable openvpn-client@$client.service
@@ -103,7 +105,6 @@ function stopVPNEntityIfRunning(){
 
 stopVPNEntityIfRunning server
 stopVPNEntityIfRunning client
-deleteEasytlsIClientnline
 read -p "Do you start openVPN client on this machine? If not, the script just make client config [Y/n] " choice
 case $choice in
     Y|y ) makeClientConfigAndStart;; 
