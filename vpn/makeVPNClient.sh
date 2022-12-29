@@ -29,13 +29,27 @@ function makeClient(){
 }
 
 
+function errorCheck(){
+    result=$1
+    if [[ $status == *"Error: verify_master_hash"* ]]; then
+        echo 0
+    else
+        echo -1
+    fi
+}
+
 function makeTlsAuthInline(){
     clientName=$1
     # TODO 
     # Need to conditonal statement to execute it.
     # I do not understand why the command is needed.
     # ./easytls rehash
-    ./easytls inline-tls-auth $clientName
+    result=$(./easytls inline-tls-auth $clientName)
+    isError=$(errorCheck $result)
+    if [ $isError==0 ]; then
+        ./easytls rehash
+        ./easytls inline-tls-auth $clientName
+    fi
 }
 
 function addIPAddress(){
