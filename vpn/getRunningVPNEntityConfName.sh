@@ -37,8 +37,6 @@ function getRunningVPNEntityConfName(){
     OLD_IFS=$IFS
     IFS=' '
 
-    echo $entityType
-
     if [[ $entityType == 'server' || $entityType == 'client' ]]
     then
 
