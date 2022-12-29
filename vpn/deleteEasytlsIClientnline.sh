@@ -27,7 +27,7 @@ function deleteEasytlsIClientnline(){
     echo 'get File Path?'
     if [ ! -z "$filePath" ]; then
         correctChoice=false
-        while [ "$correctChoice"=true ]
+        while [ "$correctChoice"=false ]
             do
             read -p "Delete $fileName? [Y/n] If not, the script stops" choice
             case $choice in
