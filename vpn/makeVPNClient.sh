@@ -79,11 +79,25 @@ function checkFile(){
     fi
 }
 
+function getDefaultName(){
+    clientConfFileArray=($(ls /etc/openvpn/client/ | grep client))
+    if [[ ${#clientConfFileArray[@]} -eq 0 ]]; then
+        echo client1
+    else
+        latestClientConfFile=${clientConfFileArray[-1]}
+        lastIndex=$(echo $latestClientConfFile | grep -o '[0-9]*')
+        newIndex=$(expr $lastIndex + 1)
+        newDefaultName=client$newIndex
+        echo $newDefaultName
+    fi
+}
+
 function getClientName(){
-    read -p "Enter the name for the client openVPN config. [default is client1]" client
+    defaultName=$(getDefaultName)
+    read -p "Enter the name for the client openVPN config. [default is $defaultName]" client
 
     if [[ -z "$client" ]]; then
-        client=client1
+        client=$defaultName
     fi
     echo $client
 }

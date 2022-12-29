@@ -21,10 +21,7 @@ function removeFile(){
 
 function deleteEasytlsIClientnline(){
     fileName=$1
-    echo "$fileName is called?"
     filePath=$(getFilePathIfExist "$fileName")
-    echo $filePath
-    echo 'get File Path?'
     if [ ! -z "$filePath" ]; then
         correctChoice=false
         while [ "$correctChoice"=false ]
