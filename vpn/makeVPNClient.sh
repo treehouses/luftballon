@@ -99,24 +99,28 @@ function getDefaultName(){
         echo 'client1'
     else
         prev=''
+        missingElementFound=false
 
         for element in "${array[@]}"
         do
             num=$(echo $element | grep -o '[0-9]*')
             if [ "$num" -ne $((prev+1)) ]; then
                 missing=$((prev+1))
-                missing_str="client${missing}"
-                echo $missing_str
+                missingStr="client${missing}"
+                echo $missingStr
+                missingElementFound=true
                 break
             fi
             prev=$num
         done
 
-        last_element=${array[-1]}
-        last_num=$(echo $last_element | grep -o '[0-9]*')
-        next_num=$((last_num+1))
-        next_element="client${next_num}"
-        echo $next_element
+        if [ "$missingElementFound" = false ]; then
+            lastElement=${array[-1]}
+            lastNum=$(echo $lastElement | grep -o '[0-9]*')
+            nextNum=$((lastNum+1))
+            nextElement="client${nextNum}"
+            echo $nextElement
+        fi
     fi
 }
 
