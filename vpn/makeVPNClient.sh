@@ -10,7 +10,7 @@ publicIp=$(extractValueFromTreehousesConfig publicIp)
 function makeClientConf(){
     clientName=$1
     fileName=$clientName.conf
-    cp $manageConfigPath/conf/client.conf /etc/openvpn/client/$fileName
+    cp $manageConfigPath/masterConf/client.conf /etc/openvpn/client/$fileName
 
     sed -i '/ca ca.crt/d' /etc/openvpn/client/$fileName
     sed -i '/cert client.crt/d' /etc/openvpn/client/$fileName
