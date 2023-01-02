@@ -30,7 +30,7 @@ function makeServerConfiguration(){
     echo \<\/dh\> >> /etc/openvpn/server/server.conf
 }
 
-function startVPMServer(){
+function startVPNServer(){
     # Start openvpn-server
     status=$(systemctl status openvpn-server@server.service)
     if [[ $status == *"Active: active (running)"* ]]; then
@@ -41,9 +41,16 @@ function startVPMServer(){
     fi
 }
 
-makeVPNServer
-makeTlsKey
-makeServerConfiguration
-#startVPMServer
+function makeVPNServerOnly(){
+    makeVPNServer
+    makeTlsKey
+    makeServerConfiguration
+}
 
-#systemctl status openvpn-server@server.service
+function makeVPNServerAndStartVPNServer(){
+    makeVPNServerOnly
+    startVPNServer
+    systemctl status openvpn-server@server.service
+}
+
+makeVPNServerOnly
