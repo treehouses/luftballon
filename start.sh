@@ -117,7 +117,12 @@ fi
 
 
 keyName=$(importSshKey | getValueByKeyword KeyName )
-echo $keyName
+
+if [ -z $keyName ]
+then 
+	exit 1
+fi
+
 treehouses config add keyName $keyName
 echo "Add key"
 
