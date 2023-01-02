@@ -5,9 +5,8 @@
 
 # 
 
-OpenVPNDir=/etc/openvpn/
-
 function getFiles(){
+    OpenVPNDir=/etc/openvpn/
     entityType=$1
     files=$(ls $OpenVPNDir$entityType/)
     echo $files
@@ -18,7 +17,7 @@ function removeConfExtention(){
     echo ${entityConfWithExtention%.conf}
 }
 
-function checkVPMEntityOn(){
+function checkVPNEntityOn(){
     entityConfWithExtention=$1
     entityType=$2
     entityConf=$(removeConfExtention $entityConfWithExtention)
@@ -42,7 +41,7 @@ function getRunningVPNEntityConfName(){
 
         while read -ra confFiles; do
             for confFile in "${confFiles[@]}"; do
-                confName=$(checkVPMEntityOn $confFile $entityType)
+                confName=$(checkVPNEntityOn $confFile $entityType)
             done
         done <<< $(getFiles $entityType) 
     else
