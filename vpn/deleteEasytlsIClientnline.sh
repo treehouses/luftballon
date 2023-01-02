@@ -1,8 +1,8 @@
-
-easytlsDir=/usr/share/easy-rsa/pki/easytls/
+#!/bin/bash
 
 
 function getFilePathIfExist(){
+    easytlsDir=/usr/share/easy-rsa/pki/easytls/
     fileName=$1
     filePath=$easytlsDir$fileName.inline
     if [ -f "$filePath" ]; then
@@ -35,5 +35,3 @@ function deleteEasytlsIClientnline(){
         done
     fi
 }
-
-getFilePathIfExist client1
