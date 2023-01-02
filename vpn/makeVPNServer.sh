@@ -3,7 +3,7 @@ serverName=openvpn-server
 
 # Make pki, one master ca, one server, and one client
 function makeVPNServer(){
-    cp ./server.conf /etc/openvpn/server/
+    cp ./conf/server.conf /etc/openvpn/server/
     cd /usr/share/easy-rsa/
     cp vars.example vars
     #echo "luftballon\nluftballon\nyes\n" | ./easyrsa init-pki
