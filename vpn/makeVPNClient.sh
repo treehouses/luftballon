@@ -79,16 +79,44 @@ function checkFile(){
     fi
 }
 
+#function getDefaultName(){
+#    clientConfFileArray=($(ls /etc/openvpn/client/ | grep client))
+#    if [[ ${#clientConfFileArray[@]} -eq 0 ]]; then
+#        echo client1
+#    else
+#        latestClientConfFile=${clientConfFileArray[-1]}
+#        lastIndex=$(echo $latestClientConfFile | grep -o '[0-9]*')
+#        newIndex=$(expr $lastIndex + 1)
+#        newDefaultName=client$newIndex
+#        echo $newDefaultName
+#    fi
+#}
+
 function getDefaultName(){
-    clientConfFileArray=($(ls /etc/openvpn/client/ | grep client))
-    if [[ ${#clientConfFileArray[@]} -eq 0 ]]; then
-        echo client1
+    array=($(ls /etc/openvpn/client/ | grep client))
+
+    if [ ${#array[@]} -eq 0 ]; then
+        echo 'client1'
     else
-        latestClientConfFile=${clientConfFileArray[-1]}
-        lastIndex=$(echo $latestClientConfFile | grep -o '[0-9]*')
-        newIndex=$(expr $lastIndex + 1)
-        newDefaultName=client$newIndex
-        echo $newDefaultName
+        prev=''
+
+        for element in "${array[@]}"
+        do
+            num=$(echo $element | grep -o '[0-9]*')
+            if [ "$num" -ne $((prev+1)) ]; then
+                missing=$((prev+1))
+                missing_str="client${missing}"
+                echo $missing_str
+                break
+            fi
+            prev=$num
+        done
+
+        last_element=${array[-1]}
+        last_num=$(echo $last_element | grep -o '[0-9]*')
+        next_num=$((last_num+1))
+        next_element="client${next_num}"
+        echo $next_element
     fi
 }
 
