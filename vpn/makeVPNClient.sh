@@ -93,7 +93,7 @@ function checkFile(){
 #}
 
 function getDefaultName(){
-    array=($(ls /etc/openvpn/client/ | grep client))
+    array=($(ls /usr/share/easy-rsa/pki/easytls/ | grep client))
 
     if [ ${#array[@]} -eq 0 ]; then
         echo 'client1'
