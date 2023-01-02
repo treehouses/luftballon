@@ -79,19 +79,6 @@ function checkFile(){
     fi
 }
 
-#function getDefaultName(){
-#    clientConfFileArray=($(ls /etc/openvpn/client/ | grep client))
-#    if [[ ${#clientConfFileArray[@]} -eq 0 ]]; then
-#        echo client1
-#    else
-#        latestClientConfFile=${clientConfFileArray[-1]}
-#        lastIndex=$(echo $latestClientConfFile | grep -o '[0-9]*')
-#        newIndex=$(expr $lastIndex + 1)
-#        newDefaultName=client$newIndex
-#        echo $newDefaultName
-#    fi
-#}
-
 function getDefaultName(){
     array=($(ls /usr/share/easy-rsa/pki/easytls/ | grep client))
 
