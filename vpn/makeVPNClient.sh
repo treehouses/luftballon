@@ -79,6 +79,8 @@ function checkFile(){
     fi
 }
 
+# Finds the first missing element in the given array of strings in the form 'client + number', or the next element in a consecutive array.
+# If the array is empty, returns 'client1'.
 function getDefaultName(){
     array=($(ls /usr/share/easy-rsa/pki/easytls/ | grep client))
 
@@ -92,9 +94,7 @@ function getDefaultName(){
         do
             num=$(echo $element | grep -o '[0-9]*')
             if [ "$num" -ne $((prev+1)) ]; then
-                missing=$((prev+1))
-                missingStr="client${missing}"
-                echo $missingStr
+                echo $(awk -v num=$num 'BEGIN { print "client" num+1 }')
                 missingElementFound=true
                 break
             fi
@@ -102,11 +102,7 @@ function getDefaultName(){
         done
 
         if [ "$missingElementFound" = false ]; then
-            lastElement=${array[-1]}
-            lastNum=$(echo $lastElement | grep -o '[0-9]*')
-            nextNum=$((lastNum+1))
-            nextElement="client${nextNum}"
-            echo $nextElement
+            echo $(echo ${array[-1]} | grep -o '[0-9]*' | awk '{print "client" $0+1}')
         fi
     fi
 }
