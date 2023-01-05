@@ -5,9 +5,10 @@ source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/reverseShell.sh
 source $manageConfigPath/dependencies/getLatestIpAddress.sh
 
-keyname=
 portConfigArray=
 publickey=id_rsa.pub
+
+keyname=
 groupName=luftballons-sg
 instanceName=luftballon
 
@@ -91,7 +92,7 @@ function getValueByKeyword(){
 
 
 
-while getopts 'n:pN:' OPTION; do
+while getopts 'n:pN:s:' OPTION; do
   case "$OPTION" in
     n)
       keyname=$OPTARG
@@ -99,11 +100,13 @@ while getopts 'n:pN:' OPTION; do
     p)
       portConfigArray=$(getPortArrayString)
       ;;
-    N)
-      instanceName=$OPTARG
+	a)
+	  groupName=$OPTARG-sg
+	  instanceName=$OPTARG
+      keyname=$OPTARG
       ;;
     ?)
-      echo "script usage: $(basename \$0) [-n ssh key name] [-p somevalue] [-N instance name] " >&2
+      echo "script usage: $(basename \$0) [-n ssh key name] [-p somevalue] [-a change key name, instance name, and group name]" >&2
       exit 1
       ;;
   esac
