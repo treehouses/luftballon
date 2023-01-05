@@ -92,7 +92,7 @@ function getValueByKeyword(){
 
 
 
-while getopts 'n:pN:s:' OPTION; do
+while getopts 'n:pN:a:' OPTION; do
   case "$OPTION" in
     n)
       keyname=$OPTARG
