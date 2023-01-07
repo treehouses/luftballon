@@ -1,11 +1,21 @@
 
 
-sample=$'instanceName=myballon\nkeyName=myballon\ninstanceId=i-05595f9fe283c9b97\npublicIp=54.164.69.111\ngroupName=myballon-sg\nportArray=2200,1194,22,2222\nsshtunnelArray=2222:22,2222:22'
+# This file is for the test
+sample=$(cat <<EOF
+instanceName=luftballon
+keyName=luftballon
+instanceId=i-05595f9fe283c9b97
+publicIp=54.164.69.111
+groupName=myballon-sg
+portArray=2200,1194,22,2222
+sshtunnelArray=2222:22,2222:22
+EOF
+)
 
 
 function extractValueFromTreehousesConfig(){
     keyWord=$1
-    echo "$sample" | grep $keyWord | sed "s/${keyWord}=//"
+    treehouses config | grep $keyWord | sed "s/${keyWord}=//"
 }
 
 function constructKeyValue(){
