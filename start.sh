@@ -11,7 +11,7 @@ publickey=id_rsa.pub
 groupName=luftballons-sg
 instanceName=luftballon
 
-aws --version || installAwsCli.sh
+aws --version || ../installAwsCli.sh
 
 function importSshKey()
 {
