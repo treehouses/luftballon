@@ -119,7 +119,7 @@ treehouses config add groupName $groupName
 echo "Store Group Name"
 
 echo "Add name "$instanceName" on EC2 instance"
-aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=$instanceName
+aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=$instanceName || echo "Run installAwsCli.sh first. AWS CLI is not installed." && exit 1
 
 echo "Will open ssh tunnel soon"
 isOpen=$(ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256)
