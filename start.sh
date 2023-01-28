@@ -11,7 +11,7 @@ publickey=id_rsa.pub
 groupName=luftballons-sg
 instanceName=luftballon
 
-aws --version || ./installAwsCli.sh || echo "Run installAwsCli.sh first. AWS CLI is not installed." && exit 1
+aws --version || echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1
 
 function importSshKey()
 {
