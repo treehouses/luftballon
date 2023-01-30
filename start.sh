@@ -10,8 +10,13 @@ portConfigArray=
 publickey=id_rsa.pub
 groupName=luftballons-sg
 instanceName=luftballon
+checkSSH=~/.ssh/$publickey
 
-aws --version || echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1
+aws --version || ( echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1 )
+
+if test ! -f "$checkSSH"; then
+	echo "Run 'ssh-keygen' first, with an empty passphrase for no passphrase. Missing ssh key." && exit 1
+fi
 
 function importSshKey()
 {
