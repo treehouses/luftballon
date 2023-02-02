@@ -5,9 +5,10 @@ source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/reverseShell.sh
 source $manageConfigPath/dependencies/getLatestIpAddress.sh
 
-keyname=
 portConfigArray=
 publickey=id_rsa.pub
+
+keyname=
 groupName=luftballons-sg
 instanceName=luftballon
 checkSSH=~/.ssh/$publickey
@@ -20,13 +21,28 @@ fi
 
 function importSshKey()
 {
-	aws ec2 import-key-pair --key-name "$keyname" --public-key-material fileb://~/.ssh/$publickey  
+    if [[ -f ~/.ssh/$publickey ]]
+    then
+        aws ec2 import-key-pair --key-name "$keyname" --public-key-material fileb://~/.ssh/$publickey  
+    else
+        echo 'ssh key pair (~/.ssh/$publickey) do not exist ~/.ssh/$publickey'
+        echo 'Please generate the ssh key by the commad "ssh-keygen -t rsa"'
+        exit 1
+    fi
 }
 
 function addPort(){
 	aws ec2 authorize-security-group-ingress \
 		--group-name $groupName \
 		--protocol tcp \
+		--port $1 \
+		--cidr 0.0.0.0/0
+}
+
+function addUDPPort() {
+	aws ec2 authorize-security-group-ingress \
+		--group-name $groupName \
+		--protocol udp \
 		--port $1 \
 		--cidr 0.0.0.0/0
 }
@@ -48,6 +64,9 @@ function createSecurityGroups(){
 		addPort $i
 		echo $i
 	done
+
+	addUDPPort 1194
+	echo 1194
 }
 
 
@@ -79,7 +98,7 @@ function getValueByKeyword(){
 
 
 
-while getopts 'n:pN:' OPTION; do
+while getopts 'n:pN:a:' OPTION; do
   case "$OPTION" in
     n)
       keyname=$OPTARG
@@ -87,11 +106,13 @@ while getopts 'n:pN:' OPTION; do
     p)
       portConfigArray=$(getPortArrayString)
       ;;
-    N)
-      instanceName=$OPTARG
+	a)
+	  groupName=$OPTARG-sg
+	  instanceName=$OPTARG
+      keyname=$OPTARG
       ;;
     ?)
-      echo "script usage: $(basename \$0) [-n ssh key name] [-p somevalue] [-N instance name] " >&2
+      echo "script usage: $(basename \$0) [-n ssh key name] [-p somevalue] [-a change key name, instance name, and group name]" >&2
       exit 1
       ;;
   esac
@@ -105,7 +126,12 @@ fi
 
 
 keyName=$(importSshKey | getValueByKeyword KeyName )
-echo $keyName
+
+if [ -z $keyName ]
+then 
+	exit 1
+fi
+
 treehouses config add keyName $keyName
 echo "Add key"
 
