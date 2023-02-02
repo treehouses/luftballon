@@ -12,6 +12,7 @@ keyname=
 groupName=luftballons-sg
 instanceName=luftballon
 
+aws --version || echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1
 
 function importSshKey()
 {
