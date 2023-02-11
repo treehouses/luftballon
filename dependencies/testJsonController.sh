@@ -71,7 +71,7 @@ function testWithTreehousesConfig(){
     json=$(testAddAttribute)
     string=$(stringfy "$json")
     treehouses config add ballonconfigs $string
-    data=$(extractValueFromTreehousesConfig test)
+    data=$(extractValueFromTreehousesConfig ballonconfigs)
     echo $data | jq .
 }
 
