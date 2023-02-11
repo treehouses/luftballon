@@ -177,13 +177,9 @@ function testAddAttribute(){
     merge=$(merge "$merge" "$value2")
 
     backet=$(getBucketByBucketKey "$merge" yourballon)
-    echo "$backet"
     merge=$(merge "$merge" "$backet")
-    echo "$merge"
+    echo "$merge" 
 }
-testAddAttribute | jq -R .
 
-#data=$(testAddAttribute | jq -R . | tr -d ' ' | tr -d '\r' |  tr -d '"\n"' | tr -d '\'  )
-data=$(testAddAttribute | jq -R . | tr -d ' ' | tr -d '"\n"'  )
-echo $data
+data=$(testAddAttribute  | jq '.|tostring' |tr -d '\' | sed 's/"{/{/' | sed 's/}"/}/' )
 treehouses config add ballonconfigs $data
