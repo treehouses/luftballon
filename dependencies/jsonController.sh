@@ -181,5 +181,9 @@ function testAddAttribute(){
     merge=$(merge "$merge" "$backet")
     echo "$merge"
 }
+testAddAttribute | jq -R .
 
-testAddAttribute
+#data=$(testAddAttribute | jq -R . | tr -d ' ' | tr -d '\r' |  tr -d '"\n"' | tr -d '\'  )
+data=$(testAddAttribute | jq -R . | tr -d ' ' | tr -d '"\n"'  )
+echo $data
+treehouses config add ballonconfigs $data
