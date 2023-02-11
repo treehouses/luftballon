@@ -1,6 +1,5 @@
 source manageConfig.sh
-#data=$(extractValueFromTreehousesConfig ballonconfigs)
-data=$(extractValueFromTreehousesConfig test)
+data=$(extractValueFromTreehousesConfig ballonconfigs)
 echo $data
 echo "$data"
 echo $data | jq .
