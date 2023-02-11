@@ -4,11 +4,12 @@
 BASE=/home/pi
 
 
-sshkey=/home/pi/.ssh/id_rsa
+sshkey=`treehouses sshtunnel key name`
 monitorPort=2200
 sshtunnelPortArray=2222:22
 luftballonHostPort=2222
 serverPort=22
+treehouses sshtunnel key name $sshkey
 
 function openNonDefaultSShtunnel(){
     instanceIp=$1
