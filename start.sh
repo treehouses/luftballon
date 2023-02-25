@@ -131,9 +131,8 @@ then
 	exit 1
 fi
 
-echo $keyName
 treehouses config add keyName $keyName
-echo "Add key"
+echo "Add key $keyName"
 
 createSecurityGroups
 echo "Add security group"
