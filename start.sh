@@ -1,12 +1,11 @@
 #!/bin/bash
-
 manageConfigPath=$(pwd)
 source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/reverseShell.sh
 source $manageConfigPath/dependencies/getLatestIpAddress.sh
 
 portConfigArray=
-publickey=id_rsa.pub
+publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
 
 keyname=
 groupName=luftballons-sg
@@ -133,7 +132,7 @@ then
 fi
 
 treehouses config add keyName $keyName
-echo "Add key"
+echo "Add key $keyName"
 
 createSecurityGroups
 echo "Add security group"
