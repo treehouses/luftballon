@@ -3,13 +3,11 @@
 #BASE=$HOME
 BASE=/home/pi
 
-
-sshkey=`treehouses sshtunnel key name`
+sshkey=`treehouses sshtunnel key name | cut -d ' ' -f 5`
 monitorPort=2200
 sshtunnelPortArray=2222:22
 luftballonHostPort=2222
 serverPort=22
-treehouses sshtunnel key name $sshkey
 
 function openNonDefaultSShtunnel(){
     instanceIp=$1
@@ -53,15 +51,16 @@ function openSSHTunnel(){
 
     instanceIp=$1
     addKeyFingerprintToKnownHost $instanceIp
+    treehouses sshtunnel key name $sshkey
     sleep 2
 
-    ssh -o StrictHostKeyChecking=no admin@$instanceIp "sudo cp /home/admin/.ssh/authorized_keys /root/.ssh/."
+    ssh -i /root/.ssh/$sshkey -o StrictHostKeyChecking=no admin@$instanceIp "sudo cp /home/admin/.ssh/authorized_keys /root/.ssh/."
     sleep 2
 
-    ssh root@$instanceIp 'echo "GatewayPorts yes" >> /etc/ssh/sshd_config'
+    ssh -i /root/.ssh/$sshkey root@$instanceIp 'echo "GatewayPorts yes" >> /etc/ssh/sshd_config'
     sleep 2
 
-    ssh root@$instanceIp 'screen -m -d bash -c "service ssh restart"'
+    ssh -i /root/.ssh/$sshkey root@$instanceIp 'screen -m -d bash -c "service ssh restart"'
     sleep 2
 
     treehouses sshtunnel add host "$monitorPort" root@"$instanceIp"
