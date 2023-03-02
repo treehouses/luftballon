@@ -19,7 +19,7 @@ function makeClientConf(){
 
     echo '' >> /etc/openvpn/client/$fileName
     cat /usr/share/easy-rsa/pki/easytls/$clientName.inline >> /etc/openvpn/client/$fileName
-    cp /etc/openvpn/client/$fileName ./$fileName
+    cp /etc/openvpn/client/$fileName $(pwd)/$fileName
 }
 
 
