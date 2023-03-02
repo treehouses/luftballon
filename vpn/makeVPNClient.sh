@@ -4,6 +4,7 @@ source $manageConfigPath/../dependencies/manageConfig.sh
 source getRunningVPNEntityConfName.sh
 source deleteEasytlsIClientnline.sh
 
+startpath=$(pwd)
 publicIp=$(extractValueFromTreehousesConfig publicIp)
 
 
@@ -19,7 +20,7 @@ function makeClientConf(){
 
     echo '' >> /etc/openvpn/client/$fileName
     cat /usr/share/easy-rsa/pki/easytls/$clientName.inline >> /etc/openvpn/client/$fileName
-    cp /etc/openvpn/client/$fileName $(pwd)/$fileName
+    cp /etc/openvpn/client/$fileName $startpath/$fileName
 }
 
 
