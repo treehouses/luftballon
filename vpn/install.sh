@@ -1,4 +1,4 @@
-# Install openvpn, ufw, upzip, and easyrsa
+# Install openvpn, upzip, and easyrsa
 # easyrsa is installed with openvpn
 # easyrsa is in /usr/share/easy-rsa/
 apt update && apt install -y openvpn unzip
