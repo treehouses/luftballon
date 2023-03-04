@@ -37,21 +37,44 @@ Execute the below function.
 
 ### Start VPN Client Server
 
-1. Make Client Certificate and Start the Client Server  
-   Execute the below function
+1. To start the VPN client server, run the command `./makeVPNClient.sh` in your terminal.
 
    ```
    ./makeVPNClient.sh
    ```
 
-1. Answer the question to Y  
-   The script asks you the below question.
+1. When prompted, answer 'Y' to the question:
 
    ```
-   Do you start openVPN client on this machine? If not, the script just make client config [Y/n]
+   Do you want to start the OpenVPN client on this machine?.
    ```
 
-   You need to type y.  
-   The script makes the Client certificate and starts the Client server.
+   This will generate the client certificate and start the client server.
 
-1.
+1. If you want to use a different name for the client OpenVPN configuration file, Client Certificate or Client Server, enter the desired name when prompted. Otherwise, press Enter to use the default name.
+
+   ```
+   Enter the name for the client openVPN config. [default is client1]
+   ```
+
+1. To confirm the request and sign the certificate, type 'yes' and press Enter. If you wish to cancel the request, type any other input.
+
+   ```
+   You are about to sign the following certificate.
+   Please check over the details shown below for accuracy. Note that this request
+   has not been cryptographically verified. Please be sure it came from a trusted
+   source or that you have verified the request checksum with the sender.
+
+   Request subject, to be signed as a client certificate for 1080 days:
+
+   subject=
+       commonName                = client8
+
+
+   Type the word 'yes' to continue, or any other input to abort.
+   Confirm request details:
+   ```
+
+### Make VPN Client Server
+
+If you only make the Client Certificate, run the command `./makeVPNClient.sh` in your terminal, and then when prompted, answer 'n'
