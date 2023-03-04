@@ -74,4 +74,5 @@ Execute the below function.
 
 ### Make VPN Client Server
 
-If you only make the Client Certificate, run the command `./makeVPNClient.sh` in your terminal, and then when prompted, answer 'n'
+If you only make the Client Certificate, run the command `./makeVPNClient.sh` in your terminal.  
+Then when prompted, answer 'n'
