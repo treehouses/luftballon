@@ -20,16 +20,13 @@ Execute the below function.
 1. Install dependencies  
    If you use the Luftballon VPN first time, you need to install all dependencies first.
 
-1. Make PKI (a Master CA and a Server Certificate)  
-   Execute the below function
+1. To create a Master Certificate Authority and a Server Certificate, run the command './makeVPNServer.sh'.
 
    ```
    ./makeVPNServer.sh
    ```
 
-1. Start VPN Server on Luftballon
-   At first, make sure that you have an accessible Luftballon.  
-   Then, execute the below function
+1. To start the VPN server on Luftballon, ensure that Luftballon is accessible and then run the command `./executeScriptOnRemoteServer.sh`.
 
    ```
    ./executeScriptOnRemoteServer.sh
