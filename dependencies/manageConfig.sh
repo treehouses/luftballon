@@ -15,7 +15,7 @@ function findAllPortMap(){
 
 function extractValueFromTreehousesConfig(){
     keyWord=$1
-    treehouses config | grep $keyWord | sed "s/${keyWord}=//"
+    treehouses config | grep $keyWord= | sed "s/${keyWord}=//"
 }
 
 function getSshtunnelConfiguration(){

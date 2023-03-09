@@ -4,6 +4,7 @@ manageConfigPath=$(pwd)
 source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/reverseShell.sh
 source $manageConfigPath/dependencies/getLatestIpAddress.sh
+source $manageConfigPath/dependencies/jsonController.sh
 
 portConfigArray=
 publickey=id_rsa.pub
@@ -158,3 +159,13 @@ do
 done
 
 openSSHTunnel $publicIp
+
+value=$(init $instanceName)
+value=$(addKeyValue "$value" $instanceName instanceName $instanceName )
+value=$(addKeyValue "$value" $instanceName keyName $keyName )
+value=$(addKeyValue "$value" $instanceName instanceId $instanceId )
+value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
+value=$(addKeyValue "$value" $instanceName groupName $groupName )
+echo "$value"
+string=$(stringfy "$value")
+treehouses config add luftballonConfigs $string
