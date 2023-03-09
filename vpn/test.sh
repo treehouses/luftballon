@@ -1,4 +1,5 @@
 source getRunningVPNEntityConfName.sh
+source deleteEasytlsIClientnline.sh
 
 function stopVPNEntityIfRunning(){
     entityType=$1
@@ -10,3 +11,6 @@ function stopVPNEntityIfRunning(){
 
 stopVPNEntityIfRunning client
 stopVPNEntityIfRunning server
+
+client=client1
+deleteEasytlsIClientnline $client

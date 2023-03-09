@@ -1,5 +1,4 @@
 #!/bin/bash
-
 manageConfigPath=$(pwd)
 source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/reverseShell.sh
@@ -7,12 +6,18 @@ source $manageConfigPath/dependencies/getLatestIpAddress.sh
 source $manageConfigPath/dependencies/jsonController.sh
 
 portConfigArray=
-publickey=id_rsa.pub
+publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
 
 keyname=
 groupName=luftballons-sg
 instanceName=luftballon
+checkSSH=~/.ssh/$publickey
 
+aws --version || ( echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1 )
+
+if test ! -f "$checkSSH"; then
+	echo "Run 'ssh-keygen' first, with an empty passphrase for no passphrase. Missing ssh key." && exit 1
+fi
 
 function importSshKey()
 {
@@ -128,7 +133,7 @@ then
 fi
 
 treehouses config add keyName $keyName
-echo "Add key"
+echo "Add key $keyName"
 
 createSecurityGroups
 echo "Add security group"
