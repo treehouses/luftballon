@@ -1,7 +1,7 @@
 
 serverName=openvpn-server
 
-# Make pki, one master ca, one server, and one client
+# Make pki, one master ca, and one server
 function makeVPNServer(){
     cp ./templates/server.conf /etc/openvpn/server/
     cd /usr/share/easy-rsa/
