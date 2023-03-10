@@ -138,3 +138,10 @@ function stringfy(){
     echo $string
 }
 
+function isKey(){
+    input="$1"
+    target="$2"
+    array=$(echo "$input" | jq 'keys' )
+    output=$(jq --arg target "$target" 'any(.==$target)' <<< $array)
+    echo "$output"
+}

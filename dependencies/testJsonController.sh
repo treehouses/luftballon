@@ -75,7 +75,19 @@ function testWithTreehousesConfig(){
     echo $data | jq .
 }
 
-returnJson
-returnString
-convertStringToJson
-testWithTreehousesConfig
+function testIsKeyReturnTrue (){
+    json=$(testAddAttribute)
+    isKey "$json" luftballon
+}
+
+function testIsKeyReturnFalse (){
+    json=$(testAddAttribute)
+    isKey "$json" luftballo
+}
+
+testIsKeyReturnTrue 
+testIsKeyReturnFalse 
+#returnJson
+#returnString
+#convertStringToJson
+#testWithTreehousesConfig
