@@ -45,22 +45,45 @@ function storeConfig(){
 	treehouses config add $configName $string
 }
 
+function replaceValueAndStoreConfig(){
+    value="$1"    
+	instanceName=$2
+	keyName=$3
+	instanceId=$4 
+	publicIp=$5
+	groupName=$6 
+
+	value=$(addKeyValue "$value" $instanceName keyName $keyName )
+	value=$(addKeyValue "$value" $instanceName instanceId $instanceId )
+	value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
+	value=$(addKeyValue "$value" $instanceName groupName $groupName )
+	string=$(stringfy "$value")
+	treehouses config add $configName $string
+}
+
 function ifKeyExistUpdateTheValue(){
     allConfig=$(extractValueFromTreehousesConfig $configName | jq .)
-    isKey "$allConfig" $instanceName
+    evaluate=$(isKey "$allConfig" $instanceName)
+    if [ $evaluate == treu ]
+    then
+        #prev=$(extractValueFromTreehousesConfig $configName)
+        #backet=$(getBucketByBucketKey "$allConfig" $instanceName)
+        replaceValueAndStoreConfig "$allConfig" $instanceName differentKey $instanceId 128.0.0.1 $groupName 
+    fi
+    testGetBucketByBucketKey
 }
 
 
 function ifKeyNotExistUpdateMakeNewBucket(){
     allConfig=$(extractValueFromTreehousesConfig $configName | jq .)
-    isKey "$allConfig" luftballon
+    evaluate=$(isKey "$allConfig" luftballon)
 }
 
 treehouses config delete $configName 
 storeConfig $instanceName $keyName $instanceId $publicIp $groupName 
 testGetBucketByBucketKey
 ifKeyExistUpdateTheValue
-ifKeyNotExistUpdateMakeNewBucket
+#ifKeyNotExistUpdateMakeNewBucket
 
 #merge=$(merge "$prev" "$value")
 #string=$(stringfy "$merge")
