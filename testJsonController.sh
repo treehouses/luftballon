@@ -59,7 +59,7 @@ function storeConfigIntoTreehousesConfigAsStringfiedJson(){
     if [ $evaluate == true ]
     then
         replaceValueAndStoreConfig "$allConfig" $instanceName $keyName $instanceId $publicIp $groupName
-	else if [ $evaluate == false ]
+	elif [ $evaluate == false ]
     then
         newConfig=$(makeConfig $instanceName $keyName $instanceId $publicIp $groupName)
         merge=$(merge "$allConfig" "$newConfig")
