@@ -145,3 +145,9 @@ function isKey(){
     output=$(jq --arg target "$target" 'any(.==$target)' <<< $keys)
     echo "$output"
 }
+
+function getConfigAsJson(){
+	configName=$1
+    allConfig=$(extractValueFromTreehousesConfig $configName | jq .)
+	echo "$allConfig"
+}
