@@ -29,12 +29,20 @@ function printAllConfig(){
 
 function ifConfigIsEmptyJustMakeConfigAndStore(){
     allConfig=$(getConfigAsJson $configName)
-	echo "$allConfig"
+	if [ -z $allConfig ]
+	then
+		storeConfig $instanceName $keyName $instanceId $publicIp $groupName 
+	fi
 }
 
 
 function ifKeyExistUpdateTheValue(){
+	local evaluate
     allConfig=$(getConfigAsJson $configName)
+	if [ -z $allConfig ]
+	then
+		storeConfig $instanceName $keyName $instanceId $publicIp $groupName 
+	fi
     evaluate=$(isKey "$allConfig" $instanceName)
     if [ $evaluate == true ]
     then
@@ -45,7 +53,12 @@ function ifKeyExistUpdateTheValue(){
 
 
 function ifKeyNotExistUpdateMakeNewBucket(){
+	local evaluate
     allConfig=$(getConfigAsJson $configName)
+	if [ -z $allConfig ]
+	then
+		storeConfig $instanceName $keyName $instanceId $publicIp $groupName 
+	fi
     evaluate=$(isKey "$allConfig" luftballon)
     if [ $evaluate == false ]
     then
