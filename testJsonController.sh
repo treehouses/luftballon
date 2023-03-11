@@ -49,7 +49,7 @@ function storeConfig(){
 	value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
 	value=$(addKeyValue "$value" $instanceName groupName $groupName )
 	string=$(stringfy "$value")
-	treehouses config add luftballonConfigs $string
+	treehouses config add testLuftballonConfigs $string
 }
 
 storeConfig $instanceName $keyName $instanceId $publicIp $groupName 
