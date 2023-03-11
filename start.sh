@@ -97,6 +97,22 @@ function getValueByKeyword(){
 }
 
 
+function storeConfig(){
+	instanceName=$1
+	keyName=$2
+	instanceId=$3 
+	publicIp=$4
+	groupName=$5 
+	
+	value=$(init $instanceName)
+	value=$(addKeyValue "$value" $instanceName instanceName $instanceName )
+	value=$(addKeyValue "$value" $instanceName keyName $keyName )
+	value=$(addKeyValue "$value" $instanceName instanceId $instanceId )
+	value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
+	value=$(addKeyValue "$value" $instanceName groupName $groupName )
+	string=$(stringfy "$value")
+	treehouses config add testLuftballonConfigs $string
+}
 
 while getopts 'n:pN:a:' OPTION; do
   case "$OPTION" in

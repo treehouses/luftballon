@@ -10,6 +10,7 @@ publicIp=23.91.33.15
 groupName=yourballon-sg
 portArray=2200,1194,22,2222
 sshtunnelArray=2222:22
+configName=testLuftballonConfigs
 
 function testAddKeyValue(){
     instanceName=yourballon
@@ -29,7 +30,7 @@ function testAddKeyValue(){
 }
 
 function testGetBucketByBucketKey(){
-    prev=$(extractValueFromTreehousesConfig luftballonConfigs)
+    prev=$(extractValueFromTreehousesConfig $configName)
     backet=$(getBucketByBucketKey "$prev" ballon)
     echo $backet
 }
@@ -49,10 +50,12 @@ function storeConfig(){
 	value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
 	value=$(addKeyValue "$value" $instanceName groupName $groupName )
 	string=$(stringfy "$value")
-	treehouses config add testLuftballonConfigs $string
+	treehouses config add $configName $string
 }
 
+treehouses config delete $configName 
 storeConfig $instanceName $keyName $instanceId $publicIp $groupName 
+testGetBucketByBucketKey
 
 #merge=$(merge "$prev" "$value")
 #string=$(stringfy "$merge")
