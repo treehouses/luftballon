@@ -27,6 +27,11 @@ function testGetBucketByBucketKey(){
     echo $backet
 }
 
+function printAllConfig(){
+    allConfig=$(extractValueFromTreehousesConfig $configName)
+    echo $allConfig
+}
+
 
 function storeConfig(){
 	instanceName=$1
@@ -43,6 +48,22 @@ function storeConfig(){
 	value=$(addKeyValue "$value" $instanceName groupName $groupName )
 	string=$(stringfy "$value")
 	treehouses config add $configName $string
+}
+
+function makeConfig(){
+	instanceName=$1
+	keyName=$2
+	instanceId=$3 
+	publicIp=$4
+	groupName=$5 
+	
+	value=$(init $instanceName)
+	value=$(addKeyValue "$value" $instanceName instanceName $instanceName )
+	value=$(addKeyValue "$value" $instanceName keyName $keyName )
+	value=$(addKeyValue "$value" $instanceName instanceId $instanceId )
+	value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
+	value=$(addKeyValue "$value" $instanceName groupName $groupName )
+    echo "$value"
 }
 
 function replaceValueAndStoreConfig(){
@@ -70,20 +91,28 @@ function ifKeyExistUpdateTheValue(){
         #backet=$(getBucketByBucketKey "$allConfig" $instanceName)
         replaceValueAndStoreConfig "$allConfig" $instanceName differentKey $instanceId 128.0.0.1 $groupName 
     fi
-    testGetBucketByBucketKey
+    printAllConfig
 }
 
 
 function ifKeyNotExistUpdateMakeNewBucket(){
     allConfig=$(extractValueFromTreehousesConfig $configName | jq .)
     evaluate=$(isKey "$allConfig" luftballon)
+    if [ $evaluate == false ]
+    then
+        newConfig=$(makeConfig differentBallon mygroupBallon $instanceId 12.0.0.0 mygroup)
+        merge=$(merge "$allConfig" "$newConfig")
+        string=$(stringfy "$merge")
+        treehouses config add $configName $string
+    fi
+    printAllConfig
 }
 
 treehouses config delete $configName 
 storeConfig $instanceName $keyName $instanceId $publicIp $groupName 
-testGetBucketByBucketKey
+printAllConfig
+ifKeyNotExistUpdateMakeNewBucket
 ifKeyExistUpdateTheValue
-#ifKeyNotExistUpdateMakeNewBucket
 
 #merge=$(merge "$prev" "$value")
 #string=$(stringfy "$merge")
