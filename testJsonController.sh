@@ -13,14 +13,6 @@ sshtunnelArray=2222:22
 configName=testLuftballonConfigs
 
 function testAddKeyValue(){
-    instanceName=yourballon
-    keyName=yourballon
-    instanceId=i-0c4c9b1efb2d505e0
-    publicIp=23.91.33.15
-    groupName=yourballon-sg
-    portArray=2200,1194,22,2222
-    sshtunnelArray=2222:22
-
     value=$(init $instanceName)
     value=$(addKeyValue "$value" $instanceName instanceName $instanceName )
     value=$(addKeyValue "$value" $instanceName keyName $keyName )
@@ -31,7 +23,7 @@ function testAddKeyValue(){
 
 function testGetBucketByBucketKey(){
     prev=$(extractValueFromTreehousesConfig $configName)
-    backet=$(getBucketByBucketKey "$prev" ballon)
+    backet=$(getBucketByBucketKey "$prev" $instanceName)
     echo $backet
 }
 
