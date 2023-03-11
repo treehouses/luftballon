@@ -27,6 +27,11 @@ function printAllConfig(){
     echo $allConfig
 }
 
+function ifConfigIsEmptyJustMakeConfigAndStore(){
+    allConfig=$(getConfigAsJson $configName)
+	echo "$allConfig"
+}
+
 
 function ifKeyExistUpdateTheValue(){
     allConfig=$(getConfigAsJson $configName)
@@ -53,7 +58,8 @@ function ifKeyNotExistUpdateMakeNewBucket(){
 }
 
 treehouses config delete $configName 
-storeConfig $instanceName $keyName $instanceId $publicIp $groupName 
+ifConfigIsEmptyJustMakeConfigAndStore
+#storeConfig $instanceName $keyName $instanceId $publicIp $groupName 
 printAllConfig
 ifKeyNotExistUpdateMakeNewBucket
 ifKeyExistUpdateTheValue
