@@ -165,12 +165,3 @@ done
 
 openSSHTunnel $publicIp
 
-value=$(init $instanceName)
-value=$(addKeyValue "$value" $instanceName instanceName $instanceName )
-value=$(addKeyValue "$value" $instanceName keyName $keyName )
-value=$(addKeyValue "$value" $instanceName instanceId $instanceId )
-value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
-value=$(addKeyValue "$value" $instanceName groupName $groupName )
-echo "$value"
-string=$(stringfy "$value")
-treehouses config add luftballonConfigs $string

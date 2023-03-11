@@ -141,7 +141,7 @@ function stringfy(){
 function isKey(){
     input="$1"
     target="$2"
-    array=$(echo "$input" | jq 'keys' )
-    output=$(jq --arg target "$target" 'any(.==$target)' <<< $array)
+    keys=$(echo "$input" | jq 'keys' )
+    output=$(jq --arg target "$target" 'any(.==$target)' <<< $keys)
     echo "$output"
 }
