@@ -16,11 +16,11 @@ second_instanceId=i-0c4c9b1efb2d505e0
 second_publicIp=2.2.2.2
 second_groupName=secondballon-sg
 
-third_instanceName=thirdballon
-third_keyName=thirdballon
+third_instanceName=firstballon
+third_keyName=firstballon_new
 third_instanceId=i-0c4c9b1efb2d505e0
-third_publicIp=3.3.3.3
-third_groupName=thirdballon-sg
+third_publicIp=1.1.1.3
+third_groupName=firstballon_new-sg
 
 portArray=2200,1194,22,2222
 sshtunnelArray=2222:22
