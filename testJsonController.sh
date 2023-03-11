@@ -45,14 +45,21 @@ function storeConfig(){
 	treehouses config add $configName $string
 }
 
-function ifKeyExistUpdateTheKey(){
-    allConfig=$(extractValueFromTreehousesConfig $configName)
+function ifKeyExistUpdateTheValue(){
+    allConfig=$(extractValueFromTreehousesConfig $configName | jq .)
+    isKey "$json" $instanceName
+}
+
+
+function ifKeyNotExistUpdateMakeNewBucket(){
+    allConfig=$(extractValueFromTreehousesConfig $configName | jq .)
     isKey "$json" luftballon
 }
 
 treehouses config delete $configName 
 storeConfig $instanceName $keyName $instanceId $publicIp $groupName 
 testGetBucketByBucketKey
+ifKeyNotExistUpdateMakeNewBucket
 
 #merge=$(merge "$prev" "$value")
 #string=$(stringfy "$merge")
