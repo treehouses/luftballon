@@ -64,7 +64,7 @@ function replaceValueAndStoreConfig(){
 function ifKeyExistUpdateTheValue(){
     allConfig=$(extractValueFromTreehousesConfig $configName | jq .)
     evaluate=$(isKey "$allConfig" $instanceName)
-    if [ $evaluate == treu ]
+    if [ $evaluate == true ]
     then
         #prev=$(extractValueFromTreehousesConfig $configName)
         #backet=$(getBucketByBucketKey "$allConfig" $instanceName)
