@@ -35,39 +35,6 @@ function testAddKeyValue(){
     value=$(addKeyValue "$value" $instanceName groupName $groupName )
 }
 
-function printAllConfig(){
-    allConfig=$(extractValueFromTreehousesConfig $configName)
-    echo $allConfig
-}
-
-function storeConfigIntoTreehousesConfigAsStringfiedJson(){
-	instanceName=$1
-	keyName=$2
-	instanceId=$3
-	publicIp=$4
-	groupName=$5
-
-	local evaluate
-    allConfig=$(getConfigAsJson $configName)
-	if [ -z "$allConfig" ]
-	then
-		storeConfig $instanceName $keyName $instanceId $publicIp $groupName 
-	else
-		evaluate=$(isKey "$allConfig" $instanceName)
-	fi
-
-    if [ "$evaluate" == true ]
-    then
-        replaceValueAndStoreConfig "$allConfig" $instanceName $keyName $instanceId $publicIp $groupName
-	elif [ "$evaluate" == false ]
-    then
-        newConfig=$(makeConfig $instanceName $keyName $instanceId $publicIp $groupName)
-        merge=$(merge "$allConfig" "$newConfig")
-        string=$(stringfy "$merge")
-        treehouses config add $configName $string 
-    fi
-}
-
 function ifConfigIsEmptyJustMakeConfigAndStore(){
 	instanceName=$1
 	keyName=$2

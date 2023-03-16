@@ -151,3 +151,8 @@ function getConfigAsJson(){
     allConfig=$(extractValueFromTreehousesConfig $configName | jq .)
 	echo "$allConfig"
 }
+
+function printAllConfig(){
+    allConfig=$(extractValueFromTreehousesConfig $configName)
+    echo $allConfig
+}
