@@ -1,4 +1,5 @@
 
+configName=testLuftballonConfigs
 
 function storeConfig(){
 	instanceName=$1

@@ -4,6 +4,7 @@ source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/reverseShell.sh
 source $manageConfigPath/dependencies/getLatestIpAddress.sh
 source $manageConfigPath/dependencies/jsonController.sh
+source $manageConfigPath/dependencies/storeConfigByJson.sh
 
 portConfigArray=
 publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
@@ -69,7 +70,6 @@ function createSecurityGroups(){
 	echo 1194
 }
 
-
 function createEc2(){
 	image="ami-07d02ee1eeb0c996c"
 	aws ec2 run-instances \
@@ -79,7 +79,6 @@ function createEc2(){
 		--key-name $keyname \
 		--security-groups $groupName 
 }
-
 
 function findData(){
 	keyWord=$1
@@ -94,24 +93,6 @@ function deleteKeyword(){
 function getValueByKeyword(){
 	keyWord=$1
     findData $keyWord | deleteKeyword $keyWord
-}
-
-
-function storeConfig(){
-	instanceName=$1
-	keyName=$2
-	instanceId=$3 
-	publicIp=$4
-	groupName=$5 
-	
-	value=$(init $instanceName)
-	value=$(addKeyValue "$value" $instanceName instanceName $instanceName )
-	value=$(addKeyValue "$value" $instanceName keyName $keyName )
-	value=$(addKeyValue "$value" $instanceName instanceId $instanceId )
-	value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
-	value=$(addKeyValue "$value" $instanceName groupName $groupName )
-	string=$(stringfy "$value")
-	treehouses config add testLuftballonConfigs $string
 }
 
 while getopts 'n:pN:a:' OPTION; do
@@ -180,4 +161,7 @@ do
 done
 
 openSSHTunnel $publicIp
+storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
+
+
 

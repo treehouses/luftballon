@@ -24,7 +24,6 @@ third_groupName=firstballon_new-sg
 
 portArray=2200,1194,22,2222
 sshtunnelArray=2222:22
-configName=testLuftballonConfigs
 
 function testAddKeyValue(){
     value=$(init $instanceName)
