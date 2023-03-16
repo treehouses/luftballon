@@ -1,5 +1,5 @@
 
-configName=testLuftballonConfigs
+configName=luftballonConfigs
 
 function storeConfig(){
 	instanceName=$1
@@ -10,7 +10,7 @@ function storeConfig(){
 	
 	value=$(init $instanceName)
 	value=$(addKeyValue "$value" $instanceName instanceName $instanceName )
-	value=$(addKeyValue "$value" $instanceName keyName $keyName )
+	value=$(addKeyValue "$value" $instanceName thekeyName $keyName )
 	value=$(addKeyValue "$value" $instanceName instanceId $instanceId )
 	value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
 	value=$(addKeyValue "$value" $instanceName groupName $groupName )
