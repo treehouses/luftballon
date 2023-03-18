@@ -153,6 +153,14 @@ function getConfigAsJson(){
 }
 
 function printAllConfig(){
+	configName=$1
     allConfig=$(extractValueFromTreehousesConfig $configName)
     echo $allConfig
+}
+
+function getValueByAttribute(){
+	instanceName=$1
+	attribute=$2
+    backet=$(getBucketByBucketKey "$getConfigAsJson" $instanceName)
+    echo "$backet"
 }
