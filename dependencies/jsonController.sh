@@ -159,8 +159,11 @@ function printAllConfig(){
 }
 
 function getValueByAttribute(){
-	instanceName=$1
-	attribute=$2
-    backet=$(getBucketByBucketKey "$getConfigAsJson" $instanceName)
-    echo "$backet"
+	configName=$1
+	instanceName=$2
+	attribute=$3
+
+   configFileAsJson=$(printAllConfig $configName)
+   backet=$(getBucketByBucketKey "$configFileAsJson" $instanceName)
+   echo "$backet"
 }

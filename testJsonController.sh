@@ -2,7 +2,7 @@ manageConfigPath=$(pwd)
 source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/jsonController.sh
 source $manageConfigPath/dependencies/storeConfigByJson.sh
-
+configName=luftballonConfigs
 
 first_instanceName=firstballon
 first_keyName=firstballon
@@ -43,7 +43,8 @@ function ifConfigIsEmptyJustMakeConfigAndStore(){
 	
 	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
 	echo ifConfigIsEmptyJustMakeConfigAndStore
-    printAllConfig
+    getConfigAsJson
+    #printAllConfig
 }
 
 function ifKeyNotExistUpdateMakeNewBucket(){
@@ -55,7 +56,8 @@ function ifKeyNotExistUpdateMakeNewBucket(){
 	
 	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
 	echo ifKeyNotExistUpdateMakeNewBucket
-    printAllConfig
+    getConfigAsJson
+    #printAllConfig
 }
 
 function ifKeyExistUpdateTheValue(){
@@ -67,16 +69,19 @@ function ifKeyExistUpdateTheValue(){
 	
 	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
 	echo ifKeyExistUpdateTheValue
-    printAllConfig
+    getConfigAsJson
+    #printAllConfig
 }
 
-treehouses config delete $configName 
-ifConfigIsEmptyJustMakeConfigAndStore $first_instanceName $first_keyName $first_instanceId $first_publicIp $first_groupName
-ifKeyNotExistUpdateMakeNewBucket $second_instanceName $second_keyName $second_instanceId $second_publicIp $second_groupName
-ifKeyExistUpdateTheValue $third_instanceName $third_keyName $third_instanceId $third_publicIp $third_groupName
+#treehouses config delete $configName 
+#ifConfigIsEmptyJustMakeConfigAndStore $first_instanceName $first_keyName $first_instanceId $first_publicIp $first_groupName
+#ifKeyNotExistUpdateMakeNewBucket $second_instanceName $second_keyName $second_instanceId $second_publicIp $second_groupName
+#ifKeyExistUpdateTheValue $third_instanceName $third_keyName $third_instanceId $third_publicIp $third_groupName
 
 #merge=$(merge "$prev" "$value")
 #string=$(stringfy "$merge")
 
 #treehouses config add luftballonConfigs $string
-#extractValueFromTreehousesConfig luftballonConfigs
+#extractValueFromTreehousesConfig 
+
+getValueByAttribute luftballonConfigs firstballon instanceName
