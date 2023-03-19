@@ -147,7 +147,6 @@ function isKey(){
 }
 
 function getConfigAsJson(){
-	configName=$1
     allConfig=$(extractValueFromTreehousesConfig $configName | jq .)
 	echo "$allConfig"
 }
@@ -159,11 +158,9 @@ function printAllConfig(){
 }
 
 function getValueByAttribute(){
-	configName=$1
-	instanceName=$2
-	attribute=$3
-
-   configFileAsJson=$(printAllConfig $configName)
-   backet=$(getBucketByBucketKey "$configFileAsJson" $instanceName)
-   echo "$backet"
+	instanceName=$1
+	attribute=$2
+    backet=$(getBucketByBucketKey "$getConfigAsJson" $instanceName)
+    keyName=$(echo "$backet" | jq -r --arg instanceName "$instanceName" --arg keyName "$attribute" '.[$instanceName][$attribute]')
+    echo "$keyName"
 }
