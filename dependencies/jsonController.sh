@@ -160,7 +160,7 @@ function printAllConfig(){
 function getValueByAttribute(){
 	instanceName=$1
 	attribute=$2
-    backet=$(getBucketByBucketKey "$getConfigAsJson" $instanceName)
-    keyName=$(echo "$backet" | jq -r --arg instanceName "$instanceName" --arg keyName "$attribute" '.[$instanceName][$attribute]')
+    backet=$(getBucketByBucketKey "$(getConfigAsJson)" $instanceName)
+    keyName=$(echo "$backet" | jq -r --arg instanceName "$instanceName" --arg attribute "$attribute" '.[$instanceName][$attribute]')
     echo "$keyName"
 }
