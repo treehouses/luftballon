@@ -2,13 +2,14 @@ manageConfigPath=$(pwd)
 source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/jsonController.sh
 source $manageConfigPath/dependencies/storeConfigByJson.sh
+#source $manageConfigPath/dependencies/dummy.sh
 configName=luftballonConfigs
 
-first_instanceName=firstballon
-first_keyName=firstballon
+first_instanceName=$ballonName
+first_keyName=$ballonName
 first_instanceId=i-0c4c9b1efb2d505e0
 first_publicIp=1.1.1.1
-first_groupName=firstballon-sg
+first_groupName=$ballonName-sg
 
 second_instanceName=secondballon
 second_keyName=scondballon
@@ -16,11 +17,11 @@ second_instanceId=i-0c4c9b1efb2d505e0
 second_publicIp=2.2.2.2
 second_groupName=secondballon-sg
 
-third_instanceName=firstballon
-third_keyName=firstballon_new
+third_instanceName=$ballonName
+third_keyName=$ballonName_new
 third_instanceId=i-0c4c9b1efb2d505e0
 third_publicIp=1.1.1.3
-third_groupName=firstballon_new-sg
+third_groupName=$ballonName_new-sg
 
 portArray=2200,1194,22,2222
 sshtunnelArray=2222:22
@@ -84,4 +85,16 @@ function ifKeyExistUpdateTheValue(){
 #treehouses config add luftballonConfigs $string
 #extractValueFromTreehousesConfig 
 
-getValueByAttribute firstballon instanceName
+ballonName=secondballon
+
+instanceName=$(getValueByAttribute $ballonName instanceName)
+keyName=$(getValueByAttribute $ballonName keyName)
+instanceId=$(getValueByAttribute $ballonName instanceId)
+publicIp=$(getValueByAttribute $ballonName publicIp)
+groupName=$(getValueByAttribute $ballonName groupName)
+
+echo $instanceName
+echo $keyName
+echo $instanceId
+echo $publicIp
+echo $groupName

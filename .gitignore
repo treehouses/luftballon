@@ -1,3 +1,5 @@
 /test
 /vpn/conf/*
 *.conf
+
+dymmy.sh
