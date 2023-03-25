@@ -164,3 +164,4 @@ function getValueByAttribute(){
     keyName=$(echo "$backet" | jq -r --arg instanceName "$instanceName" --arg attribute "$attribute" '.[$instanceName][$attribute]')
     echo "$keyName"
 }
+

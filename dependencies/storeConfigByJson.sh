@@ -10,7 +10,7 @@ function storeConfig(){
 	
 	value=$(init $instanceName)
 	value=$(addKeyValue "$value" $instanceName instanceName $instanceName )
-	value=$(addKeyValue "$value" $instanceName thekeyName $keyName )
+	value=$(addKeyValue "$value" $instanceName key $keyName )
 	value=$(addKeyValue "$value" $instanceName instanceId $instanceId )
 	value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
 	value=$(addKeyValue "$value" $instanceName groupName $groupName )
@@ -28,7 +28,7 @@ function makeConfig(){
 	
 	value=$(init $instanceName)
 	value=$(addKeyValue "$value" $instanceName instanceName $instanceName )
-	value=$(addKeyValue "$value" $instanceName keyName $keyName )
+	value=$(addKeyValue "$value" $instanceName key $keyName )
 	value=$(addKeyValue "$value" $instanceName instanceId $instanceId )
 	value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
 	value=$(addKeyValue "$value" $instanceName groupName $groupName )
@@ -44,7 +44,7 @@ function replaceValueAndStoreConfig(){
 	publicIp=$5
 	groupName=$6 
 
-	value=$(addKeyValue "$value" $instanceName keyName $keyName )
+	value=$(addKeyValue "$value" $instanceName key $keyName )
 	value=$(addKeyValue "$value" $instanceName instanceId $instanceId )
 	value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
 	value=$(addKeyValue "$value" $instanceName groupName $groupName )
