@@ -85,7 +85,7 @@ function ifKeyExistUpdateTheValue(){
 #treehouses config add luftballonConfigs $string
 #extractValueFromTreehousesConfig 
 
-ballonName=secondballon
+ballonName=luftballon
 
 instanceName=$(getValueByAttribute $ballonName instanceName)
 keyName=$(getValueByAttribute $ballonName keyName)

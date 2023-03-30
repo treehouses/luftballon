@@ -2,14 +2,21 @@
 
 manageConfigPath=$(pwd)
 source $manageConfigPath/dependencies/manageConfig.sh
+source $manageConfigPath/dependencies/jsonController.sh
 
 #BASE=$HOME
 BASE=/home/pi
 
+configName=luftballonConfigs
+ballonName=$1
 
-groupName=$(extractValueFromTreehousesConfig groupName)
-instanceId=$(extractValueFromTreehousesConfig instanceId)
-keyName=$(extractValueFromTreehousesConfig keyName)
+#groupName=$(extractValueFromTreehousesConfig groupName)
+#instanceId=$(extractValueFromTreehousesConfig instanceId)
+#keyName=$(extractValueFromTreehousesConfig keyName)
+
+keyName=$(getValueByAttribute $ballonName key)
+instanceId=$(getValueByAttribute $ballonName instanceId)
+groupName=$(getValueByAttribute $ballonName groupName)
 
 storePortArrayString
 storeSshtunnelConfiguration
