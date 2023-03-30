@@ -71,6 +71,7 @@ function replaceValue(){
     echo "$output"
 }
 
+
 function deleteKeyValue(){
     input="$1"
     name="$2"
@@ -87,7 +88,7 @@ function deleteKeyValue(){
     else
         output=$( jq --arg name $name \
         --arg attribute $attribute \
-        'del(getpath([$name,$attribute]))' <<< "$input"  )
+        'del(.[$name][$attribute])' <<< "$input"  )
     fi
     echo "$output"
 }
@@ -165,3 +166,10 @@ function getValueByAttribute(){
     echo "$keyName"
 }
 
+function getArrayAsStringByAttribute(){
+	instanceName=$1
+	attribute=$2
+    backet=$(getBucketByBucketKey "$(getConfigAsJson)" $instanceName)
+    keyName=$(echo "$backet" | jq -r --arg instanceName "$instanceName" --arg attribute "$attribute" '.[$instanceName][$attribute] | join(" ")')
+    echo "$keyName"
+}

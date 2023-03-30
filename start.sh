@@ -101,7 +101,8 @@ while getopts 'n:pN:a:' OPTION; do
       keyname=$OPTARG
       ;;
     p)
-      portConfigArray=$(getPortArrayString)
+      portConfigArray=$(getArrayAsStringByAttribute $instanceName portArray)
+      #portConfigArray=$(getPortArrayString)
       ;;
 	a)
 	  groupName=$OPTARG-sg

@@ -79,3 +79,27 @@ function storeConfigIntoTreehousesConfigAsStringfiedJson(){
         treehouses config add $configName $string 
     fi
 }
+
+function storePortArrayString(){
+    data=$(aws ec2 describe-security-groups)
+    len=$(echo $data | jq ". | length")
+    groupName=$(extractValueFromTreehousesConfig groupName)
+    
+    index=
+    for i in $(seq 0 $len) 
+    do 
+        if [ $groupName = $(echo $data | jq ".SecurityGroups[$i].GroupName" | sed 's/"//g') ]
+        then
+            index=$i
+        fi
+    done
+
+    allConfig=$(getConfigAsJson $configName)
+
+    portArrayString=$(echo $data | jq ".SecurityGroups[$index].IpPermissions[].FromPort" | sed 's/null//g')
+    for port in $portArrayString; do
+        allConfig=$(addKeyArray "$allConfig" luftballon portArray $port )
+    done
+    string=$(stringfy "$allConfig")
+    treehouses config add $configName $string 
+}
