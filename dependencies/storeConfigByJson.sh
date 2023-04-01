@@ -103,3 +103,18 @@ function storePortArrayString(){
     string=$(stringfy "$allConfig")
     treehouses config add $configName $string 
 }
+
+function updateSshtunnelConfig() {
+	instanceName=$1
+	attribute=$2
+	allConfig=$(getConfigAsJson)
+
+	tunnelConfigArray=$(getSshtunnelConfiguration)
+
+	for tunnelConfig in $tunnelConfigArray; do
+		allConfig=$(addKeyArray "$allConfig" $instanceName $attribute "$tunnelConfig")
+	done
+
+    string=$(stringfy "$allConfig")
+    treehouses config add $configName $string 
+}
