@@ -1,11 +1,11 @@
 
 function addKeyValue(){
-    input="$1"
-    name="$2"
-    attribute="$3"
-    value="$4"
+    local input="$1"
+    local name="$2"
+    local attribute="$3"
+    local value="$4"
 
-    output=$( echo "$input" \
+    local output=$( echo "$input" \
         | jq --arg name $name \
         --arg attribute $attribute \
         --arg value $value \
@@ -14,30 +14,30 @@ function addKeyValue(){
 }
 
 function addKeyArray(){
-    input="$1"
-    name="$2"
-    attribute="$3"
-    value="$4"
+    local input="$1"
+    local name="$2"
+    local attribute="$3"
+    local value="$4"
 
-    isNull=$(jq --arg name $name \
+    local isNull=$(jq --arg name $name \
             --arg attribute $attribute \
             'getpath([$name,$attribute])'  \
             <<< "$input")
 
     if [ "$isNull" == "null" ] 
     then 
-        output=$( echo "$input" \
+        local output=$( echo "$input" \
         | jq --arg name $name \
         --arg attribute $attribute \
         --arg value $value \
         'setpath([$name,$attribute]; [$value])' ) 
     else 
-        length=$( jq  --arg name $name \
+        local length=$( jq  --arg name $name \
             --arg attribute $attribute \
             'getpath([$name,$attribute]) | length' \
             <<< "$input" )
 
-        output=$( echo "$input" \
+        local output=$( echo "$input" \
         | jq --arg name $name \
         --arg attribute $attribute \
         --arg value $value \
@@ -48,45 +48,45 @@ function addKeyArray(){
 }
 
 function replaceValue(){
-    input="$1"
-    name="$2"
-    attribute="$3"
-    value="$4"
+    local input="$1"
+    local name="$2"
+    local attribute="$3"
+    local value="$4"
 
-    isKeyExist=$( echo "$input" \
+    local isKeyExist=$( echo "$input" \
         | jq --arg name "$name" \
         --arg attribute "$attribute" \
         'map(has($attribute)) | .[0]' )
     
     if [ "$isKeyExist" == 'true' ] 
     then 
-        output=$( echo "$input" \
+        local output=$( echo "$input" \
             | jq --arg name $name \
             --arg attribute $attribute \
             --arg value $value \
             'setpath([$name,$attribute]; $value)' )
     else
-        output="$input"
+        local output="$input"
     fi
     echo "$output"
 }
 
 
 function deleteKeyValue(){
-    input="$1"
-    name="$2"
-    attribute="$3"
+    local input="$1"
+    local name="$2"
+    local attribute="$3"
 
-    isNull=$(jq --arg name $name \
+    local isNull=$(jq --arg name $name \
             --arg attribute $attribute \
             'getpath([$name,$attribute])'  \
             <<< "$input"  )
 
     if [ "$isNull" == "" ] 
     then 
-        output="$input"
+        local output="$input"
     else
-        output=$( jq --arg name $name \
+        local output=$( jq --arg name $name \
         --arg attribute $attribute \
         'del(.[$name][$attribute])' <<< "$input"  )
     fi
@@ -94,75 +94,75 @@ function deleteKeyValue(){
 }
 
 function init(){
-    name="$1"
-    output=$( echo null \
+    local name="$1"
+    local output=$( echo null \
         | jq --arg name $name \
         'setpath([$name]; {})' )
     echo "$output"
 }
 
 function merge(){
-    first="$1"
-    second="$2"
-    result=$(echo $first $second | jq -n 'reduce inputs as $i ({}; . + $i)') 
+    local first="$1"
+    local second="$2"
+    local result=$(echo $first $second | jq -n 'reduce inputs as $i ({}; . + $i)') 
     echo "$result"
 }
 
 function getBucketKeys(){
-    bucket="$1"
+    local bucket="$1"
     echo "$bucket" | jq 'keys | .[]'
 }
 
 function makeBucket(){
-    input="$1"
-    name="$2"
-    value="$3"
+    local input="$1"
+    local name="$2"
+    local value="$3"
 
-    output=$( jq --arg name "$name" \
+    local output=$( jq --arg name "$name" \
         --argjson value "$value" \
         '.[$name] |= $value' <<< "$input" )
     echo "$output"
 }
 
 function getBucketByBucketKey(){
-    buckets="$1"
-    key="$2"
-    theBucket=$(echo "$buckets" | jq --arg key $key 'getpath([$key])')
-    emptyBucket=$(init "$key")
-    theBucketWithKey=$(makeBucket "$emptyBucket" "$key" "$theBucket" )
+    local buckets="$1"
+    local key="$2"
+    local theBucket=$(echo "$buckets" | jq --arg key $key 'getpath([$key])')
+    local emptyBucket=$(init "$key")
+    local theBucketWithKey=$(makeBucket "$emptyBucket" "$key" "$theBucket" )
     echo "$theBucketWithKey"
 }
 
 function stringfy(){
-    data="$1"
-    string=$(echo "$data"  | jq '.|tostring' |tr -d '\' | sed 's/"{/{/' | sed 's/}"/}/' )
+    local data="$1"
+    local string=$(echo "$data"  | jq '.|tostring' |tr -d '\' | sed 's/"{/{/' | sed 's/}"/}/' )
     echo $string
 }
 
 function isKey(){
-    input="$1"
-    target="$2"
-    keys=$(echo "$input" | jq 'keys' )
-    output=$(jq --arg target "$target" 'any(.==$target)' <<< $keys)
+    local input="$1"
+    local target="$2"
+    local keys=$(echo "$input" | jq 'keys' )
+    local output=$(jq --arg target "$target" 'any(.==$target)' <<< $keys)
     echo "$output"
 }
 
 function getConfigAsJson(){
-    allConfig=$(extractValueFromTreehousesConfig $configName | jq .)
-	echo "$allConfig"
+    local allConfig=$(extractValueFromTreehousesConfig $configName | jq .)
+    echo "$allConfig"
 }
 
 function printAllConfig(){
-	configName=$1
-    allConfig=$(extractValueFromTreehousesConfig $configName)
+    local configName=$1
+    local allConfig=$(extractValueFromTreehousesConfig $configName)
     echo $allConfig
 }
 
 function getValueByAttribute(){
-	instanceName=$1
-	attribute=$2
-    backet=$(getBucketByBucketKey "$(getConfigAsJson)" $instanceName)
-    keyName=$(echo "$backet" | \
+    local instanceName=$1
+    local attribute=$2
+    local backet=$(getBucketByBucketKey "$(getConfigAsJson)" $instanceName)
+    local keyName=$(echo "$backet" | \
               jq -r --arg instanceName "$instanceName" \
                     --arg attribute "$attribute" \
                     '.[$instanceName][$attribute]')
@@ -170,10 +170,10 @@ function getValueByAttribute(){
 }
 
 function getArrayValueAsStringByKey(){
-	instanceName=$1
-	attribute=$2
-    backet=$(getBucketByBucketKey "$(getConfigAsJson)" $instanceName)
-    keyName=$(echo "$backet" | \
+    local instanceName=$1
+    local attribute=$2
+    local backet=$(getBucketByBucketKey "$(getConfigAsJson)" $instanceName)
+    local keyName=$(echo "$backet" | \
               jq -r --arg instanceName "$instanceName" \
                     --arg attribute "$attribute" \
                     '.[$instanceName][$attribute] | join(" ")')

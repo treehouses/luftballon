@@ -1,24 +1,24 @@
 
 
 function getIpAddresses(){
-    described=$@
+    local described=$@
     echo $described | jq ".Reservations[].Instances[].PublicIpAddress" | sed 's/"//g'
 }
 
 function getInstanceIds(){
-    described=$@
+    local described=$@
     echo $described | jq ".Reservations[].Instances[].InstanceId" | sed 's/"//g'
 }
 
 
 
 function getLatestIpAddress(){
-    described=$(aws ec2 describe-instances)
-    targetInstanceId=$1
-    instanceIdsArray=($(getInstanceIds $described | sed 's/\n//g'| sed 's/ /,/g' ))
-    ipAddressesArray=($(getIpAddresses $described | sed 's/\n//g'| sed 's/ /,/g' ))
+    local described=$(aws ec2 describe-instances)
+    local targetInstanceId=$1
+    local instanceIdsArray=($(getInstanceIds $described | sed 's/\n//g'| sed 's/ /,/g' ))
+    local ipAddressesArray=($(getIpAddresses $described | sed 's/\n//g'| sed 's/ /,/g' ))
 
-    targetIndex=
+    local targetIndex=
 
 
     for index in ${!instanceIdsArray[@]};
