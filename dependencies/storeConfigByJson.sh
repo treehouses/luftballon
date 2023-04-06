@@ -107,7 +107,7 @@ function storePortArrayString(){
 function updateSshtunnelConfig() {
 	instanceName=$1
 	attribute=$2
-	allConfig=$(getConfigAsJson)
+	allConfig=$(getConfigAsJson $configName)
 
 	tunnelConfigArray=$(getSshtunnelConfiguration)
 
