@@ -81,9 +81,10 @@ function storeConfigIntoTreehousesConfigAsStringfiedJson(){
 }
 
 function storePortArrayString(){
+	groupName=$1
+
     data=$(aws ec2 describe-security-groups)
     len=$(echo $data | jq ". | length")
-    groupName=$(extractValueFromTreehousesConfig groupName)
     
     index=
     for i in $(seq 0 $len) 
@@ -106,13 +107,12 @@ function storePortArrayString(){
 
 function updateSshtunnelConfig() {
 	instanceName=$1
-	attribute=$2
 	allConfig=$(getConfigAsJson $configName)
 
 	tunnelConfigArray=$(getSshtunnelConfiguration)
 
 	for tunnelConfig in $tunnelConfigArray; do
-		allConfig=$(addKeyArray "$allConfig" $instanceName $attribute "$tunnelConfig")
+		allConfig=$(addKeyArray "$allConfig" $instanceName sshtunnelArray "$tunnelConfig")
 	done
 
     string=$(stringfy "$allConfig")

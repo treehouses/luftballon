@@ -19,9 +19,8 @@ keyName=$(getValueByAttribute $ballonName key)
 instanceId=$(getValueByAttribute $ballonName instanceId)
 groupName=$(getValueByAttribute $ballonName groupName)
 
-storePortArrayString
-#storeSshtunnelConfiguration
-updateSshtunnelConfig
+storePortArrayString $ballonName
+updateSshtunnelConfig $ballonName
 
 echo $instanceId
 aws ec2 terminate-instances --instance-ids $instanceId 
