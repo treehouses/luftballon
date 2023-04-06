@@ -3,6 +3,7 @@
 manageConfigPath=$(pwd)
 source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/jsonController.sh
+source $manageConfigPath/dependencies/storeConfigByJson.sh
 
 #BASE=$HOME
 BASE=/home/pi
@@ -19,7 +20,8 @@ instanceId=$(getValueByAttribute $ballonName instanceId)
 groupName=$(getValueByAttribute $ballonName groupName)
 
 storePortArrayString
-storeSshtunnelConfiguration
+#storeSshtunnelConfiguration
+updateSshtunnelConfig
 
 echo $instanceId
 aws ec2 terminate-instances --instance-ids $instanceId 
