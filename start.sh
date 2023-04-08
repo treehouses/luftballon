@@ -95,6 +95,15 @@ function getValueByKeyword(){
     findData $keyWord | deleteKeyword $keyWord
 }
 
+function usage {
+		echo "script usage: $(basename \$0) [-n ssh key name] [-p] [-a change key name, instance name, and group name]" >&2
+        echo 'Start Luftballon.'
+        echo '   -n          Change SSH key name on AWS'
+        echo '   -a          Change SSH key name, instance name, and group name'
+        echo '   -p          Use stored port Numbers instead of the default port number.'
+        exit 1
+}
+
 while getopts 'n:pN:a:' OPTION; do
   case "$OPTION" in
     n)
@@ -102,7 +111,10 @@ while getopts 'n:pN:a:' OPTION; do
       ;;
     p)
       portConfigArray=$(getArrayValueAsStringByKey $instanceName portArray)
-      #portConfigArray=$(getPortArrayString)
+	  if [ -z $portConfigArray ]
+	  then
+	    echo "There is no stored port numbers. The default port numbers are used"
+	  fi
       ;;
 	a)
 	  groupName=$OPTARG-sg
@@ -110,8 +122,7 @@ while getopts 'n:pN:a:' OPTION; do
       keyname=$OPTARG
       ;;
     ?)
-      echo "script usage: $(basename \$0) [-n ssh key name] [-p somevalue] [-a change key name, instance name, and group name]" >&2
-      exit 1
+      usage
       ;;
   esac
 done
