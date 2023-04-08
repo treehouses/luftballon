@@ -96,10 +96,11 @@ function storePortArrayString(){
     done
 
     local allConfig=$(getConfigAsJson $configName)
+	allConfig=$(deleteKeyValue "$allConfig" $groupName portArray)
 
     local portArrayString=$(echo $data | jq ".SecurityGroups[$index].IpPermissions[].FromPort" | sed 's/null//g')
     for port in $portArrayString; do
-        allConfig=$(addKeyArray "$allConfig" luftballon portArray $port )
+        allConfig=$(addKeyArray "$allConfig" $groupName portArray $port )
     done
     local string=$(stringfy "$allConfig")
     treehouses config add $configName $string 
@@ -108,6 +109,7 @@ function storePortArrayString(){
 function updateSshtunnelConfig() {
 	local instanceName=$1
 	local allConfig=$(getConfigAsJson $configName)
+	allConfig=$(deleteKeyValue "$allConfig" $instanceName sshtunnelArray)
 
 	local tunnelConfigArray=$(getSshtunnelConfiguration)
 
