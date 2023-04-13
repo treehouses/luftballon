@@ -1,11 +1,11 @@
 #!/bin/bash
 manageConfigPath=$(pwd)
+source $manageConfigPath/dependencies/config.sh
 source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/reverseShell.sh
 source $manageConfigPath/dependencies/getLatestIpAddress.sh
 source $manageConfigPath/dependencies/jsonController.sh
 source $manageConfigPath/dependencies/storeConfigByJson.sh
-source $manageConfigPath/dependencies/config.sh
 
 portConfigArray=
 publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
