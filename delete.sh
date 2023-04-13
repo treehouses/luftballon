@@ -11,9 +11,11 @@ BASE=/home/pi
 configName=luftballonConfigs
 ballonName=$1
 
-#groupName=$(extractValueFromTreehousesConfig groupName)
-#instanceId=$(extractValueFromTreehousesConfig instanceId)
-#keyName=$(extractValueFromTreehousesConfig keyName)
+if [ -z "$ballonName" ]
+then
+  echo "Please provide the balloon name"
+  exit 1
+fi
 
 keyName=$(getValueByAttribute $ballonName key)
 instanceId=$(getValueByAttribute $ballonName instanceId)
