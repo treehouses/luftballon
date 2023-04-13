@@ -3,7 +3,6 @@ source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/jsonController.sh
 source $manageConfigPath/dependencies/storeConfigByJson.sh
 #source $manageConfigPath/dependencies/dummy.sh
-configName=luftballonConfigs
 
 first_instanceName=$ballonName
 first_keyName=$ballonName

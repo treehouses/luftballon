@@ -8,7 +8,6 @@ source $manageConfigPath/dependencies/storeConfigByJson.sh
 #BASE=$HOME
 BASE=/home/pi
 
-configName=luftballonConfigs
 ballonName=$1
 
 if [ -z "$ballonName" ]

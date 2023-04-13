@@ -1,5 +1,4 @@
 
-configName=luftballonConfigs
 
 function storeConfig(){
 	local instanceName=$1

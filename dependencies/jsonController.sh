@@ -153,7 +153,6 @@ function getConfigAsJson(){
 }
 
 function printAllConfig(){
-    local configName=$1
     local allConfig=$(extractValueFromTreehousesConfig $configName)
     echo $allConfig
 }
