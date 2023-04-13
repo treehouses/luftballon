@@ -1,4 +1,6 @@
-source config.sh
+#!/bin/bash
+
+# The global variable 'configName' is defined in 'config.sh' and sourced in the driver code.
 
 function storeConfig(){
 	local instanceName=$1
