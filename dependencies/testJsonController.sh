@@ -1,5 +1,6 @@
 source manageConfig.sh
 source jsonController.sh
+source config.sh
 
 function testAddAttribute(){
     value=$(init luftballon)

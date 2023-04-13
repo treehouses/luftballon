@@ -2,6 +2,7 @@
 
 manageConfigPath=$(pwd)
 source $manageConfigPath/dependencies/manageConfig.sh
+source $manageConfigPath/dependencies/config.sh
 
 BASE=/home/pi
 groupName=luftballons-sg

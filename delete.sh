@@ -4,6 +4,7 @@ manageConfigPath=$(pwd)
 source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/jsonController.sh
 source $manageConfigPath/dependencies/storeConfigByJson.sh
+source $manageConfigPath/dependencies/config.sh
 
 #BASE=$HOME
 BASE=/home/pi

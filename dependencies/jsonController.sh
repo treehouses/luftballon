@@ -1,3 +1,4 @@
+source config.sh
 
 function addKeyValue(){
     local input="$1"

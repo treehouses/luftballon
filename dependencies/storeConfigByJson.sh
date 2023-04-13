@@ -1,4 +1,4 @@
-
+source config.sh
 
 function storeConfig(){
 	local instanceName=$1
