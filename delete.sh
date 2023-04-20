@@ -9,7 +9,7 @@ source $manageConfigPath/dependencies/config.sh
 #BASE=$HOME
 BASE=/home/pi
 
-ballonName=$1
+balloonName=$1
 
 isBalloonNameValid() {
     balloonName="$1"
@@ -22,18 +22,20 @@ isBalloonNameValid() {
     fi
 }
 
+
+
 if ! isBalloonNameValid "$balloonName"; then
     echo "Please provide a valid balloon name"
     exit 1
 fi
 
 
-keyName=$(getValueByAttribute $ballonName key)
-instanceId=$(getValueByAttribute $ballonName instanceId)
-groupName=$(getValueByAttribute $ballonName groupName)
+keyName=$(getValueByAttribute $balloonName key)
+instanceId=$(getValueByAttribute $balloonName instanceId)
+groupName=$(getValueByAttribute $balloonName groupName)
 
-storePortArrayString $ballonName
-updateSshtunnelConfig $ballonName
+storePortArrayString $balloonName
+updateSshtunnelConfig $balloonName
 
 echo $instanceId
 aws ec2 terminate-instances --instance-ids $instanceId 
