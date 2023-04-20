@@ -96,7 +96,7 @@ function getArrayWithoutDuplicate(){
 }
 
 
-function getBallonNameAsArray(){
+function getBalloonNameAsArray(){
     local array
     array=$(aws ec2 describe-instances | jq -r '.Reservations[].Instances[].Tags[] | select(.Key=="Name").Value')
     echo $array
