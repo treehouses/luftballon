@@ -11,11 +11,22 @@ BASE=/home/pi
 
 ballonName=$1
 
-if [ -z "$ballonName" ]
-then
-  echo "Please provide the balloon name"
-  exit 1
+isBalloonNameValid() {
+    balloonName="$1"
+    balloonNamesString=$(getBalloonNameAsArray)
+
+    if echo "$balloonNamesString" | grep -q -w -- "$balloonName"; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+if ! isBalloonNameValid "$balloonName"; then
+    echo "Please provide a valid balloon name"
+    exit 1
 fi
+
 
 keyName=$(getValueByAttribute $ballonName key)
 instanceId=$(getValueByAttribute $ballonName instanceId)
