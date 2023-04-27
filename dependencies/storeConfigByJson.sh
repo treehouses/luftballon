@@ -83,6 +83,7 @@ function storeConfigIntoTreehousesConfigAsStringfiedJson(){
 
 function storePortArrayString(){
 	local groupName=$1
+	local protocol=$2
 
     local data=$(aws ec2 describe-security-groups)
     local len=$(echo $data | jq ". | length")
@@ -97,11 +98,15 @@ function storePortArrayString(){
     done
 
     local allConfig=$(getConfigAsJson $configName)
-	allConfig=$(deleteKeyValue "$allConfig" $groupName portArray)
+	allConfig=$(deleteKeyValue "$allConfig" $groupName ${protocol}PortArray)
 
-    local portArrayString=$(echo $data | jq ".SecurityGroups[$index].IpPermissions[].FromPort" | sed 's/null//g')
+    portArrayString=$(
+		echo $data | 
+		jq -r '.SecurityGroups[$index].IpPermissions[].FromPort | select(.IpProtocol==\"$protocol\").Value' | 
+		sed 's/null//g'
+	)
     for port in $portArrayString; do
-        allConfig=$(addKeyArray "$allConfig" $groupName portArray $port )
+        allConfig=$(addKeyArray "$allConfig" $groupName ${protocol}PortArray $port )
     done
     local string=$(stringfy "$allConfig")
     treehouses config add $configName $string 
