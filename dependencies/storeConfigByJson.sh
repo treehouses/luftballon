@@ -102,7 +102,7 @@ function storePortArrayString(){
 
     portArrayString=$(
 		echo $data | 
-		jq -r '.SecurityGroups[$index].IpPermissions[].FromPort | select(.IpProtocol==\"$protocol\").Value' | 
+		jq -r '.SecurityGroups[$index].IpPermissions[].FromPort | select(.IpProtocol=='\"$protocol\"').Value' | 
 		sed 's/null//g'
 	)
     for port in $portArrayString; do
