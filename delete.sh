@@ -34,8 +34,8 @@ keyName=$(getValueByAttribute $balloonName key)
 instanceId=$(getValueByAttribute $balloonName instanceId)
 groupName=$(getValueByAttribute $balloonName groupName)
 
-storePortArrayString $balloonName tcp
-storePortArrayString $balloonName udp
+storePortArrayString $groupName tcp
+storePortArrayString $groupName udp
 updateSshtunnelConfig $balloonName
 
 echo $instanceId
