@@ -102,9 +102,10 @@ function storePortArrayString(){
 
     portArrayString=$(
 		echo $data | 
-		jq -r '.SecurityGroups['\"$index\"'].IpPermissions[].FromPort | select(.IpProtocol=='\"$protocol\"').Value' | 
-		sed 's/null//g'
-	)
+		jq -r --arg index "$index" \
+		--arg protocol "$protocol" \
+		'.SecurityGroups[$index | tonumber].IpPermissions[] | select(.IpProtocol==$protocol).FromPort.Value' 
+		| sed 's/null//g')
     for port in $portArrayString; do
         allConfig=$(addKeyArray "$allConfig" $groupName ${protocol}PortArray $port )
     done
