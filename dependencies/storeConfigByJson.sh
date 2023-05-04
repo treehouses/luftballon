@@ -87,7 +87,7 @@ function storePortArrayString(){
 
     local data=$(aws ec2 describe-security-groups)
     local len=$(echo $data | jq ". | length")
-    
+
     local index=
     for i in $(seq 0 $len) 
     do 
@@ -100,12 +100,11 @@ function storePortArrayString(){
     local allConfig=$(getConfigAsJson $configName)
 	allConfig=$(deleteKeyValue "$allConfig" $groupName ${protocol}PortArray)
 
-    portArrayString=$(
-		echo $data | 
-		jq -r --arg index "$index" \
+	portArrayString=$(echo "$data" | jq -r --arg index "$index" \
 		--arg protocol "$protocol" \
-		'.SecurityGroups[$index | tonumber].IpPermissions[] | select(.IpProtocol==$protocol).FromPort.Value' 
+		'.SecurityGroups[$index | tonumber].IpPermissions[] | select(.IpProtocol==$protocol).FromPort' \
 		| sed 's/null//g')
+
     for port in $portArrayString; do
         allConfig=$(addKeyArray "$allConfig" $groupName ${protocol}PortArray $port )
     done
