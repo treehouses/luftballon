@@ -30,7 +30,7 @@ fi
 instanceId=$(getValueByAttribute $balloonName instanceId)
 
 if [ "$instanceId" = "null" ]; then
-    echo "Error: instanceId is null"
+    echo "$balloonName is already deleted"
     exit 1
 fi
 
