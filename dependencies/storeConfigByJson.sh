@@ -128,3 +128,14 @@ function updateSshtunnelConfig() {
     treehouses config add $configName $string 
 }
 
+functin deleteObsoleteKeyValue(){
+	local instanceName=$1
+	local allConfig=$(getConfigAsJson $configName)
+	allConfig=$(deleteKeyValue "$allConfig" $instanceName instanceName)
+	allConfig=$(deleteKeyValue "$allConfig" $instanceName key)
+	allConfig=$(deleteKeyValue "$allConfig" $instanceName instanceId)
+	allConfig=$(deleteKeyValue "$allConfig" $instanceName publicIp)
+	allConfig=$(deleteKeyValue "$allConfig" $instanceName groupName)
+    local string=$(stringfy "$allConfig")
+    treehouses config add $configName $string 
+}
