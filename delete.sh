@@ -51,5 +51,16 @@ echo "remove all sshtunnel"
 
 sleep 30
 echo $groupName
-aws ec2 delete-security-group --group-name $groupName
-echo "security group delete"
+while true; do
+  output=$(aws ec2 delete-security-group --group-name "$groupName" 2>&1)
+  if [[ $? -eq 0 ]]; then
+    echo "Security group '$groupName' successfully deleted."
+    break
+  elif [[ $output == *"DependencyViolation"* ]]; then
+    echo "Dependency violation. Retrying in 5 seconds..."
+    sleep 10
+  else
+    echo "An error occurred: $output"
+    break
+  fi
+done
