@@ -22,8 +22,6 @@ isBalloonNameValid() {
     fi
 }
 
-
-
 if ! isBalloonNameValid "$balloonName"; then
     echo "Please provide a valid balloon name"
     exit 1
@@ -64,3 +62,5 @@ while true; do
     break
   fi
 done
+
+deleteObsoleteKeyValue
