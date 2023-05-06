@@ -27,9 +27,14 @@ if ! isBalloonNameValid "$balloonName"; then
     exit 1
 fi
 
+instanceId=$(getValueByAttribute $balloonName instanceId)
+
+if [ -z "$instanceId" ]; then
+    echo "$balloonName is already deleted"
+    exit 1
+fi
 
 keyName=$(getValueByAttribute $balloonName key)
-instanceId=$(getValueByAttribute $balloonName instanceId)
 groupName=$(getValueByAttribute $balloonName groupName)
 
 storePortArrayString $groupName tcp $balloonName
