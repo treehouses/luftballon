@@ -67,8 +67,19 @@ function createSecurityGroups(){
 		echo $i
 	done
 
-	addUDPPort 1194
-	echo 1194
+	if [ -z $udpPortConfigArray ]
+	then
+		portConfigArray="1194"
+	fi
+
+	portArray=($portConfigArray)
+	echo $portArray
+
+	for i in "${portArray[@]}"
+	do
+		addUDPPort $i
+		echo $i
+	done
 }
 
 function createEc2(){
@@ -111,10 +122,15 @@ while getopts 'n:pN:a:' OPTION; do
       keyname=$OPTARG
       ;;
     p)
-      portConfigArray=$(getArrayValueAsStringByKey $instanceName portArray)
+      portConfigArray=$(getArrayValueAsStringByKey $instanceName tcpPortArray)
+      udpPortConfigArray=$(getArrayValueAsStringByKey $instanceName udpPortArray)
 	  if [ -z $portConfigArray ]
 	  then
 	    echo "There is no stored port numbers. The default port numbers are used"
+	  fi
+	  if [ -z $udpPortConfigArray ]
+	  then
+	    echo "There is no stored udp port numbers. The default port numbers are used"
 	  fi
       ;;
 	a)
