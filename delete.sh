@@ -29,8 +29,8 @@ fi
 
 instanceId=$(getValueByAttribute $balloonName instanceId)
 
-if [ -z "$instanceId" ]; then
-    echo "$balloonName is already deleted"
+if [ "$instanceId" = "null" ]; then
+    echo "Error: instanceId is null"
     exit 1
 fi
 
