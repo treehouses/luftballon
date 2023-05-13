@@ -137,5 +137,5 @@ function deleteObsoleteKeyValue(){
 	allConfig=$(deleteKeyValue "$allConfig" $instanceName publicIp)
 	allConfig=$(deleteKeyValue "$allConfig" $instanceName groupName)
     local string=$(stringfy "$allConfig")
-    treehouses config add $configName $string 
+    #treehouses config add $configName $string 
 }
