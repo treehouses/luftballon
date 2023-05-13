@@ -8,6 +8,8 @@ source $manageConfigPath/dependencies/jsonController.sh
 source $manageConfigPath/dependencies/storeConfigByJson.sh
 
 portConfigArray=
+udpPortConfigArray=
+
 publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
 
 keyname=
@@ -54,12 +56,12 @@ function createSecurityGroups(){
 		--group-name $groupName \
 		--description "luftballons security group"
 
-	if [ -z $portConfigArray ]
+	if [ -z "$portConfigArray" ]
 	then
 		portConfigArray="22 2222 2200"
 	fi
-	portArray=($portConfigArray)
-	echo $portArray
+
+    portArray=($portConfigArray)
 
 	for i in "${portArray[@]}"
 	do
@@ -67,13 +69,12 @@ function createSecurityGroups(){
 		echo $i
 	done
 
-	if [ -z $udpPortConfigArray ]
+	if [ -z "$udpPortConfigArray" ]
 	then
-		portConfigArray="1194"
+		udpPortConfigArray="1194"
 	fi
 
-	portArray=($portConfigArray)
-	echo $portArray
+    portArray=($udpPortConfigArray)
 
 	for i in "${portArray[@]}"
 	do
@@ -124,11 +125,11 @@ while getopts 'n:pN:a:' OPTION; do
     p)
       portConfigArray=$(getArrayValueAsStringByKey $instanceName tcpPortArray)
       udpPortConfigArray=$(getArrayValueAsStringByKey $instanceName udpPortArray)
-	  if [ -z $portConfigArray ]
+	  if [ -z "$portConfigArray" ]
 	  then
 	    echo "There is no stored port numbers. The default port numbers are used"
 	  fi
-	  if [ -z $udpPortConfigArray ]
+	  if [ -z "$udpPortConfigArray" ]
 	  then
 	    echo "There is no stored udp port numbers. The default port numbers are used"
 	  fi
