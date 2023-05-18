@@ -5,22 +5,12 @@ source $manageConfigPath/dependencies/manageConfig.sh
 source $manageConfigPath/dependencies/jsonController.sh
 source $manageConfigPath/dependencies/storeConfigByJson.sh
 source $manageConfigPath/dependencies/config.sh
+source $manageConfigPath/dependencies/isBalloonNameValid.sh
 
 #BASE=$HOME
 BASE=/home/pi
 
 balloonName=$1
-
-isBalloonNameValid() {
-    balloonName="$1"
-    balloonNamesString=$(getBalloonNameAsArray)
-
-    if echo "$balloonNamesString" | grep -q -w -- "$balloonName"; then
-        return 0
-    else
-        return 1
-    fi
-}
 
 if ! isBalloonNameValid "$balloonName"; then
     echo "Please provide a valid balloon name"

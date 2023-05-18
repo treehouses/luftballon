@@ -73,14 +73,6 @@ function getArrayWithoutDuplicate(){
     echo $(removeArrayDuplicates "${duplicateArray[@]}")
 }
 
-
-function getBalloonNameAsArray(){
-    local array
-    array=$(aws ec2 describe-instances | jq -r '.Reservations[].Instances[].Tags[] | select(.Key=="Name").Value')
-    echo $array
-}
-
-
     #keyword=$1
     #query=$2
     #findfuncName $keyword $query
