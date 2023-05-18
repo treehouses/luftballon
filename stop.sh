@@ -24,4 +24,4 @@ if [ "$instanceId" = "null" ]; then
     exit 1
 fi
 
-echo $instanceId
+aws ec2 stop-instances --instance-ids $instanceId
