@@ -181,3 +181,8 @@ function getArrayValueAsStringByKey(){
                     '.[$instanceName][$attribute] | join(" ")')
     echo "$keyName"
 }
+
+function filterInstancesByTag {
+  local json_data=$1
+  echo $json_data | jq '[.Reservations[].Instances[] | select(.Tags[]? | .Key=="Class" and .Value=="treehouses")]'
+}
