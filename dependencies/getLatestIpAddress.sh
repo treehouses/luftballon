@@ -1,4 +1,3 @@
-source jsonController.sh
 
 function getIpAddresses(){
     local described=$@

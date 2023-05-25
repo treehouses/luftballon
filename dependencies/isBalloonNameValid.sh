@@ -1,8 +1,8 @@
-source jsonController.sh
 
 function getBalloonNameAsArray(){
     local array
-    array=$( filterInstancesByTag "$(aws ec2 describe-instances)" | jq -r '.[].Tags[] | select(.Key=="Name").Value')
+    array=$( filterInstancesByTag "$(aws ec2 describe-instances)" \
+        | jq -r '.[].Tags[] | select(.Key=="Name").Value')
     echo $array
 }
 
