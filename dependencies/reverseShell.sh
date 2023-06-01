@@ -71,7 +71,3 @@ function openSSHTunnel(){
     treehouses sshtunnel ports
 
 }
-
-
-
-#treehouses sshtunnel add port actual "$serverPort" "$luftballonHostPort" root@"$instanceIp"
