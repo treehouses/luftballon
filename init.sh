@@ -122,6 +122,18 @@ function usage {
         exit 1
 }
 
+function waitForOutput(){
+    local cmd=$1
+    local result=$($cmd)
+    while [ -z "$result" ]
+    do
+        echo "Checking..."
+        sleep 5
+        result=$($cmd)
+    done
+    echo $result
+}
+
 while getopts 'n:pN:a:' OPTION; do
   case "$OPTION" in
     n)
@@ -164,37 +176,24 @@ then
 	exit 1
 fi
 
-treehouses config add keyName $keyName
-echo "Add key $keyName"
+echo "Success to add ssh key: $keyName"
 
 createSecurityGroups
 echo "Add security group"
 
 instanceId=$(createEc2 | getValueByKeyword InstanceId )
-echo $instanceId
-treehouses config add instanceId $instanceId
 echo "Create EC2 Instance"
+echo "Instance id is $instanceId"
 
-publicIp=$(getLatestIpAddress $instanceId )
-treehouses config add publicIp $publicIp
-echo "Store IP Address"
+publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
+echo "Public IP Address is $publicIp"
 
-treehouses config add groupName $groupName
-echo "Store Group Name"
-
-echo "Add name "$instanceName" on EC2 instance"
 aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=$instanceName
 aws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
 
 echo "Will open ssh tunnel soon"
-isOpen=$(ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256)
-
-while [ -z "$isOpen" ]
-do
-    echo "Check out the status of server"
-    sleep 5
-    isOpen=$(ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256)
-done
+isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
+echo "Opened ssh tunnel"
 
 openSSHTunnel $publicIp
 storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
