@@ -163,6 +163,7 @@ while getopts 'n:pN:a:' OPTION; do
 done
 shift "$(($OPTIND -1))"
 
+
 if [ -z $keyname ]
 then
 	keyname=luftballon
@@ -197,6 +198,7 @@ echo "Opened ssh tunnel"
 
 openSSHTunnel $publicIp
 storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
+
 
 
 
