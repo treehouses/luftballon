@@ -6,11 +6,11 @@ source $manageConfigPath/dependencies/manageConfig.sh
 
 
 #function getArrayWithoutDuplicate(){
-#    duplicateArray=($(extractValueFromTreehousesConfig sshtunnelArray | sed 's/:/,/g' | sed 's/,/ /g'))
+#    duplicateArray=($(getTreehousesConfigValue sshtunnelArray | sed 's/:/,/g' | sed 's/,/ /g'))
 #    echo $(removeArrayDuplicates "${duplicateArray[@]}")
 #}
 
-arr=$(getArrayWithoutDuplicate $(extractValueFromTreehousesConfig sshtunnelArray | sed 's/:/,/g' | sed 's/,/ /g' ) )
+arr=$(getArrayWithoutDuplicate $(getTreehousesConfigValue sshtunnelArray | sed 's/:/,/g' | sed 's/,/ /g' ) )
 
 function checkPort() {
 	result=0

@@ -5,7 +5,7 @@ source getRunningVPNEntityConfName.sh
 source deleteEasytlsIClientnline.sh
 
 startpath=$(pwd)
-publicIp=$(extractValueFromTreehousesConfig publicIp)
+publicIp=$(getTreehousesConfigValue publicIp)
 
 
 function makeClientConf(){

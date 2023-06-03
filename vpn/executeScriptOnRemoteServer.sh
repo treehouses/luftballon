@@ -3,7 +3,7 @@
 manageConfigPath=$(pwd)
 source $manageConfigPath/../dependencies/manageConfig.sh
 
-publicIp=$(extractValueFromTreehousesConfig publicIp)
+publicIp=$(getTreehousesConfigValue publicIp)
 
 echo $publicIp
 

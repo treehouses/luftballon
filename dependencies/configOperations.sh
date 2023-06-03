@@ -1,10 +1,10 @@
 function getConfigAsJson(){
-    local allConfig=$(extractValueFromTreehousesConfig $configName | jq .)
+    local allConfig=$(getTreehousesConfigValue $configName | jq .)
     echo "$allConfig"
 }
 
 function printAllConfig(){
-    local allConfig=$(extractValueFromTreehousesConfig $configName)
+    local allConfig=$(getTreehousesConfigValue $configName)
     echo $allConfig
 }
 
