@@ -12,8 +12,8 @@ function getInstanceIds(){
 function getLatestIpAddress(){
     local described=$(filterInstancesByTag "$(aws ec2 describe-instances)")
     local targetInstanceId=$1
-    local instanceIdsArray=($(getInstanceIds $described | sed 's/\n//g'| sed 's/ /,/g' ))
-    local ipAddressesArray=($(getIpAddresses $described | sed 's/\n//g'| sed 's/ /,/g' ))
+    local instanceIdsArray=($(getInstanceIds "$described" | sed 's/\n//g'| sed 's/ /,/g' ))
+    local ipAddressesArray=($(getIpAddresses "$described" | sed 's/\n//g'| sed 's/ /,/g' ))
 
     local targetIndex=
 

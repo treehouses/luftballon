@@ -124,12 +124,12 @@ function usage {
 
 function waitForOutput(){
     local cmd=$1
-    local result=$($cmd)
-    while [ -z "$result" ]
+    local result=$(eval $cmd)
+    while [ -z "$result" ] || [ "$result" == "null" ]
     do
         echo "Checking..."
         sleep 5
-        result=$($cmd)
+        result=$(eval $cmd)
     done
     echo $result
 }
@@ -186,11 +186,13 @@ instanceId=$(createEc2 | getValueByKeyword InstanceId )
 echo "Create EC2 Instance"
 echo "Instance id is $instanceId"
 
-publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
-echo "Public IP Address is $publicIp"
 
 aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=$instanceName
 aws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
+
+
+publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
+echo "Public IP Address is $publicIp"
 
 echo "Will open ssh tunnel soon"
 isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
