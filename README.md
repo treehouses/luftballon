@@ -87,13 +87,13 @@ This a flag changes three names
 2. Security group name
 3. EC2 Instance name
 
-### Stop Luftballon
+### Stop Luftballon (currently unstable)
 
 ```
 ./stop.sh [name]
 ```
 
-### Restart Luftballon
+### Restart Luftballon (currently unstable)
 
 ```
 ./restart.sh [name]
