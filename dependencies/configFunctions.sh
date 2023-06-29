@@ -51,7 +51,7 @@ function updateIPAddress(){
 	local instanceName=$1
 	local publicIp=$2
 
-    local allConfig=$(getConfigAsJson $configName)
+    local value=$(getConfigAsJson $configName)
 	value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
 	local string=$(stringfy "$value")
 	treehouses config add $configName $string
