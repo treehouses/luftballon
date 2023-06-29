@@ -14,7 +14,6 @@ function waitForOutput(){
     local result=$(eval $cmd)
     while [ -z "$result" ] || [ "$result" == "null" ]
     do
-        echo "Checking..."
         sleep 5
         result=$(eval $cmd)
     done
