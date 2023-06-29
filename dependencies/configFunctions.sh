@@ -47,6 +47,16 @@ function replaceValueAndStoreConfig(){
 	treehouses config add $configName $string
 }
 
+function updateIPAddress(){
+	local instanceName=$1
+	local publicIp=$2
+
+    local allConfig=$(getConfigAsJson $configName)
+	value=$(addKeyValue "$value" $instanceName publicIp $publicIp )
+	local string=$(stringfy "$value")
+	treehouses config add $configName $string
+}
+
 function storeConfigIntoTreehousesConfigAsStringfiedJson(){
 	local instanceName=$1
 	local keyName=$2
