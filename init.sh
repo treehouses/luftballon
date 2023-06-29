@@ -122,18 +122,6 @@ function usage {
         exit 1
 }
 
-function waitForOutput(){
-    local cmd=$1
-    local result=$(eval $cmd)
-    while [ -z "$result" ] || [ "$result" == "null" ]
-    do
-        echo "Checking..."
-        sleep 5
-        result=$(eval $cmd)
-    done
-    echo $result
-}
-
 while getopts 'n:pN:a:' OPTION; do
   case "$OPTION" in
     n)

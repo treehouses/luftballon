@@ -34,5 +34,5 @@ if [ "$instanceId" = "null" ]; then
 fi
 
 aws ec2 start-instances --instance-ids $instanceId
-publicIp=$(getLatestIpAddress $instanceId)
+publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
 updateIPAddress $balloonName $publicIp

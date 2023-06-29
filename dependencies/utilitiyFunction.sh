@@ -9,3 +9,15 @@ function filterInstancesByTag {
   echo "$jsonData" | jq '[.Reservations[].Instances[] | select(.Tags[]? | .Key=="Class" and .Value=="treehouses")]'
 }
 
+function waitForOutput(){
+    local cmd=$1
+    local result=$(eval $cmd)
+    while [ -z "$result" ] || [ "$result" == "null" ]
+    do
+        echo "Checking..."
+        sleep 5
+        result=$(eval $cmd)
+    done
+    echo $result
+}
+
