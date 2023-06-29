@@ -34,5 +34,12 @@ if [ "$instanceId" = "null" ]; then
 fi
 
 aws ec2 start-instances --instance-ids $instanceId
+
+echo "get the new ip address. The procedure might take time for a while"
 publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
+
+echo "the new ip address is $publicIp"
 updateIPAddress $balloonName $publicIp
+
+echo "open the new sshtunnel"
+openSSHTunnel $publicIp
