@@ -56,6 +56,16 @@ function addUDPPort() {
 		--cidr 0.0.0.0/0
 }
 
+function getNewPortinterval {
+  local portinterval=$1
+  local portint_offset=0
+  while grep -qs -e "M $((portinterval - 1))" -e "M $portinterval" -e "M $((portinterval + 1))" ./tunnel; do
+    portinterval=$((portinterval + 1))
+    portint_offset=$((portint_offset + 1))
+  done
+  echo $portinterval
+}
+
 function createSecurityGroups(){
 	aws ec2 create-security-group \
 		--group-name $groupName \
@@ -63,7 +73,7 @@ function createSecurityGroups(){
 
 	if [ -z "$portConfigArray" ]
 	then
-		portConfigArray="22 2222 2200"
+		portConfigArray="22 2222 $(getNewPortinterval 2200)"
 	fi
 
     portArray=($portConfigArray)
