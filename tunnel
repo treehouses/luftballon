@@ -1,0 +1,16 @@
+#!/bin/bash
+
+/usr/bin/autossh -f -T -N -q -4 -M 2200 \
+-R 2222:127.0.1.1:22 \
+-i /root/.ssh/rsa_id \
+root@35.173.178.197 # 2200
+
+/usr/bin/autossh -f -T -N -q -4 -M 2202 \
+-R 2222:127.0.1.1:22 \
+-i /root/.ssh/rsa_id \
+root@44.201.235.120 # 2200
+
+/usr/bin/autossh -f -T -N -q -4 -M 2204 \
+-R 2222:127.0.1.1:22 \
+-i /root/.ssh/rsa_id \
+root@44.201.235.120 # 2200
