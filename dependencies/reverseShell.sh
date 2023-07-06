@@ -4,10 +4,10 @@
 BASE=/home/pi
 
 sshkey=`treehouses sshtunnel key name | cut -d ' ' -f 5`
-monitorPort=2200
-sshtunnelPortArray=2222:22
-luftballonHostPort=2222
-serverPort=22
+#monitorPort=2200
+#sshtunnelPortArray=2222:22
+#luftballonHostPort=2222
+#serverPort=22
 
 function openNonDefaultSShtunnel(){
     local instanceIp=$1
@@ -48,8 +48,12 @@ function addKeyFingerprintToKnownHost(){
 }
 
 function openSSHTunnel(){
-
     local instanceIp=$1
+    local serverPort=$2
+    local luftballonHostPort=$3
+    local monitorPort=$4
+    local sshtunnelPortArray=$luftballonHostPort:$serverPort
+
     addKeyFingerprintToKnownHost $instanceIp
     treehouses sshtunnel key name $sshkey
     sleep 2

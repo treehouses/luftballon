@@ -196,7 +196,7 @@ echo "Will open ssh tunnel soon"
 isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
 echo "Opened ssh tunnel"
 
-openSSHTunnel $publicIp
+openSSHTunnel $publicIp $portConfigArray
 storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
 
 
