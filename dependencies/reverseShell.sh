@@ -68,7 +68,7 @@ function openSSHTunnel(){
     sleep 2
 
     treehouses sshtunnel add host "$monitorPort" root@"$instanceIp"
-    deleteUnusedSShtunnel $instanceIp $sshtunnelPortArray
+    #deleteUnusedSShtunnel $instanceIp $sshtunnelPortArray
     openNonDefaultSShtunnel $instanceIp $sshtunnelPortArray
 
     echo "Below sshtunnels are configured"
