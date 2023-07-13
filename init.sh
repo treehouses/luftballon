@@ -99,7 +99,7 @@ function createSecurityGroups(){
 }
 
 function createEc2(){
-	image="ami-07d02ee1eeb0c996c"
+    image="ami-01e5ff16fd6e8c542"
 	aws ec2 run-instances \
 		--count 1 \
 		--image-id $image \
