@@ -3,3 +3,4 @@
 *.conf
 
 dymmy.sh
+!vpn/templates/*.conf

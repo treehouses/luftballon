@@ -35,3 +35,8 @@ ssh -i /root/.ssh/$sshkey root@$publicIp "
     systemctl -f enable openvpn-server@server.service;
     systemctl start openvpn-server@server.service;
     systemctl status openvpn-server@server.service"
+
+
+ssh -i /root/.ssh/$sshkey root@$publicIp " 
+    iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE;
+    echo 1 > /proc/sys/net/ipv4/ip_forward"

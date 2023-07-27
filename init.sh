@@ -99,13 +99,15 @@ function createSecurityGroups(){
 }
 
 function createEc2(){
-    image="ami-01e5ff16fd6e8c542"
+    image="ami-0750fb43a63427eff"
+    #image="ami-01e5ff16fd6e8c542"
 	aws ec2 run-instances \
 		--count 1 \
 		--image-id $image \
 		--instance-type t2.micro \
 		--key-name $keyname \
 		--security-groups $groupName 
+        --user-data file://./setupIpTables.txt
 }
 
 function findData(){
