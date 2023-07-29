@@ -1,12 +1,14 @@
 mode=$1
 serverName=openvpn-server
 
+
 if [[ -n "$mode" && "$mode" != "default" && "$mode" != "secure" ]]; then
 then
     echo "Invalid mode: $mode. Mode must be 'secure', 'default', or empty."
     exit 1
 fi
 
+# Make pki, one master ca, and one server
 function makeVPNServer(){
     if [ "$mode" == "secure" ]
     then
