@@ -1,6 +1,13 @@
 
+mode=$1
 balloonName=$1
 manageConfigPath=$(pwd)
+
+if [[ -n "$mode" && "$mode" != "default" && "$mode" != "secure" ]]; then
+then
+    echo "Invalid mode: $mode. Mode must be 'secure', 'default', or empty."
+    exit 1
+fi
 
 source $manageConfigPath/../dependencies/config.sh
 source $manageConfigPath/../dependencies/utilitiyFunction.sh
@@ -23,7 +30,12 @@ publicIp=$(getValueByAttribute $balloonName publicIp)
 function makeClientConf(){
     clientName=$1
     fileName=$clientName.conf
-    cp $manageConfigPath/templates/client.conf /etc/openvpn/client/$fileName
+    if [ "$mode" == "secure" ]
+    then
+        cp $manageConfigPath/templates/clientSecure.conf /etc/openvpn/client/$fileName
+    else
+        cp $manageConfigPath/templates/client.conf /etc/openvpn/client/$fileName
+    fi
 
     sed -i '/ca ca.crt/d' /etc/openvpn/client/$fileName
     sed -i '/cert client.crt/d' /etc/openvpn/client/$fileName

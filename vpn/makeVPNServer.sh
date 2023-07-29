@@ -1,14 +1,22 @@
-
+mode=$1
 serverName=openvpn-server
 
-# Make pki, one master ca, one server, and one client
+if [[ -n "$mode" && "$mode" != "default" && "$mode" != "secure" ]]; then
+then
+    echo "Invalid mode: $mode. Mode must be 'secure', 'default', or empty."
+    exit 1
+fi
+
 function makeVPNServer(){
-    cp ./templates/server.conf /etc/openvpn/server/
+    if [ "$mode" == "secure" ]
+    then
+        cp ./templates/serverSecure.conf /etc/openvpn/server/
+    else
+        cp ./templates/server.conf /etc/openvpn/server/
+    fi
+    
     cd /usr/share/easy-rsa/
     cp vars.example vars
-    #echo "luftballon\nluftballon\nyes\n" | ./easyrsa init-pki
-    #echo "luftballon\nluftballon\nyes\n" | ./easyrsa build-ca nopass
-    #echo "luftballon\nluftballon\nyes\n" | ./easyrsa gen-req openvpn-server nopass
     ./easyrsa init-pki
     ./easyrsa build-ca nopass
     ./easyrsa gen-req $serverName nopass
@@ -54,3 +62,4 @@ function makeVPNServerAndStartVPNServer(){
 }
 
 makeVPNServerOnly
+

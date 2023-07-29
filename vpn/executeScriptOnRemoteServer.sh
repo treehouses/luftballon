@@ -1,6 +1,14 @@
 #!/bin/bash
 
 balloonName=$1
+mode=$2
+
+# Check the mode
+if [[ -n "$mode" && "$mode" != "default" && "$mode" != "secure" ]]; then
+    echo "Invalid mode: $mode. Mode must be 'secure', 'default', or empty."
+    exit 1
+fi
+
 manageConfigPath=$(pwd)
 
 source $manageConfigPath/../dependencies/config.sh
@@ -19,7 +27,6 @@ publicIp=$(getValueByAttribute $balloonName publicIp)
 
 echo $publicIp
 
-
 sshkey=`treehouses sshtunnel key name | cut -d ' ' -f 5`
 
 ssh -i /root/.ssh/$sshkey root@$publicIp "
@@ -37,6 +44,9 @@ ssh -i /root/.ssh/$sshkey root@$publicIp "
     systemctl status openvpn-server@server.service"
 
 
-ssh -i /root/.ssh/$sshkey root@$publicIp " 
-    iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE;
-    echo 1 > /proc/sys/net/ipv4/ip_forward"
+if [ "$mode" == "secure" ]
+then
+    ssh -i /root/.ssh/$sshkey root@$publicIp " 
+        iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE;
+        echo 1 > /proc/sys/net/ipv4/ip_forward"
+fi
