@@ -32,7 +32,7 @@ function makeClientConf(){
     fileName=$clientName.conf
     if [ "$mode" == "secure" ]
     then
-        cp $manageConfigPath/templates/clientSecure.conf /etc/openvpn/client/$fileName
+        cp $manageConfigPath/templates/clientSecure.conf /etc/openvpn/client/${clientName}Secure.conf
     else
         cp $manageConfigPath/templates/client.conf /etc/openvpn/client/$fileName
     fi
