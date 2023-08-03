@@ -7,6 +7,7 @@ then
     exit 1
 fi
 
+# Make pki, one master ca, and one server
 function makeVPNServer(){
     if [ "$mode" == "secure" ]
     then
