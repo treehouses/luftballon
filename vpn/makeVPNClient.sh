@@ -3,7 +3,7 @@ mode=$1
 balloonName=$1
 manageConfigPath=$(pwd)
 
-if [[ -n "$mode" && "$mode" != "default" && "$mode" != "secure" ]]; then
+if [[ -n "$mode" && "$mode" != "default" && "$mode" != "secure" ]];
 then
     echo "Invalid mode: $mode. Mode must be 'secure', 'default', or empty."
     exit 1

@@ -2,7 +2,7 @@ mode=$1
 serverName=openvpn-server
 
 
-if [[ -n "$mode" && "$mode" != "default" && "$mode" != "secure" ]]; then
+if [[ -n "$mode" && "$mode" != "default" && "$mode" != "secure" ]]; 
 then
     echo "Invalid mode: $mode. Mode must be 'secure', 'default', or empty."
     exit 1
