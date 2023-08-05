@@ -4,8 +4,8 @@ balloonName=$1
 mode=$2
 
 # Check the mode
-if [[ -n "$mode" && "$mode" != "default" && "$mode" != "secure" ]]; then
-    echo "Invalid mode: $mode. Mode must be 'secure', 'default', or empty."
+if [[ -n "$mode" && "$mode" != "default" && "$mode" != "proxy" ]]; then
+    echo "Invalid mode: $mode. Mode must be 'proxy', 'default', or empty."
     exit 1
 fi
 
@@ -32,7 +32,14 @@ sshkey=`treehouses sshtunnel key name | cut -d ' ' -f 5`
 ssh -i /root/.ssh/$sshkey root@$publicIp "
     apt update && apt upgrade &&  apt install -y openvpn"
 
-scp -i /root/.ssh/$sshkey /etc/openvpn/server/server.conf root@$publicIp:/etc/openvpn/server/
+
+if [ "$mode" == "proxy" ]
+then
+    scp -i /root/.ssh/$sshkey /etc/openvpn/server/serverProxy.conf root@$publicIp:/etc/openvpn/server/
+else
+    scp -i /root/.ssh/$sshkey /etc/openvpn/server/server.conf root@$publicIp:/etc/openvpn/server/
+fi
+
 
 ssh -i /root/.ssh/$sshkey root@$publicIp " 
     ipAddress=\$(ip a | grep -A 1 eth0 | awk '\$1 == \"inet\" {print \$2}' | sed -n 's/\([0-9\.]\+\).*/\1/p' ); 
@@ -44,7 +51,7 @@ ssh -i /root/.ssh/$sshkey root@$publicIp "
     systemctl status openvpn-server@server.service"
 
 
-if [ "$mode" == "secure" ]
+if [ "$mode" == "proxy" ]
 then
     ssh -i /root/.ssh/$sshkey root@$publicIp " 
         iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE;

@@ -3,9 +3,9 @@ mode=$1
 balloonName=$1
 manageConfigPath=$(pwd)
 
-if [[ -n "$mode" && "$mode" != "default" && "$mode" != "secure" ]];
+if [[ -n "$mode" && "$mode" != "default" && "$mode" != "proxy" ]];
 then
-    echo "Invalid mode: $mode. Mode must be 'secure', 'default', or empty."
+    echo "Invalid mode: $mode. Mode must be 'proxy', 'default', or empty."
     exit 1
 fi
 
@@ -30,9 +30,9 @@ publicIp=$(getValueByAttribute $balloonName publicIp)
 function makeClientConf(){
     clientName=$1
     fileName=$clientName.conf
-    if [ "$mode" == "secure" ]
+    if [ "$mode" == "proxy" ]
     then
-        cp $manageConfigPath/templates/clientSecure.conf /etc/openvpn/client/${clientName}Secure.conf
+        cp $manageConfigPath/templates/clientProxy.conf /etc/openvpn/client/${clientName}Proxy.conf
     else
         cp $manageConfigPath/templates/client.conf /etc/openvpn/client/$fileName
     fi
