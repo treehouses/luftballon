@@ -4,22 +4,22 @@
 BASE=/home/pi
 
 sshkey=`treehouses sshtunnel key name | cut -d ' ' -f 5`
-monitorPort=2200
-sshtunnelPortArray=2222:22
-luftballonHostPort=2222
-serverPort=22
+#monitorPort=2200
+#sshtunnelPortArray=2222:22
+#luftballonHostPort=2222
+#serverPort=22
 
 function openNonDefaultSShtunnel(){
-    instanceIp=$1
-    configuredSshTunnelPortArray=$2
-    defaultSshtunnelPortArray=$(getSshtunnelConfiguration | sed 's/\n//g'| sed 's/ /,/g' )
+    local instanceIp=$1
+    local configuredSshTunnelPortArray=("$2")
+    local defaultSshtunnelPortArray=($(getSshtunnelConfiguration | sed 's/\n//g'| sed 's/ /,/g' ))
 
     for _sshtunnelPortSet in "${configuredSshTunnelPortArray[@]}"; do
         if [ -z $(echo "$_sshtunnelPortSet" | grep "$defaultSshtunnelPortArray") ] 
         then
-            sshtunnelPortSet=($(echo $_sshtunnelPortSet | sed 's/:/ /'))
-            luftballonHosPport=${sshtunnelPortSet[0]}
-            serverPort=${sshtunnelPortSet[1]}
+            local sshtunnelPortSet=($(echo $_sshtunnelPortSet | sed 's/:/ /'))
+            local luftballonHosPport=${sshtunnelPortSet[0]}
+            local serverPort=${sshtunnelPortSet[1]}
             treehouses sshtunnel add port actual "$serverPort" "$luftballonHosPport" root@"$instanceIp"
         fi
     done
@@ -27,15 +27,15 @@ function openNonDefaultSShtunnel(){
 
 
 function deleteUnusedSShtunnel(){
-    instanceIp=$1
-    configuredSshTunnelPortArray=$2
-    defaultSshtunnelPortArray=($(getSshtunnelConfiguration | sed 's/\n//g'| sed 's/ /,/g' ))
+    local instanceIp=$1
+    local configuredSshTunnelPortArray="$2"
+    local defaultSshtunnelPortArray=($(getSshtunnelConfiguration | sed 's/\n//g'| sed 's/ /,/g' ))
 
     for _sshtunnelPortSet in "${defaultSshtunnelPortArray[@]}"; do
         if [ -z $(echo "$configuredSshTunnelPortArray" | grep "$_sshtunnelPortSet") ] 
         then
-            sshtunnelPortSet=($(echo $_sshtunnelPortSet | sed 's/:/ /'))
-            luftballonHostPort=${sshtunnelPortSet[0]}
+            local sshtunnelPortSet=($(echo $_sshtunnelPortSet | sed 's/:/ /'))
+            local luftballonHostPort=${sshtunnelPortSet[0]}
             treehouses sshtunnel remove port $luftballonHostPort root@"$instanceIp"
         fi
     done
@@ -43,13 +43,17 @@ function deleteUnusedSShtunnel(){
 
 
 function addKeyFingerprintToKnownHost(){
-    instanceIp=$1
+    local instanceIp=$1
     ssh-keyscan -H $instanceIp | grep ecdsa-sha2-nistp256 >> /home/pi/.ssh/known_hosts
 }
 
 function openSSHTunnel(){
+    local instanceIp=$1
+    local serverPort=$2
+    local luftballonHostPort=$3
+    local monitorPort=$4
+    local sshtunnelPortArray=$luftballonHostPort:$serverPort
 
-    instanceIp=$1
     addKeyFingerprintToKnownHost $instanceIp
     treehouses sshtunnel key name $sshkey
     sleep 2
@@ -64,13 +68,10 @@ function openSSHTunnel(){
     sleep 2
 
     treehouses sshtunnel add host "$monitorPort" root@"$instanceIp"
-    deleteUnusedSShtunnel $instanceIp $sshtunnelPortArray
+    #deleteUnusedSShtunnel $instanceIp $sshtunnelPortArray
     openNonDefaultSShtunnel $instanceIp $sshtunnelPortArray
 
     echo "Below sshtunnels are configured"
     treehouses sshtunnel ports
 
 }
-
-
-#treehouses sshtunnel add port actual "$serverPort" "$luftballonHostPort" root@"$instanceIp"

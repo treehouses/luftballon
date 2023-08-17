@@ -2,11 +2,12 @@
 
 manageConfigPath=$(pwd)
 source $manageConfigPath/dependencies/manageConfig.sh
+source $manageConfigPath/dependencies/config.sh
 
 BASE=/home/pi
 groupName=luftballons-sg
 
-instanceIp=$(extractValueFromTreehousesConfig instanceIp)
+instanceIp=$(getTreehousesConfigValue instanceIp)
 bastionsHostPort=$1
 serverPort=$2
 

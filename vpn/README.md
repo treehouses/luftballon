@@ -23,22 +23,46 @@ Execute the below function.
 1. To create a Master Certificate Authority and a Server Certificate, run the command './makeVPNServer.sh'.
 
    ```
-   ./makeVPNServer.sh
+   ./makeVPNServer.sh <ballonName> ['default'|'proxy']
    ```
+
+   The balloonName corresponds to the associated IP address.  
+   The balloonName is a required variable.
+
+   The second argument is optional.  
+   It determines the mode of the VPN.  
+   The current options are 'default' or 'proxy'.  
+   Without this argument, the default mode is selected.
 
 1. To start the VPN server on Luftballon, ensure that Luftballon is accessible and then run the command `./executeScriptOnRemoteServer.sh`.
 
    ```
-   ./executeScriptOnRemoteServer.sh
+   ./executeScriptOnRemoteServer.sh <ballonName> ['default'|'proxy']
    ```
+
+   The balloonName corresponds to the associated IP address.  
+   The balloonName is a required variable.
+
+   The second argument is optional.  
+   It determines the mode of the VPN.  
+   The current options are 'default' or 'proxy'.  
+   Without this argument, the default mode is selected.
 
 ### Start VPN Client Server
 
 1. To start the VPN client server, run the command `./makeVPNClient.sh` in your terminal.
 
    ```
-   ./makeVPNClient.sh
+   ./makeVPNClient.sh <ballonName> ['default'|'proxy']
    ```
+
+   The balloonName corresponds to the associated IP address.  
+   The balloonName is a required variable.
+
+   The second argument is optional.  
+   It determines the mode of the VPN.  
+   The current options are 'default' or 'proxy'.  
+   Without this argument, the default mode is selected.
 
 1. When prompted, answer 'Y' to the question:
 

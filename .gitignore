@@ -1,3 +1,6 @@
 /test
+
+#confs
 /vpn/conf/*
 *.conf
+!vpn/templates/*.conf

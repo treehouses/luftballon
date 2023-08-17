@@ -1,12 +1,13 @@
 
 manageConfigPath=$(pwd)
 source $manageConfigPath/dependencies/manageConfig.sh
+source $manageConfigPath/dependencies/config.sh
 
 luftballonHostPort=$1
 localHostPort=$2
 
-publicIp=$(extractValueFromTreehousesConfig publicIp)
-groupName=$(extractValueFromTreehousesConfig groupName)
+publicIp=$(getTreehousesConfigValue publicIp)
+groupName=$(getTreehousesConfigValue groupName)
 
 # port 2200 is used for monitor
 # port 2222 and 22 also must not be deleted, but these port is not explicitly 
@@ -67,7 +68,7 @@ function deletePortOnSecurityGroups(){
 deleteUnusedSShtunnel $publicIp $luftballonHostPort
 
 storeSshtunnelConfiguration
-sshtunnelArray=$(getArrayWithoutDuplicate $(extractValueFromTreehousesConfig sshtunnelArray | sed 's/:/,/g' | sed 's/,/ /g') )
+sshtunnelArray=$(getArrayWithoutDuplicate $(getTreehousesConfigValue sshtunnelArray | sed 's/:/,/g' | sed 's/,/ /g') )
 
 deletePortOnSecurityGroups $localHostPort $sshtunnelArray
 deletePortOnSecurityGroups $luftballonHostPort $sshtunnelArray
