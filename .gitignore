@@ -1,6 +1,6 @@
 /test
+
+#confs
 /vpn/conf/*
 *.conf
-
-dymmy.sh
 !vpn/templates/*.conf
