@@ -1,0 +1,26 @@
+name: look around
+
+on: 
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: open seasame
+        run: |
+          #sudo apt update  
+          sudo apt install tor
+          sudo npm install -g @treehouses/cli
+          sudo treehouses tor add 22
+          sudo treehouses tor
+          sudo treehouses tor notice now
+          sudo treehouses sshkey github adduser dogi
+          sudo treehouses sshkey github adduser rjpadilla
+          sudo treehouses sshkey github adduser jlkwong
+          echo "shh only dreams"
+          sleep 1200
+            
