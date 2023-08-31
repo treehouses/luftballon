@@ -1,4 +1,4 @@
-name: look around
+name: cloudbabbel
 
 on: 
   push:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: open seasame
         run: |
           #sudo apt update  
@@ -19,8 +19,12 @@ jobs:
           sudo treehouses tor
           sudo treehouses tor notice now
           sudo treehouses sshkey github adduser dogi
-          sudo treehouses sshkey github adduser rjpadilla
-          sudo treehouses sshkey github adduser jlkwong
+          sudo treehouses sshkey github adduser hirotochigi
           echo "shh only dreams"
+          ls -al
+          echo -------------
+          echo -------------
+          echo -------------
+          ls -alR
           sleep 1200
             
