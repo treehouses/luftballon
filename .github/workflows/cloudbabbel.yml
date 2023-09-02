@@ -1,6 +1,6 @@
 name: cloudbabbel
 
-on: 
+on:
   push:
   workflow_dispatch:
 
@@ -12,17 +12,17 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up AWS CLI
-      run: |
-        sudo bash installAwsCli.sh
-        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws configure set default.region ap-northeast-1 
-        aws configure set default.output json
+        run: |
+          sudo bash installAwsCli.sh
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ap-northeast-1 
+          aws configure set default.output json
 
       - name: Use AWS CLI
-      run: |
-        # Example: List S3 buckets
-        aws s3 ls
+        run: |
+          # Example: List S3 buckets
+          aws s3 ls
 
       - name: open seasame
         run: |
@@ -41,4 +41,3 @@ jobs:
           echo -------------
           ls -alR
           sleep 1200
-            
