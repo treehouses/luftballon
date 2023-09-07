@@ -30,7 +30,7 @@ jobs:
 
       - name: Start luftballon
         run: |
-          sudo ./init.sh
+          sudo bash init.sh
 
       - name: open seasame
         run: |
@@ -53,4 +53,4 @@ jobs:
       - name: Cleanup Step
         if: cancelled() || failure()
         run: |
-          sudo ./delete.sh luftballon
+          sudo bash delete.sh luftballon
