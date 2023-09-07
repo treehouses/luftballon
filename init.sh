@@ -17,7 +17,9 @@ udpPortConfigArray=
 
 echo hello1
 publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
-echo hello2
+echo "$publickey key name"
+ls ./
+ls ~/.ssh/
 
 keyname=
 groupName=luftballons-sg
