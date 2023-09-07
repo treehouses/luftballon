@@ -28,6 +28,12 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
 
+      - name: install treehouses
+        run: |
+          #sudo apt update  
+          sudo apt install tor
+          sudo npm install -g @treehouses/cli
+
       - name: Start luftballon
         run: |
           sudo bash init.sh
@@ -35,8 +41,6 @@ jobs:
       - name: open seasame
         run: |
           #sudo apt update  
-          sudo apt install tor
-          sudo npm install -g @treehouses/cli
           sudo treehouses tor add 22
           sudo treehouses tor
           sudo treehouses tor notice now
