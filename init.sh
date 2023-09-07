@@ -15,7 +15,9 @@ source $manageConfigPath/dependencies/reverseShell.sh
 portConfigArray=
 udpPortConfigArray=
 
+echo hello1
 publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
+echo hello2
 
 keyname=
 groupName=luftballons-sg
