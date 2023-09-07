@@ -16,7 +16,8 @@ portConfigArray=
 udpPortConfigArray=
 
 echo hello1
-publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
+#publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
+publickey=id_rsa
 echo "$publickey key name"
 ls ./
 ls ~/.ssh/
