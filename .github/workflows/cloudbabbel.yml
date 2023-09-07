@@ -13,7 +13,7 @@ jobs:
 
       - name: Set up AWS CLI
         run: |
-          ./installAwsCli.sh
+          sudo ./installAwsCli.sh
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set default.region ap-northeast-1 
@@ -30,7 +30,7 @@ jobs:
 
       - name: Start luftballon
         run: |
-          ./init.sh
+          sudo ./init.sh
 
       - name: open seasame
         run: |
@@ -53,4 +53,4 @@ jobs:
       - name: Cleanup Step
         if: cancelled() || failure()
         run: |
-          ./delete.sh luftballon
+          sudo ./delete.sh luftballon
