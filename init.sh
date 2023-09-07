@@ -14,32 +14,30 @@ source $manageConfigPath/dependencies/reverseShell.sh
 
 portConfigArray=
 udpPortConfigArray=
+keyPath="~/.ssh"
 
-echo hello1
-#publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
-publickey=id_rsa
-echo "$publickey key name"
-ls ./
-ls ~/.ssh/
+publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
 
 keyname=
 groupName=luftballons-sg
 instanceName=luftballon
-checkSSH=~/.ssh/$publickey
+checkSSH=$keyPath/$publickey
 
 aws --version || ( echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1 )
 
-if test ! -f "$checkSSH"; then
-	echo "Run 'ssh-keygen' first, with an empty passphrase for no passphrase. Missing ssh key." && exit 1
-fi
+function checkSshKey(){
+	if test ! -f "$checkSSH"; then
+		echo "Run 'ssh-keygen' first, with an empty passphrase for no passphrase. Missing ssh key." && exit 1
+	fi
+}
 
 function importSshKey()
 {
-    if [[ -f ~/.ssh/$publickey ]]
+    if [[ -f $keyPath/$publickey ]]
     then
-        aws ec2 import-key-pair --key-name "$keyname" --public-key-material fileb://~/.ssh/$publickey  
+        aws ec2 import-key-pair --key-name "$keyname" --public-key-material fileb://$keyPath/$publickey  
     else
-        echo 'ssh key pair (~/.ssh/$publickey) do not exist ~/.ssh/$publickey'
+        echo 'ssh key pair ($keyPath/$publickey) do not exist $keyPath/$publickey'
         echo 'Please generate the ssh key by the commad "ssh-keygen -t rsa"'
         exit 1
     fi
@@ -139,7 +137,7 @@ function usage {
         exit 1
 }
 
-while getopts 'n:pN:a:' OPTION; do
+while getopts 'n:pN:a:g:' OPTION; do
   case "$OPTION" in
     n)
       keyname=$OPTARG
@@ -161,6 +159,9 @@ while getopts 'n:pN:a:' OPTION; do
 	  instanceName=$OPTARG
       keyname=$OPTARG
       ;;
+	g)
+	  keyPath="$(pwd)"
+	  ;;
     ?)
       usage
       ;;
@@ -168,6 +169,7 @@ while getopts 'n:pN:a:' OPTION; do
 done
 shift "$(($OPTIND -1))"
 
+checkSshKey
 
 if [ -z $keyname ]
 then
