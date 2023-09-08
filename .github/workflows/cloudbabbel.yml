@@ -36,10 +36,6 @@ jobs:
           sudo apt install tor
           sudo npm install -g @treehouses/cli
 
-      - name: Start luftballon
-        run: |
-          sudo bash init.sh -g
-
       - name: open seasame
         run: |
           #sudo apt update  
