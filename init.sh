@@ -137,7 +137,7 @@ function usage {
         exit 1
 }
 
-while getopts 'n:pN:a:g:' OPTION; do
+while getopts 'n:pN:a:g' OPTION; do
   case "$OPTION" in
     n)
       keyname=$OPTARG

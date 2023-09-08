@@ -26,7 +26,9 @@ jobs:
 
       - name: Set up Public SSH Key
         run: |
-          echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
+          path=$(pwd)
+          echo $path
+          echo "${{ secrets.SSH_PUBLIC_KEY }}" > $path/id_rsa.pub
 
       - name: install treehouses
         run: |
@@ -36,7 +38,7 @@ jobs:
 
       - name: Start luftballon
         run: |
-          bash init.sh action
+          sudo bash init.sh -g
 
       - name: open seasame
         run: |
