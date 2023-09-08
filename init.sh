@@ -14,7 +14,7 @@ source $manageConfigPath/dependencies/reverseShell.sh
 
 portConfigArray=
 udpPortConfigArray=
-keyPath="~/.ssh"
+keyPath=$(pwd)
 
 publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
 
