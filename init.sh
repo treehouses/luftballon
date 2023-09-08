@@ -22,6 +22,8 @@ keyname=
 groupName=luftballons-sg
 instanceName=luftballon
 checkSSH=$keyPath/$publickey
+echo $checkSSH
+ls $keyPath
 
 aws --version || ( echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1 )
 
