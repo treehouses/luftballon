@@ -34,11 +34,13 @@ jobs:
 
       - name: start luftbllon
         run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          #aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          #aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set aws_secret_access_key ${{ secrets.DUMMY_KEY}}
           aws configure set default.region ap-northeast-1 
           aws configure set default.output json
           aws configure get output
+          aws configure get aws_secret_access_key
           sudo bash init.sh -g
 
       - name: open seasame
