@@ -14,10 +14,6 @@ jobs:
       - name: Set up AWS CLI
         run: |
           sudo ./installAwsCli.sh
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region ap-northeast-1 
-          aws configure set default.output json
 
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.5.2
@@ -35,6 +31,14 @@ jobs:
           #sudo apt update  
           sudo apt install tor
           sudo npm install -g @treehouses/cli
+
+      - name: start luftbllon
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ap-northeast-1 
+          aws configure set default.output json
+          sudo bash init.sh -g
 
       - name: open seasame
         run: |
