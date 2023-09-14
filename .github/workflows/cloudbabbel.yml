@@ -11,10 +11,6 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
 
-      - name: Set up AWS CLI
-        run: |
-          sudo ./installAwsCli.sh
-
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.5.2
         with:
@@ -35,7 +31,7 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v1.7.0
         with:
-          role-to-assume: <arn:aws:iam::885416451907:oidc-provider/token.actions.githubusercontent.com> #change to reflect your IAM role’s ARN
+          role-to-assume: arn:aws:iam::885416451907:oidc-provider/token.actions.githubusercontent.com #change to reflect your IAM role’s ARN
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ap-northeast-1
 
