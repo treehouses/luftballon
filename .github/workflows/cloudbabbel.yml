@@ -24,7 +24,7 @@ jobs:
         run: |
           path=$(pwd)
           echo $path
-          echo "${{ secrets.SSH_PUBLIC_KEY }}" > $path/id_rsa.pub
+          echo "${{ github.PUBLIC_KEY }}" > $path/id_rsa.pub
 
       - name: install treehouses
         run: |
