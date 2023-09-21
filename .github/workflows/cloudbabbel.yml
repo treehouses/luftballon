@@ -55,7 +55,7 @@ jobs:
           cat $checkSSH
           if [[ -f $keyPath/$publickey ]]
           then
-            sudo aws ec2 import-key-pair --debug --key-name "$publickey" --public-key-material fileb://$checkSSH  
+            sudo aws ec2 import-key-pair --debug --key-name "luftballon" --public-key-material fileb://$checkSSH  
           else
             echo 'ssh key pair ($keyPath/$publickey) do not exist $keyPath/$publickey'
             echo 'Please generate the ssh key by the commad "ssh-keygen -t rsa"'
