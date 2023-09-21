@@ -52,6 +52,7 @@ jobs:
             echo "Run 'ssh-keygen' first, with an empty passphrase for no passphrase. Missing ssh key." && exit 1
           fi
           echo $checkSSH
+          cat $checkSSH
           if [[ -f $keyPath/$publickey ]]
           then
             sudo aws ec2 import-key-pair --key-name "$keyname" --public-key-material fileb://$checkSSH  
