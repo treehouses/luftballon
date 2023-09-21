@@ -47,15 +47,12 @@ jobs:
           sudo treehouses sshtunnel key name | cut -d ' ' -f 5
           publickey=`sudo treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
           keyPath=$(pwd)
-          checkSSH=$keyPath/$publickey
-          echo $checkSSH
           if test ! -f "$checkSSH"; then
             echo "Run 'ssh-keygen' first, with an empty passphrase for no passphrase. Missing ssh key." && exit 1
           fi
-          echo $checkSSH
           if [[ -f $keyPath/$publickey ]]
           then
-            aws ec2 import-key-pair --key-name "$keyname" --public-key-material fileb://$keyPath/$publickey  
+            aws ec2 import-key-pair --key-name "$keyname" --public-key-material fileb:///home/runner/work/luftballon/luftballon/id_rsa.pub  
           else
             echo 'ssh key pair ($keyPath/$publickey) do not exist $keyPath/$publickey'
             echo 'Please generate the ssh key by the commad "ssh-keygen -t rsa"'
