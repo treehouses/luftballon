@@ -43,7 +43,7 @@ jobs:
         run: |
           aws sts get-caller-identity
           aws ec2 describe-security-groups
-          `treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
+          treehouses sshtunnel key name | cut -d ' ' -f 5
           publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
           keyPath=$(pwd)
           checkSSH=$keyPath/$publickey
