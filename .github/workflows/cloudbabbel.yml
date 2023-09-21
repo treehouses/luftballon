@@ -43,9 +43,9 @@ jobs:
         run: |
           aws sts get-caller-identity
 
-      - name: start luftbllon
-        run: |
-          sudo bash init.sh -g
+      #- name: start luftbllon
+      #  run: |
+      #    sudo bash init.sh -g
 
       - name: open seasame
         run: |
