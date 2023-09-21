@@ -42,7 +42,7 @@ jobs:
       - name: Sts GetCallerIdentity
         run: |
           aws sts get-caller-identity
-          aws ec2 describe-security-groups
+          aws ec2 describe-key-pairs
           sudo treehouses sshtunnel key name
           sudo treehouses sshtunnel key name | cut -d ' ' -f 5
           publickey=`sudo treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
