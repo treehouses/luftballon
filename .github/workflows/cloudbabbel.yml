@@ -42,10 +42,11 @@ jobs:
       - name: Sts GetCallerIdentity
         run: |
           aws sts get-caller-identity
+          aws ec2 describe-security-groups
 
-      #- name: start luftbllon
-      #  run: |
-      #    sudo bash init.sh -g
+      - name: start luftbllon
+        run: |
+          sudo bash init.sh -g
 
       - name: open seasame
         run: |
