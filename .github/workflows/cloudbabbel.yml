@@ -24,7 +24,7 @@ jobs:
         run: |
           path=$(pwd)
           echo $path
-          echo "${{ env.PUBLIC_KEY }}" > $path/id_rsa.pub
+          echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD2ttYO43o1zv0zfixHW4LyZcOF5P3oNWdVespIkE74ouWtSxmLOJW9Hl5k3X4xpA4TeLT5m6tHyc1GRCxgG2YVudOqhf5QD5lOergHPGR+iM4HjnxEFCiNN4FoEPef+l7Bizr6sNQvbkeA2UL7MFNecDgSOtjrO9SBu8S1BboGvIos2kzi+bot+J7w3Zb/XbFWHiCQDT+s7YZb6D7EQ01HCx2UQxnhVez/oxbqVkW4OFMJp7tcK4DU0qWaoZ2//sCVxepYhSqL6biI0JlWN76uksgXAb2oU4x2nCG+80RcypVasv59IFY4tojSmg/q/Y08z40J+XunHXnuiZ3yzsSP root@treehouses" > $path/id_rsa.pub
 
       - name: install treehouses
         run: |
