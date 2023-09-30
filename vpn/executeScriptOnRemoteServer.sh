@@ -35,7 +35,7 @@ ssh -i /root/.ssh/$sshkey root@$publicIp "
 
 if [ "$mode" == "proxy" ]
 then
-    scp -i /root/.ssh/$sshkey /etc/openvpn/server/serverProxy.conf root@$publicIp:/etc/openvpn/server/
+    scp -i /root/.ssh/$sshkey /etc/openvpn/server/serverProxy.conf root@$publicIp:/etc/openvpn/server/server.conf
 else
     scp -i /root/.ssh/$sshkey /etc/openvpn/server/server.conf root@$publicIp:/etc/openvpn/server/
 fi
