@@ -1,5 +1,11 @@
+#!/bin/bash
+
+source $manageConfigPath/../dependencies/createDirectories.sh
+
 mode=$1
 serverName=openvpn-server
+
+createDirectories
 
 if [[ -n "$mode" && "$mode" != "default" && "$mode" != "proxy" ]]; 
 then
