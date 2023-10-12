@@ -31,6 +31,18 @@ publicIp=$(getValueByAttribute $balloonName publicIp)
 
 createDirectories
 
+function getClientConfName(){
+    clientName=$1
+    defaultName=$clientName.conf
+    proxyName=${clientName}Proxy.conf
+    if [ "$mode" == "proxy" ]
+    then
+        echo $proxyName
+    else
+        echo $defaultName
+    fi
+}
+
 function makeClientConf(){
     clientName=$1
     defaultName=$clientName.conf
@@ -94,15 +106,16 @@ function makeTlsAuthInline(){
 
 function addIPAddress(){
     fileName=$1
-    sed -i  "s/my-server-1/$publicIp/" /etc/openvpn/client/$fileName.conf
+    sed -i  "s/my-server-1/$publicIp/" /etc/openvpn/client/$fileName
 }
 
 function makeClientCertificate(){
     client=$1
     makeClient $client
     makeTlsAuthInline $client
-    makeClientConf $client
-    addIPAddress $client
+    fileName=$(getClientConfName $client)
+    makeClientConf $fileName
+    addIPAddress $fileName
 }
 
 function checkFile(){
@@ -159,7 +172,8 @@ function getClientName(){
 
 function makeClientConfig(){
     client=$(getClientName)
-    checkFile $client
+    fileName=$(getClientConfName $client)
+    checkFile $fileName
     deleteEasytlsIClientnline $client
     cd /usr/share/easy-rsa/
     makeClientCertificate $client
@@ -167,7 +181,8 @@ function makeClientConfig(){
 
 function makeClientConfigAndStart(){
     client=$(getClientName)
-    checkFile $client
+    fileName=$(getClientConfName $client)
+    checkFile $fileName
     deleteEasytlsIClientnline $client
     cd /usr/share/easy-rsa/
     makeClientCertificate $client
