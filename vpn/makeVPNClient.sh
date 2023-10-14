@@ -114,7 +114,6 @@ function makeClientCertificate(){
     makeClient $client
     makeTlsAuthInline $client
     fileName=$(getClientConfName $client)
-    makeClientConf $fileName
     addIPAddress $fileName
 }
 
