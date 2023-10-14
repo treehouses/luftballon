@@ -34,8 +34,8 @@ ssh -i /root/.ssh/$sshkey root@$publicIp "
 
 function getServerConfName(){
     serverName=server
-    defaultName=$clientName.conf
-    proxyName=${clientName}Proxy.conf
+    defaultName=$serverName.conf
+    proxyName=${serverName}Proxy.conf
     if [ "$mode" == "proxy" ]
     then
         echo $proxyName
