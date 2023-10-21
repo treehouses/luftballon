@@ -43,6 +43,7 @@ function getClientConfName(){
     fi
 }
 
+#
 function makeClientConf(){
     clientName=$1
     defaultName=$clientName.conf
@@ -113,6 +114,7 @@ function makeClientCertificate(){
     client=$1
     makeClient $client
     makeTlsAuthInline $client
+    makeClientConf $client
     fileName=$(getClientConfName $client)
     addIPAddress $fileName
 }
@@ -171,8 +173,7 @@ function getClientName(){
 
 function makeClientConfig(){
     client=$(getClientName)
-    fileName=$(getClientConfName $client)
-    checkFile $fileName
+    checkFile $client
     deleteEasytlsIClientnline $client
     cd /usr/share/easy-rsa/
     makeClientCertificate $client
@@ -180,8 +181,7 @@ function makeClientConfig(){
 
 function makeClientConfigAndStart(){
     client=$(getClientName)
-    fileName=$(getClientConfName $client)
-    checkFile $fileName
+    checkFile $client
     deleteEasytlsIClientnline $client
     cd /usr/share/easy-rsa/
     makeClientCertificate $client

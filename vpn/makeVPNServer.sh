@@ -14,9 +14,9 @@ then
 fi
 
 function getServerConfName(){
-    serverName=server
-    defaultName=$serverName.conf
-    proxyName=${serverName}Proxy.conf
+    localServerName=server
+    defaultName=$localServerName.conf
+    proxyName=${localServerName}Proxy.conf
     if [ "$mode" == "proxy" ]
     then
         echo $proxyName
@@ -39,11 +39,13 @@ function makeVPNServer(){
     ./easyrsa gen-dh
 }
 
+#
 function makeTlsKey(){
     ./easytls init-tls
     ./easytls build-tls-auth
 }
 
+#
 function makeServerConfiguration(){
     serverConfName=$(getServerConfName)
     ./easytls ita $serverName 0
@@ -54,6 +56,7 @@ function makeServerConfiguration(){
     echo \<\/dh\> >> /etc/openvpn/server/$serverConfName
 }
 
+#
 function startVPNServer(){
     # Start openvpn-server
     status=$(systemctl status openvpn-server@server.service)
