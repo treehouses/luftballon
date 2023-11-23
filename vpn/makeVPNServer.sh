@@ -1,5 +1,11 @@
+#!/bin/bash
+
+source $manageConfigPath/../dependencies/createDirectories.sh
+
 mode=$1
 serverName=openvpn-server
+
+createDirectories
 
 if [[ -n "$mode" && "$mode" != "default" && "$mode" != "proxy" ]]; 
 then
@@ -7,14 +13,22 @@ then
     exit 1
 fi
 
-# Make pki, one master ca, and one server
-function makeVPNServer(){
+function getServerConfName(){
+    localServerName=server
+    defaultName=$localServerName.conf
+    proxyName=${localServerName}Proxy.conf
     if [ "$mode" == "proxy" ]
     then
-        cp ./templates/serverProxy.conf /etc/openvpn/server/
+        echo $proxyName
     else
-        cp ./templates/server.conf /etc/openvpn/server/
+        echo $defaultName
     fi
+}
+
+# Make pki, one master ca, and one server
+function makeVPNServer(){
+    serverConfName=$(getServerConfName)
+    cp ./templates/$serverConfName /etc/openvpn/server/
     
     cd /usr/share/easy-rsa/
     cp vars.example vars
@@ -25,20 +39,24 @@ function makeVPNServer(){
     ./easyrsa gen-dh
 }
 
+#
 function makeTlsKey(){
     ./easytls init-tls
     ./easytls build-tls-auth
 }
 
+#
 function makeServerConfiguration(){
+    serverConfName=$(getServerConfName)
     ./easytls ita $serverName 0
-    cat /usr/share/easy-rsa/pki/easytls/$serverName.inline  >> /etc/openvpn/server/server.conf
-    sed -i '/dh none/d' /etc/openvpn/server/server.conf
-    echo \<dh\> >> /etc/openvpn/server/server.conf
-    cat /usr/share/easy-rsa/pki/dh.pem >> /etc/openvpn/server/server.conf
-    echo \<\/dh\> >> /etc/openvpn/server/server.conf
+    cat /usr/share/easy-rsa/pki/easytls/$serverName.inline  >> /etc/openvpn/server/$serverConfName
+    sed -i '/dh none/d' /etc/openvpn/server/$serverConfName
+    echo \<dh\> >> /etc/openvpn/server/$serverConfName
+    cat /usr/share/easy-rsa/pki/dh.pem >> /etc/openvpn/server/$serverConfName
+    echo \<\/dh\> >> /etc/openvpn/server/$serverConfName
 }
 
+#
 function startVPNServer(){
     # Start openvpn-server
     status=$(systemctl status openvpn-server@server.service)

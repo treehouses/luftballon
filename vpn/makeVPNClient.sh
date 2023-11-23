@@ -1,3 +1,4 @@
+#!/bin/bash
 
 mode=$1
 balloonName=$1
@@ -20,6 +21,7 @@ source $manageConfigPath/../dependencies/securitygroupFunction.sh
 source $manageConfigPath/../dependencies/manageConfig.sh
 source $manageConfigPath/../dependencies/sshtunnelFunction.sh
 source $manageConfigPath/../dependencies/reverseShell.sh
+source $manageConfigPath/../dependencies/createDirectories.sh
 
 source getRunningVPNEntityConfName.sh
 source deleteEasytlsIClientnline.sh
@@ -27,24 +29,49 @@ source deleteEasytlsIClientnline.sh
 startpath=$(pwd)
 publicIp=$(getValueByAttribute $balloonName publicIp)
 
-function makeClientConf(){
+createDirectories
+
+function getClientConfName(){
     clientName=$1
-    fileName=$clientName.conf
+    defaultName=$clientName.conf
+    proxyName=${clientName}Proxy.conf
     if [ "$mode" == "proxy" ]
     then
-        cp $manageConfigPath/templates/clientProxy.conf /etc/openvpn/client/${clientName}Proxy.conf
+        echo $proxyName
     else
-        cp $manageConfigPath/templates/client.conf /etc/openvpn/client/$fileName
+        echo $defaultName
+    fi
+}
+
+#
+function makeClientConf(){
+    clientName=$1
+    defaultName=$clientName.conf
+    proxyName=${clientName}Proxy.conf
+
+    if [ "$mode" == "proxy" ]
+    then
+        cp $manageConfigPath/templates/clientProxy.conf /etc/openvpn/client/$proxyName
+        sed -i '/ca ca.crt/d' /etc/openvpn/client/$proxyName
+        sed -i '/cert client.crt/d' /etc/openvpn/client/$proxyName
+        sed -i '/key client.key/d' /etc/openvpn/client/$proxyName
+        sed -i '/tls-auth ta.key 1/d' /etc/openvpn/client/$proxyName
+
+        echo '' >> /etc/openvpn/client/$proxyName
+        cat /usr/share/easy-rsa/pki/easytls/$clientName.inline >> /etc/openvpn/client/$proxyName
+        cp /etc/openvpn/client/$proxyName $startpath/$proxyName
+    else
+        cp $manageConfigPath/templates/client.conf /etc/openvpn/client/$defaultName
+        sed -i '/ca ca.crt/d' /etc/openvpn/client/$defaultName
+        sed -i '/cert client.crt/d' /etc/openvpn/client/$defaultName
+        sed -i '/key client.key/d' /etc/openvpn/client/$defaultName
+        sed -i '/tls-auth ta.key 1/d' /etc/openvpn/client/$defaultName
+
+        echo '' >> /etc/openvpn/client/$defaultName
+        cat /usr/share/easy-rsa/pki/easytls/$clientName.inline >> /etc/openvpn/client/$defaultName
+        cp /etc/openvpn/client/$defaultName $startpath/$defaultName
     fi
 
-    sed -i '/ca ca.crt/d' /etc/openvpn/client/$fileName
-    sed -i '/cert client.crt/d' /etc/openvpn/client/$fileName
-    sed -i '/key client.key/d' /etc/openvpn/client/$fileName
-    sed -i '/tls-auth ta.key 1/d' /etc/openvpn/client/$fileName
-
-    echo '' >> /etc/openvpn/client/$fileName
-    cat /usr/share/easy-rsa/pki/easytls/$clientName.inline >> /etc/openvpn/client/$fileName
-    cp /etc/openvpn/client/$fileName $startpath/$fileName
 }
 
 
@@ -80,7 +107,7 @@ function makeTlsAuthInline(){
 
 function addIPAddress(){
     fileName=$1
-    sed -i  "s/my-server-1/$publicIp/" /etc/openvpn/client/$fileName.conf
+    sed -i  "s/my-server-1/$publicIp/" /etc/openvpn/client/$fileName
 }
 
 function makeClientCertificate(){
@@ -88,7 +115,8 @@ function makeClientCertificate(){
     makeClient $client
     makeTlsAuthInline $client
     makeClientConf $client
-    addIPAddress $client
+    fileName=$(getClientConfName $client)
+    addIPAddress $fileName
 }
 
 function checkFile(){

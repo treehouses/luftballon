@@ -32,13 +32,21 @@ sshkey=`treehouses sshtunnel key name | cut -d ' ' -f 5`
 ssh -i /root/.ssh/$sshkey root@$publicIp "
     apt update && apt upgrade &&  apt install -y openvpn"
 
+function getServerConfName(){
+    serverName=server
+    defaultName=$serverName.conf
+    proxyName=${serverName}Proxy.conf
+    if [ "$mode" == "proxy" ]
+    then
+        echo $proxyName
+    else
+        echo $defaultName
+    fi
+}
 
-if [ "$mode" == "proxy" ]
-then
-    scp -i /root/.ssh/$sshkey /etc/openvpn/server/serverProxy.conf root@$publicIp:/etc/openvpn/server/
-else
-    scp -i /root/.ssh/$sshkey /etc/openvpn/server/server.conf root@$publicIp:/etc/openvpn/server/
-fi
+serverConfName=$(getServerConfName)
+
+scp -i /root/.ssh/$sshkey /etc/openvpn/server/$serverConfName root@$publicIp:/etc/openvpn/server/server.conf
 
 
 ssh -i /root/.ssh/$sshkey root@$publicIp " 
