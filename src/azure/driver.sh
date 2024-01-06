@@ -3,19 +3,17 @@
 source config.sh
 source loadScripts.sh
 
-usage() {
-    echo "Usage: $0 [command]"
-    echo "Commands:"
-    echo "   init    - Initialize and store new credentials"
-    echo "   update  - Update existing credentials"
-    echo "   show    - Display current credentials"
-    echo "   login   - Login azure as service-principal"
+rootUsage() {
+    echo "Usage: $0 [command group] [command]"
+    echo "Command groups:"
+    echo "   credential - Manage credentials (init, update, show)"
+    echo "   auth       - Authentication management (login)"
     exit 1
 }
 
 # Check if at least one argument is provided
 if [ $# -eq 0 ]; then
-    usage
+    rootUsage
 fi
 
 # Execute the appropriate command
@@ -23,11 +21,11 @@ case "$1" in
     credential)
         credential "$2"
         ;;
-    login)
-        login
+    auth)
+        auth "$2"
         ;;
     *)
         echo "Error: Invalid command."
-        usage
+        rootUsage
         ;;
 esac
