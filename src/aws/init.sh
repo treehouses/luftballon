@@ -134,73 +134,73 @@ function usage {
         exit 1
 }
 
-while getopts 'n:pN:a:' OPTION; do
-  case "$OPTION" in
-    n)
-      keyname=$OPTARG
-      ;;
-    p)
-      portConfigArray=$(getArrayValueAsStringByKey $instanceName tcpPortArray)
-      udpPortConfigArray=$(getArrayValueAsStringByKey $instanceName udpPortArray)
-	  if [ -z "$portConfigArray" ]
-	  then
-	    echo "There is no stored port numbers. The default port numbers are used"
-	  fi
-	  if [ -z "$udpPortConfigArray" ]
-	  then
-	    echo "There is no stored udp port numbers. The default port numbers are used"
-	  fi
-      ;;
-	a)
-	  groupName=$OPTARG-sg
-	  instanceName=$OPTARG
-      keyname=$OPTARG
-      ;;
-    ?)
-      usage
-      ;;
-  esac
-done
-shift "$(($OPTIND -1))"
+function init {
+	while getopts 'n:pN:a:' OPTION; do
+	case "$OPTION" in
+		n)
+		keyname=$OPTARG
+		;;
+		p)
+		portConfigArray=$(getArrayValueAsStringByKey $instanceName tcpPortArray)
+		udpPortConfigArray=$(getArrayValueAsStringByKey $instanceName udpPortArray)
+		if [ -z "$portConfigArray" ]
+		then
+			echo "There is no stored port numbers. The default port numbers are used"
+		fi
+		if [ -z "$udpPortConfigArray" ]
+		then
+			echo "There is no stored udp port numbers. The default port numbers are used"
+		fi
+		;;
+		a)
+		groupName=$OPTARG-sg
+		instanceName=$OPTARG
+		keyname=$OPTARG
+		;;
+		?)
+		usage
+		;;
+	esac
+	done
+	shift "$(($OPTIND -1))"
 
 
-if [ -z $keyname ]
-then
-	keyname=luftballon
-fi
+	if [ -z $keyname ]
+	then
+		keyname=luftballon
+	fi
 
 
-keyName=$(importSshKey | getValueByKeyword KeyName )
+	keyName=$(importSshKey | getValueByKeyword KeyName )
 
-if [ -z $keyName ]
-then 
-	exit 1
-fi
+	if [ -z $keyName ]
+	then 
+		exit 1
+	fi
 
-echo "Success to add ssh key: $keyName"
+	echo "Success to add ssh key: $keyName"
 
-createSecurityGroups
-echo "Add security group"
+	createSecurityGroups
+	echo "Add security group"
 
-instanceId=$(createEc2 | getValueByKeyword InstanceId )
-echo "Create EC2 Instance"
-echo "Instance id is $instanceId"
-
-
-aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=$instanceName
-aws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
+	instanceId=$(createEc2 | getValueByKeyword InstanceId )
+	echo "Create EC2 Instance"
+	echo "Instance id is $instanceId"
 
 
-publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
-echo "Public IP Address is $publicIp"
-
-echo "Will open ssh tunnel soon"
-isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
-echo "Opened ssh tunnel"
-
-openSSHTunnel $publicIp $portConfigArray
-storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
+	aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=$instanceName
+	aws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
 
 
+	publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
+	echo "Public IP Address is $publicIp"
+
+	echo "Will open ssh tunnel soon"
+	isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
+	echo "Opened ssh tunnel"
+
+	openSSHTunnel $publicIp $portConfigArray
+	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
+}
 
 

@@ -4,3 +4,4 @@
 /vpn/conf/*
 *.conf
 !vpn/templates/*.conf
+.treehouses
