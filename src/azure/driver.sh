@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source config.sh
-source loadScripts.sh
+source load.sh
 
 rootUsage() {
     echo "Usage: $0 [command group] [command]"
