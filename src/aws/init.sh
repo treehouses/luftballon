@@ -189,6 +189,7 @@ function init {
 
 	openSSHTunnel $publicIp $portConfigArray
 	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
+	callStoreConfigIntoTreehousesConfigAsStringfiedJson
 }
 
 
