@@ -7,22 +7,18 @@ awsUsage() {
     exit 1
 }
 
-function auth(){
+# Check if at least one argument is provided
+if [ $# -eq 0 ]; then
+    awsUsage
+fi
 
-    # Check if at least one argument is provided
-    if [ $# -eq 0 ]; then
-        awsUsage
-    fi
-
-    # Execute the appropriate command
-    case "$1" in
-        init)
-            init "${@:2}"
-            ;;
-        *)
-            echo "Error: Invalid command."
-            authUsage
-            ;;
-    esac
-
-}
+# Execute the appropriate command
+case "$1" in
+    init)
+        init "${@:2}"
+        ;;
+    *)
+        echo "Error: Invalid command."
+        authUsage
+        ;;
+esac
