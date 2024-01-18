@@ -17,7 +17,7 @@ function auth(){
     # Execute the appropriate command
     case "$1" in
         init)
-            init
+            init "${@:2}"
             ;;
         *)
             echo "Error: Invalid command."
