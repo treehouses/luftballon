@@ -1,6 +1,3 @@
-
-source configFunctions.sh
-
 function callStoreConfigIntoTreehousesConfigAsStringfiedJson() {
     local instanceName="testBallon"
     local keyName="key-testBallon"
