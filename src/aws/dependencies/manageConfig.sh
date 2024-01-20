@@ -1,10 +1,6 @@
 
 function getTreehousesConfigValue(){
     keyWord=$1
-    echo "keyord: $keyWord"
-    echo "keyord: $keyWord"
-    echo "keyord: $keyWord"
-    echo "keyord: $keyWord"
     treehouses config | grep $keyWord= | sed "s/${keyWord}=//"
 }
 
