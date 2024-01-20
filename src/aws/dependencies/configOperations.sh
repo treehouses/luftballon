@@ -1,6 +1,14 @@
 function getConfigAsJson(){
-    local allConfig=$(getTreehousesConfigValue $configName | jq .)
-    echo "$allConfig"
+    if [ -z "$configName" ]; then
+        echo "configName is not set"
+        return 1
+    fi
+    echo "configName: $configName"
+    local allConfig=$(getTreehousesConfigValue $configName)
+    if ! echo "$allConfig" | jq . > /dev/null 2>&1; then
+        echo "getTreehousesConfigValue did not return valid JSON"
+        return 1
+    fi
     echo "$allConfig"
 }
 
