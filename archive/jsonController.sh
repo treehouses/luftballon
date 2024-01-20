@@ -164,6 +164,7 @@ function getValueByAttribute(){
     local instanceName=$1
     local attribute=$2
     local backet=$(getBucketByBucketKey "$(getConfigAsJson)" $instanceName)
+    echo "backet: $backet"
     local keyName=$(echo "$backet" | \
               jq -r --arg instanceName "$instanceName" \
                     --arg attribute "$attribute" \
