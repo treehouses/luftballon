@@ -12,6 +12,7 @@ function getValueByAttribute(){
     local instanceName=$1
     local attribute=$2
     echo "instanceName: $instanceName"
+    echo "instanceName: $instanceName"
     echo "attribute: $attribute"
     local backet=$(getBucketByBucketKey "$(getConfigAsJson)" $instanceName)
     echo "backet: $backet"
