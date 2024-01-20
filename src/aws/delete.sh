@@ -22,10 +22,10 @@ function delete(){
   keyName=$(getValueByAttribute $balloonName key)
   groupName=$(getValueByAttribute $balloonName groupName)
 
-  echo "ballonName: $balloonName"
-  echo "instanceId: $instanceId"
-  echo "keyName: $keyName"
-  echo "groupName: $groupName"
+  #echo "ballonName: $balloonName"
+  #echo "instanceId: $instanceId"
+  #echo "keyName: $keyName"
+  #echo "groupName: $groupName"
 
   #storePortArrayString $groupName tcp $balloonName
   #storePortArrayString $groupName udp $balloonName
