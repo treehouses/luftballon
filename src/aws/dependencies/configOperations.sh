@@ -1,6 +1,7 @@
 function getConfigAsJson(){
     local allConfig=$(getTreehousesConfigValue $configName | jq .)
     echo "$allConfig"
+    echo "$allConfig"
 }
 
 function printAllConfig(){
