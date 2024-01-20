@@ -24,6 +24,7 @@ function delete(){
 
   echo "ballonName: $balloonName"
   echo "instanceId: $instanceId"
+  echo "configName: $configName"
   #echo "keyName: $keyName"
   #echo "groupName: $groupName"
 
