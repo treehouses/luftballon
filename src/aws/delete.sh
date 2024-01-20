@@ -19,11 +19,11 @@ function delete(){
       exit 1
   fi
 
-  keyName=$(getValueByAttribute $balloonName key)
-  groupName=$(getValueByAttribute $balloonName groupName)
+  #keyName=$(getValueByAttribute $balloonName key)
+  #groupName=$(getValueByAttribute $balloonName groupName)
 
-  #echo "ballonName: $balloonName"
-  #echo "instanceId: $instanceId"
+  echo "ballonName: $balloonName"
+  echo "instanceId: $instanceId"
   #echo "keyName: $keyName"
   #echo "groupName: $groupName"
 
