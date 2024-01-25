@@ -3,8 +3,8 @@ function getConfigAsJson(){
         echo "configName is not set"
         return 1
     fi
-    echo "configName: $configName"
-    local allConfig=$(getTreehousesConfigValue $configName)
+    local allConfig=$(treehouses config | grep $configName= | sed "s/${configName}=//")
+    #local allConfig=$(getTreehousesConfigValue $configName)
     if ! echo "$allConfig" | jq . > /dev/null 2>&1; then
         echo "getTreehousesConfigValue did not return valid JSON"
         return 1
@@ -20,11 +20,7 @@ function printAllConfig(){
 function getValueByAttribute(){
     local instanceName=$1
     local attribute=$2
-    echo "instanceName: $instanceName"
-    echo "instanceName: $instanceName"
-    echo "attribute: $attribute"
     local backet=$(getBucketByBucketKey "$(getConfigAsJson)" $instanceName)
-    echo "backet: $backet"
     local keyName=$(echo "$backet" | \
               jq -r --arg instanceName "$instanceName" \
                     --arg attribute "$attribute" \
