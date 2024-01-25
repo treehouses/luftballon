@@ -3,8 +3,7 @@ function getConfigAsJson(){
         echo "configName is not set"
         return 1
     fi
-    local allConfig=$(treehouses config | grep $configName= | sed "s/${configName}=//")
-    #local allConfig=$(getTreehousesConfigValue $configName)
+    local allConfig=$(getTreehousesConfigValue $configName)
     if ! echo "$allConfig" | jq . > /dev/null 2>&1; then
         echo "getTreehousesConfigValue did not return valid JSON"
         return 1
