@@ -92,7 +92,7 @@ function deleteKeyValue(){
     echo "$output"
 }
 
-function init(){
+function initJqObject(){
     local name="$1"
     local output=$( echo null \
         | jq --arg name $name \
@@ -141,7 +141,7 @@ function getBucketByBucketKey(){
     local buckets="$1"
     local key="$2"
     local theBucket=$(echo "$buckets" | jq --arg key $key 'getpath([$key])')
-    local emptyBucket=$(init "$key")
+    local emptyBucket=$(initJqObject "$key")
     local theBucketWithKey=$(makeBucket "$emptyBucket" "$key" "$theBucket" )
     echo "$theBucketWithKey"
 }
