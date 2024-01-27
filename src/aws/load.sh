@@ -14,5 +14,4 @@ source $manageConfigPath/dependencies/reverseShell.sh
 
 source $manageConfigPath/init.sh
 source $manageConfigPath/delete.sh
-source $manageConfigPath/callStoreConfigIntoTreehousesConfigAsStringfiedJson.sh
 

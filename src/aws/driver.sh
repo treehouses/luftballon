@@ -21,9 +21,6 @@ case "$1" in
     delete)
         delete "${@:2}"
         ;;
-    test)
-        callStoreConfigIntoTreehousesConfigAsStringfiedJson "${@:2}"
-        ;;
     *)
         echo "Error: Invalid command."
         authUsage
