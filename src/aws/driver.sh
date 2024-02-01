@@ -26,7 +26,7 @@ case "$1" in
     stop)
         stop "${@:2}"
         ;;
-    stop)
+    restart)
         restart "${@:2}"
         ;;
     *)
