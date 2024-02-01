@@ -28,6 +28,22 @@ The delete command deletes an AWS EC2 instance and its related resources, identi
 ./driver.sh delete [balloon name]
 ```
 
+### Command: stop
+
+The stop command stops a specified AWS EC2 instance and removes its associated SSH tunnel.
+
+```bash
+./driver.sh stop [balloon name]
+```
+
+### Command: restart
+
+The restart command restarts a specified Amazon EC2 instance, updates its IP address, and opens a new SSH tunnel to it.
+
+```bash
+./driver.sh restart [balloon name]
+```
+
 ### Help
 
 To view the usage instructions, use the following command:
