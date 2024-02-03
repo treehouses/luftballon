@@ -23,9 +23,11 @@ function restart(){
     echo "get the new ip address. The procedure might take time for a while"
     publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
 
+    portConfigArray=$(getArrayValueAsStringByKey $instanceName tcpPortArray)
+
     echo "the new ip address is $publicIp"
     updateIPAddress $balloonName $publicIp
 
     echo "open the new sshtunnel"
-    openSSHTunnel $publicIp
+	openSSHTunnel $publicIp $portConfigArray
 }
