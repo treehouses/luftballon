@@ -17,7 +17,10 @@ function stop(){
         exit 1
     fi
 
-    updateSshtunnelConfig $balloonName
+    groupName=$(getValueByAttribute $balloonName groupName)
+    storePortArrayString $groupName tcp $balloonName
+    storePortArrayString $groupName udp $balloonName
+
     publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
     treehouses sshtunnel remove host root@$publicIp
     echo "Delete sshtunnel of root@$publicIp"
