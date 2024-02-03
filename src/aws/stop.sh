@@ -22,4 +22,6 @@ function stop(){
     echo "Delete sshtunnel of root@$publicIp"
 
     aws ec2 stop-instances --instance-ids $instanceId
+
+    updateSshtunnelConfig
 }
