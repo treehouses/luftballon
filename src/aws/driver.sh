@@ -1,6 +1,6 @@
 
 awsUsage() {
-    echo "Usage: $0 "$1" [command]"
+    echo "Usage: aws [command]"
     echo "Commands:"
     echo "   init   - Verify AWS CLI installation, SSH key existence, and defines functions for SSH key import and port addition in AWS EC2"
     echo "   delete - deletes an AWS EC2 instance and its related resources, identified by a given "balloon name", and handles associated cleanup tasks such as removing SSH tunnels and deleting security keys"
