@@ -1,19 +1,19 @@
 #!/bin/bash
-manageConfigPath=$(pwd)
-source $manageConfigPath/dependencies/config.sh
-source $manageConfigPath/dependencies/utilitiyFunction.sh
-source $manageConfigPath/dependencies/isBalloonNameValid.sh
-source $manageConfigPath/dependencies/jsonOperations.sh
-source $manageConfigPath/dependencies/configOperations.sh
-source $manageConfigPath/dependencies/configFunctions.sh
-source $manageConfigPath/dependencies/getLatestIpAddress.sh
-source $manageConfigPath/dependencies/securitygroupFunction.sh
-source $manageConfigPath/dependencies/manageConfig.sh
-source $manageConfigPath/dependencies/sshtunnelFunction.sh
-source $manageConfigPath/dependencies/reverseShell.sh
+source $manageConfigPath/src/aws/dependencies/config.sh
+source $manageConfigPath/src/aws/dependencies/utilitiyFunction.sh
+source $manageConfigPath/src/aws/dependencies/isBalloonNameValid.sh
+source $manageConfigPath/src/aws/dependencies/jsonOperations.sh
+source $manageConfigPath/src/aws/dependencies/configOperations.sh
+source $manageConfigPath/src/aws/dependencies/configFunctions.sh
+source $manageConfigPath/src/aws/dependencies/getLatestIpAddress.sh
+source $manageConfigPath/src/aws/dependencies/securitygroupFunction.sh
+source $manageConfigPath/src/aws/dependencies/manageConfig.sh
+source $manageConfigPath/src/aws/dependencies/sshtunnelFunction.sh
+source $manageConfigPath/src/aws/dependencies/reverseShell.sh
 
-source $manageConfigPath/init.sh
-source $manageConfigPath/delete.sh
-source $manageConfigPath/stop.sh
-source $manageConfigPath/restart.sh
+source $manageConfigPath/src/aws/init.sh
+source $manageConfigPath/src/aws/delete.sh
+source $manageConfigPath/src/aws/stop.sh
+source $manageConfigPath/src/aws/restart.sh
+source $manageConfigPath/src/aws/driver.sh
 

@@ -1,4 +1,3 @@
-source load.sh
 
 awsUsage() {
     echo "Usage: $0 credential [command]"
@@ -10,27 +9,31 @@ awsUsage() {
     exit 1
 }
 
-# Check if at least one argument is provided
-if [ $# -eq 0 ]; then
-    awsUsage
-fi
+function driver() {
 
-# Execute the appropriate command
-case "$1" in
-    init)
-        init "${@:2}"
-        ;;
-    delete)
-        delete "${@:2}"
-        ;;
-    stop)
-        stop "${@:2}"
-        ;;
-    restart)
-        restart "${@:2}"
-        ;;
-    *)
-        echo "Error: Invalid command."
-        authUsage
-        ;;
-esac
+    # Check if at least one argument is provided
+    if [ $# -eq 0 ]; then
+        awsUsage
+    fi
+
+    # Execute the appropriate command
+    case "$1" in
+        init)
+            init "${@:2}"
+            ;;
+        delete)
+            delete "${@:2}"
+            ;;
+        stop)
+            stop "${@:2}"
+            ;;
+        restart)
+            restart "${@:2}"
+            ;;
+        *)
+            echo "Error: Invalid command."
+            authUsage
+            ;;
+    esac
+
+}
