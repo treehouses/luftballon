@@ -4,7 +4,7 @@
 BASE=/home/pi
 
 function restart(){
-    balloonName=$1
+    balloonName=$(setBalloonName "$1")
 
     if ! isBalloonNameValid "$balloonName"; then
         echo "Please provide a valid balloon name"
