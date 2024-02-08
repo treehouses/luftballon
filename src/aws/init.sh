@@ -114,7 +114,7 @@ function getValueByKeyword(){
 }
 
 function usage {
-		echo "script usage: $(basename \$0 $1 $2) [-n ssh key name] [-p] [-a change key name, instance name, and group name]" >&2
+		echo "script usage: $(basename \$0 "$1 $2") [-n ssh key name] [-p] [-a change key name, instance name, and group name]" >&2
         echo 'Start Luftballon.'
         echo '   -n          Change SSH key name on AWS'
         echo '   -a          Change SSH key name, instance name, and group name'
