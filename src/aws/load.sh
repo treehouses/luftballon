@@ -10,6 +10,7 @@ source $manageConfigPath/src/aws/dependencies/securitygroupFunction.sh
 source $manageConfigPath/src/aws/dependencies/manageConfig.sh
 source $manageConfigPath/src/aws/dependencies/sshtunnelFunction.sh
 source $manageConfigPath/src/aws/dependencies/reverseShell.sh
+source $manageConfigPath/src/aws/dependencies/replaceIp.sh
 
 source $manageConfigPath/src/aws/init.sh
 source $manageConfigPath/src/aws/delete.sh
