@@ -22,7 +22,7 @@ function stop(){
     storePortArrayString $groupName udp $balloonName
 
     publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
-    treehouses sshtunnel remove host root@$publicIp
+    #treehouses sshtunnel remove host root@$publicIp
     echo "Delete sshtunnel of root@$publicIp"
 
     aws ec2 stop-instances --instance-ids $instanceId
