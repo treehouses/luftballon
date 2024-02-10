@@ -16,4 +16,5 @@ source $manageConfigPath/src/aws/delete.sh
 source $manageConfigPath/src/aws/stop.sh
 source $manageConfigPath/src/aws/restart.sh
 source $manageConfigPath/src/aws/driver.sh
+source $manageConfigPath/src/aws/test.sh
 
