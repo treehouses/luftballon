@@ -18,6 +18,8 @@ function restart(){
         exit 1
     fi
 
+    oldPublicIp=$(getValueByAttribute $balloonName publicIp)
+
     aws ec2 start-instances --instance-ids $instanceId
 
     echo "get the new ip address. The procedure might take time for a while"
@@ -28,6 +30,5 @@ function restart(){
     echo "the new ip address is $publicIp"
     updateIPAddress $balloonName $publicIp
 
-    echo "open the new sshtunnel"
-	openSSHTunnel $publicIp $portConfigArray
+    replaceIp $oldPublicIp $publicIp
 }
