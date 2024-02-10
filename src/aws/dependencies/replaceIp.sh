@@ -10,7 +10,7 @@ replaceIp() {
     newIp=$2
 
     if [ -f "$FILE" ]; then
-        sudo sed -i "s/$newIp/$oldIp/g" "$FILE"
+        sed -i "s/$oldIp/$newIp/g" "$FILE"
         echo "IP address has been successfully replaced."
     else
         echo "Error: File $FILE does not exist."
