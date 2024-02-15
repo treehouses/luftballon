@@ -30,9 +30,6 @@ function driver() {
         restart)
             restart "${@:2}"
             ;;
-        test)
-            test "${@:2}"
-            ;;
         *)
             echo "Error: Invalid command."
             awsUsage
