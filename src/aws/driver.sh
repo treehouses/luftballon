@@ -30,6 +30,9 @@ function driver() {
         restart)
             restart "${@:2}"
             ;;
+        install)
+            installAwsCli "${@:2}"
+            ;;
         *)
             echo "Error: Invalid command."
             awsUsage

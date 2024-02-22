@@ -1,5 +1,7 @@
 #!/bin/bash
 
-apt update; 
-apt install awscli
+function installAwsCli(){
+    apt update; 
+    apt install awscli
+}
 
