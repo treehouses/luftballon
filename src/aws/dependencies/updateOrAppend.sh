@@ -2,11 +2,11 @@
 # If the name already exists in the file, it updates the corresponding IP.
 # If the name does not exist, it appends a new IP and name pair to the end of the file.
 # Arguments:
-#   ip: The IP address to be updated or appended.
 #   name: The name to be updated or appended.
+#   ip: The IP address to be updated or appended.
 updateOrAppend() {
-    local ip="$1"
-    local name="$2"
+    local name="$1"
+    local ip="$2"
     local file="/etc/hosts"
 
     local escaped_name=$(printf '%s\n' "$name" | sed 's:[][\/.^$*]:\\&:g')

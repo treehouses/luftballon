@@ -188,7 +188,9 @@ function init {
 	isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
 	echo "Opened ssh tunnel"
 
-	openSSHTunnel $publicIp $portConfigArray
+	updateOrAppend $instanceName $publicIp
+	openSSHTunnel $instanceName $portConfigArray
+
 	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
 }
 
