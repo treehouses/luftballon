@@ -20,3 +20,10 @@ function waitForOutput(){
     echo $result
 }
 
+setBalloonName() {
+    if [ -z "$1" ]; then
+        echo "luftballon"
+    else
+        echo "$1"
+    fi
+}

@@ -5,7 +5,7 @@ function storeConfig(){
 	local publicIp=$4
 	local groupName=$5 
 	
-	local value=$(init $instanceName)
+	local value=$(initJqObject $instanceName)
 	value=$(addKeyValue "$value" $instanceName instanceName $instanceName )
 	value=$(addKeyValue "$value" $instanceName key $keyName )
 	value=$(addKeyValue "$value" $instanceName instanceId $instanceId )
@@ -22,7 +22,7 @@ function makeConfig(){
 	local publicIp=$4
 	local groupName=$5 
 	
-	local value=$(init $instanceName)
+	local value=$(initJqObject $instanceName)
 	value=$(addKeyValue "$value" $instanceName instanceName $instanceName )
 	value=$(addKeyValue "$value" $instanceName key $keyName )
 	value=$(addKeyValue "$value" $instanceName instanceId $instanceId )

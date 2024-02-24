@@ -1,16 +1,4 @@
 #!/bin/bash
-manageConfigPath=$(pwd)
-source $manageConfigPath/dependencies/config.sh
-source $manageConfigPath/dependencies/utilitiyFunction.sh
-source $manageConfigPath/dependencies/isBalloonNameValid.sh
-source $manageConfigPath/dependencies/jsonOperations.sh
-source $manageConfigPath/dependencies/configOperations.sh
-source $manageConfigPath/dependencies/configFunctions.sh
-source $manageConfigPath/dependencies/getLatestIpAddress.sh
-source $manageConfigPath/dependencies/securitygroupFunction.sh
-source $manageConfigPath/dependencies/manageConfig.sh
-source $manageConfigPath/dependencies/sshtunnelFunction.sh
-source $manageConfigPath/dependencies/reverseShell.sh
 
 portConfigArray=
 udpPortConfigArray=
@@ -22,11 +10,7 @@ groupName=luftballons-sg
 instanceName=luftballon
 checkSSH=~/.ssh/$publickey
 
-aws --version || ( echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1 )
 
-if test ! -f "$checkSSH"; then
-	echo "Run 'ssh-keygen' first, with an empty passphrase for no passphrase. Missing ssh key." && exit 1
-fi
 
 function importSshKey()
 {
@@ -126,7 +110,7 @@ function getValueByKeyword(){
 }
 
 function usage {
-		echo "script usage: $(basename \$0) [-n ssh key name] [-p] [-a change key name, instance name, and group name]" >&2
+		echo "script usage: $(basename \$0 aws init) [-n ssh key name] [-p] [-a change key name, instance name, and group name]" >&2
         echo 'Start Luftballon.'
         echo '   -n          Change SSH key name on AWS'
         echo '   -a          Change SSH key name, instance name, and group name'
@@ -164,6 +148,11 @@ function init {
 	done
 	shift "$(($OPTIND -1))"
 
+	aws --version || ( echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1 )
+
+	if test ! -f "$checkSSH"; then
+		echo "Run 'ssh-keygen' first, with an empty passphrase for no passphrase. Missing ssh key." && exit 1
+	fi
 
 	if [ -z $keyname ]
 	then
@@ -199,7 +188,9 @@ function init {
 	isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
 	echo "Opened ssh tunnel"
 
-	openSSHTunnel $publicIp $portConfigArray
+	updateOrAppend $instanceName $publicIp
+	openSSHTunnel $instanceName $portConfigArray
+
 	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
 }
 
