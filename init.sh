@@ -134,7 +134,6 @@ function usage {
         exit 1
 }
 
-function init {
 	while getopts 'n:pN:a:' OPTION; do
 	case "$OPTION" in
 		n)
@@ -201,6 +200,4 @@ function init {
 
 	openSSHTunnel $publicIp $portConfigArray
 	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
-}
-
 
