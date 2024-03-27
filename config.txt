@@ -1,0 +1,22 @@
+
+Host remoteserver
+    HostName newremoteserver.com
+    User newremoteuser
+    Port newremoteport
+    IdentityFile /new/path/to/remote/server/private/key
+    RemoteForward 2223 localhost:80
+    ServerAliveInterval 30
+    ServerAliveCountMax 3
+    ExitOnForwardFailure yes
+    TCPKeepAlive yes
+
+Host remoteserver1
+    HostName newremoteserver.com
+    User newremoteuser
+    Port newremoteport
+    IdentityFile /new/path/to/remote/server/private/key
+    RemoteForward 2223 localhost:80
+    ServerAliveInterval 30
+    ServerAliveCountMax 3
+    ExitOnForwardFailure yes
+    TCPKeepAlive yes
