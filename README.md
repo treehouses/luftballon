@@ -12,6 +12,7 @@ Luftballon makes a sshtunnel for your Raspberry Pi via an AWS EC2 instance by on
 
 1. Have an AWS account
 2. Luftballon must be on Treehouses image
+   Download the image from [here](https://github.com/treehouses/cli/releases)
 3. Have a pair of ssh key (public key's name must be id_rsa.pub)
 
 ### How to run
