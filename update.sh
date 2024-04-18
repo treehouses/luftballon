@@ -17,4 +17,4 @@ update_ssh_config() {
     echo "Configuration for $HOST_NAME updated."
 }
 
-update_ssh_config "remoteserver" "newremoteserver.com" "newremoteuser" "newremoteport" "/new/path/to/remote/server/private/key" "2223" "80"
+#update_ssh_config "remoteserver" "newremoteserver.com" "newremoteuser" "newremoteport" "/new/path/to/remote/server/private/key" "2222" "88"

@@ -1,6 +1,6 @@
 get_ssh_config_values() {
     HOST_NAME=$1
-    CONFIG_FILE=config.txt
+    CONFIG_FILE=config
     FOUND_HOST=0
 
     while IFS= read -r line; do
@@ -18,5 +18,3 @@ get_ssh_config_values() {
         echo "No configuration found for $HOST_NAME."
     fi
 }
-
-#get_ssh_config_values remoteserver1
