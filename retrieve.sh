@@ -1,5 +1,5 @@
 source read.sh
-extract_ssh_config_to_variables() {
+extractSshConfigToVariables() {
     # Capture the output of get_ssh_config_values
     CONFIG_OUTPUT=$(get_ssh_config_values "$1")
 
@@ -16,10 +16,6 @@ extract_ssh_config_to_variables() {
     PORT=$(echo "$CONFIG_OUTPUT" | grep "Port " | awk '{print $NF}')
     IDENTITYFILE=$(echo "$CONFIG_OUTPUT" | grep "IdentityFile " | awk '{print $NF}')
     REMOTEFORWARD=$(echo "$CONFIG_OUTPUT" | grep "RemoteForward " | awk '{$1=""; print $0}' | xargs )
-    LOCALPORT=$(echo "$REMOTEFORWARD" | cut -d' ' -f1)
-    REMOTEHOSTANDPORT=$(echo "$REMOTEFORWARD" | cut -d' ' -f2)
-    REMOTEHOST=$(echo "$REMOTEHOSTANDPORT" | cut -d':' -f1)
-    REMOTEPORT=$(echo "$REMOTEHOSTANDPORT" | cut -d':' -f2)
     SERVERALIVEINTERVAL=$(echo "$CONFIG_OUTPUT" | grep "ServerAliveInterval " | awk '{print $NF}')
     SERVERALIVECOUNTMAX=$(echo "$CONFIG_OUTPUT" | grep "ServerAliveCountMax " | awk '{print $NF}')
     EXITONFORWARDFAILURE=$(echo "$CONFIG_OUTPUT" | grep "ExitOnForwardFailure " | awk '{print $NF}')
