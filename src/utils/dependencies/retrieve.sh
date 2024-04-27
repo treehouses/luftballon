@@ -1,4 +1,3 @@
-source read.sh
 extractSshConfigToVariables() {
     # Capture the output of get_ssh_config_values
     CONFIG_OUTPUT=$(get_ssh_config_values "$1")

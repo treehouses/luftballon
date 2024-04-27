@@ -1,10 +1,5 @@
 #!/bin/bash
 
-source update.sh
-source retrieve.sh
-source array.sh
-source replace.sh
-
 host="myserver"
 
 
@@ -53,9 +48,9 @@ function update(){
             TCPKeepAlive=$newValue
             ;;
         "RemoteForward")
-            currentValue=$newValue  # Assign newValue to currentValue
+            currentValue=$newValue
             if [[ -n "$4" ]]; then
-                newValue=$4  # Update newValue if a fourth argument is provided
+                newValue=$4
             fi
             allArgument=$(extractBlocks "$RemoteForward")
             RemoteForward=$(replaceFirstOccurrence "$allArgument" "$currentValue" "$newValue")

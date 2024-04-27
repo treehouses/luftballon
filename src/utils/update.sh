@@ -1,7 +1,4 @@
-
-dummy=config
-
-delete_ssh_config() {
+update_ssh_config() {
     HOST_NAME="$1"
     TEMP_FILE=$(mktemp)
     
@@ -12,8 +9,8 @@ delete_ssh_config() {
     $1 == "Host" && $2 == host {skip = 1}
     $1 == "Host" && $2 != host && skip {skip = 0; print ""}
     !skip {print}
-    ' $dummy > "$TEMP_FILE" && mv "$TEMP_FILE" $dummy
+    ' $CONFIG > "$TEMP_FILE" && mv "$TEMP_FILE" $CONFIG
     
-    echo "Configuration for $HOST_NAME deleted."
+    create_ssh_config "$@"
+    echo "Configuration for $HOST_NAME updated."
 }
-delete_ssh_config "remoteserver"
