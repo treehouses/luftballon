@@ -1,4 +1,4 @@
-update_ssh_config() {
+updateSshConfig() {
     HOST_NAME="$1"
     TEMP_FILE=$(mktemp)
     
@@ -11,6 +11,6 @@ update_ssh_config() {
     !skip {print}
     ' $CONFIG > "$TEMP_FILE" && mv "$TEMP_FILE" $CONFIG
     
-    create_ssh_config "$@"
+    createSshConfig "$@"
     echo "Configuration for $HOST_NAME updated."
 }

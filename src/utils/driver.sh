@@ -1,4 +1,3 @@
-source load.sh
 
 function sshConfigManagerUsage() {
     echo "Usage: driver <command> [options]"
@@ -22,13 +21,13 @@ function driver() {
     # Execute the appropriate command
     case "$1" in
         create)
-            create "${@:2}"
+            createSshConfig "${@:2}"
             ;;
         update)
-            callUpdate "${@:2}"
+            update "${@:2}"
             ;;
         delete)
-            delete "${@:2}"
+            deleteSshConfig "${@:2}"
             ;;
         *)
             echo "Error: Invalid command."

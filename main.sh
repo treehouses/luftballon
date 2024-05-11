@@ -20,6 +20,10 @@ case "$1" in
         source $manageConfigPath/src/aws/load.sh
         driver "${@:2}"
         ;;
+    sshConfigManager)
+        source $manageConfigPath/src/utils/load.sh
+        driver "${@:2}"
+        ;;
     *)
         echo "Error: Invalid command."
         usage

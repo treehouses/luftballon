@@ -26,4 +26,4 @@ extractSshConfigToVariables() {
     echo "Port: $PORT"
     echo "IdentityFile: $IDENTITYFILE"
     echo "RemoteForward: $REMOTEFORWARD"
-    }
+}

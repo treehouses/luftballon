@@ -63,8 +63,8 @@ function update(){
     esac
 
 
-    update_ssh_config "$host" "$HostName" "$User" "$Port" "$IdentityFile" "$RemoteForward"
+    updateSshConfig "$host" "$HostName" "$User" "$Port" "$IdentityFile" "$RemoteForward"
 
 }
 
-update $host "RemoteForward" "8888:80" "8887:81"
+#update $host "RemoteForward" "8888:80" "8887:81"

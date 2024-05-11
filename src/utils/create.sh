@@ -1,5 +1,5 @@
 
-create_ssh_config() {
+createSshConfig() {
     HOST_NAME="$1"
     HOST_ENTRY=$(cat <<EOF
 
@@ -24,4 +24,4 @@ EOF
     fi
 }
 
-create_ssh_config "myserver" "example.com" "user" "22" "~/.ssh/id_rsa" "8888:80,9999:443"
+#createSshConfig "myserver" "example.com" "user" "22" "~/.ssh/id_rsa" "8888:80,9999:443"

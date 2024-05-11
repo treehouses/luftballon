@@ -1,8 +1,9 @@
 
 
-delete_ssh_config() {
+deleteSshConfig() {
     HOST_NAME="$1"
     TEMP_FILE=$(mktemp)
+    echo $HOST_NAME
     
     # Ensure the temporary file gets deleted
     trap "rm -f $TEMP_FILE" EXIT
@@ -15,4 +16,4 @@ delete_ssh_config() {
     
     echo "Configuration for $HOST_NAME deleted."
 }
-delete_ssh_config "remoteserver"
+#delete_ssh_config "remoteserver"
