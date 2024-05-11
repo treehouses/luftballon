@@ -1,8 +1,5 @@
 #!/bin/bash
 
-host="myserver"
-
-
 function update(){
     local host=$1
     local newKey=$2

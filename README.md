@@ -131,3 +131,55 @@ This command basically does the opposite of the `init.sh`
 2. Delete EC2 instance
 3. Delete security group on the EC2 portal
 4. Delete ssh key on the AWS EC2 portal
+
+### sshConfigManager Interface
+
+The `sshConfigManager` interface is designed to facilitate the management of SSH configurations, providing methods to create, update, and delete SSH configuration entries. This interface streamlines the process of maintaining complex SSH config files, making it easier to manage access to multiple remote servers.
+
+#### Create Command
+
+**What it does:**  
+The `create` command generates a new entry in the SSH configuration file with detailed settings for host alias, hostname, user, port, identity file, and port forwarding options.
+
+**How to execute:**  
+To add a new SSH configuration entry:
+
+```
+create "myserver" "example.com" "user" "22" "~/.ssh/id_rsa" "8888:80,9999:443"
+```
+
+This command sets up a host with alias `myserver`, connecting to `example.com` on port 22 with the specified identity file and port forwarding settings.
+
+#### Update Command
+
+**What it does:**  
+The `update` command modifies an existing SSH configuration entry for a specified host. It can change settings for any key such as `User`, `Port`, or complex keys like `RemoteForward`, where both old and new port forwarding settings need to be specified.
+
+**How to execute:**  
+To change the `User` for host `myserver`:
+
+```
+update myserver User newuser
+```
+
+To update a `RemoteForward` setting:
+
+```
+update myserver RemoteForward 8888:80 8899:80
+```
+
+These commands adjust the specified configurations, replacing old values with new ones.
+
+#### Delete Command
+
+**What it does:**  
+The `delete` command removes an entire SSH configuration block for a specified host from the SSH config file, effectively discontinuing the SSH management for that host through the configuration file.
+
+**How to execute:**  
+To remove the configuration for a host:
+
+```
+delete myserver
+```
+
+This command deletes all settings associated with the host `myserver`, cleaning up the SSH config file by removing unused or outdated entries.

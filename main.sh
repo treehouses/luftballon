@@ -6,6 +6,7 @@ usage() {
     echo "Usage: $0 credential [command]"
     echo "Commands:"
     echo "   aws   - Execute an AWS command"
+    echo "   sshConfigManager - An interface that manages SSH configurations, allowing creation, updating, and deletion of SSH configuration entries"
     exit 1
 }
 
