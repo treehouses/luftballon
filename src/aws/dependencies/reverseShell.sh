@@ -55,6 +55,7 @@ function openSSHTunnel(){
     local sshtunnelPortArray=$luftballonHostPort:$serverPort
 
     addKeyFingerprintToKnownHost $instanceIp
+    addKeyFingerprintToKnownHost luftballon
     treehouses sshtunnel key name $sshkey
     sleep 2
 
@@ -64,6 +65,10 @@ function openSSHTunnel(){
     ssh -i /root/.ssh/$sshkey root@$instanceIp 'echo "GatewayPorts yes" >> /etc/ssh/sshd_config'
     sleep 2
 
+    # Restart SSH service on the remote machine in a detached screen session
+    # Use `screen` to run the command in the background, 
+    # ensuring it completes even if the SSH connection is lost.
+    # This is necessary to apply the changes made to the SSH configuration.
     ssh -i /root/.ssh/$sshkey root@$instanceIp 'screen -m -d bash -c "service ssh restart"'
     sleep 2
 
