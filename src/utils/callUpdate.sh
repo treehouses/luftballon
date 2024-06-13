@@ -19,6 +19,7 @@ function update(){
         declare "$key=$value"
     done <<< "$ssh_config"
 
+    RemoteForward=$(extractBlocks "$RemoteForward")
     case "$newKey" in
         "HostName")
             HostName=$newValue
@@ -49,9 +50,7 @@ function update(){
             if [[ -n "$4" ]]; then
                 newValue=$4
             fi
-            allArgument=$(extractBlocks "$RemoteForward")
-            RemoteForward=$(replaceFirstOccurrence "$allArgument" "$currentValue" "$newValue")
-            
+            RemoteForward=$(replaceFirstOccurrence "$RemoteForward" "$currentValue" "$newValue")
             ;;
         *)
             echo "Invalid key."
