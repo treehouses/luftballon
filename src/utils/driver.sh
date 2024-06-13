@@ -15,7 +15,7 @@ function sshConfigManagerUsage() {
     echo "  -h, --help                            Show help information"
 }
 
-function driver() {
+function configDriver() {
 
     # Check if at least one argument is provided
     if [ $# -eq 0 ]; then
@@ -28,7 +28,7 @@ function driver() {
             createSshConfig "${@:2}"
             ;;
         update)
-            update "${@:2}"
+            updateSshConfigInterface "${@:2}"
             ;;
         delete)
             deleteSshConfig "${@:2}"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function update(){
+function updateSshConfigInterface(){
     local host=$1
     local newKey=$2
     local newValue=$3

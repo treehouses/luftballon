@@ -19,11 +19,11 @@ fi
 case "$1" in
     aws)
         source $manageConfigPath/src/aws/load.sh
-        driver "${@:2}"
+        awsDriver "${@:2}"
         ;;
     sshConfigManager)
         source $manageConfigPath/src/utils/load.sh
-        driver "${@:2}"
+        configDriver "${@:2}"
         ;;
     *)
         echo "Error: Invalid command."

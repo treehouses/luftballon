@@ -9,7 +9,7 @@ awsUsage() {
     exit 1
 }
 
-function driver() {
+function awsDriver() {
 
     # Check if at least one argument is provided
     if [ $# -eq 0 ]; then

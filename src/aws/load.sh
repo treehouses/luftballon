@@ -12,6 +12,18 @@ source $manageConfigPath/src/aws/dependencies/sshtunnelFunction.sh
 source $manageConfigPath/src/aws/dependencies/reverseShell.sh
 source $manageConfigPath/src/aws/dependencies/updateOrAppend.sh
 
+source $manageConfigPath/src/utils/dependencies/config.sh
+source $manageConfigPath/src/utils/dependencies/array.sh
+source $manageConfigPath/src/utils/dependencies/read.sh
+source $manageConfigPath/src/utils/dependencies/replace.sh
+source $manageConfigPath/src/utils/dependencies/retrieve.sh
+
+source $manageConfigPath/src/utils/create.sh
+source $manageConfigPath/src/utils/update.sh
+source $manageConfigPath/src/utils/delete.sh
+source $manageConfigPath/src/utils/callUpdate.sh
+source $manageConfigPath/src/utils/driver.sh
+
 source $manageConfigPath/src/aws/init.sh
 source $manageConfigPath/src/aws/delete.sh
 source $manageConfigPath/src/aws/stop.sh
