@@ -75,10 +75,8 @@ function openSSHTunnel(){
     #treehouses sshtunnel add host "$monitorPort" root@"$instanceIp"
     #deleteUnusedSShtunnel $instanceIp $sshtunnelPortArray
     #openNonDefaultSShtunnel $instanceIp $sshtunnelPortArray
-    createSshConfig "myserver" $instanceIp "user" "22" "~/.ssh/id_rsa" "8888:80,9999:443"
+    createSshConfig "myserver" $instanceIp "root" "22" "~/.ssh/id_rsa" "8888:80,9999:443,2222:22"
     autossh  -f  -T -N -q -4 -M 2200 myserver
 
-    echo "Below sshtunnels are configured"
-    treehouses sshtunnel ports
 
 }
