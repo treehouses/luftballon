@@ -30,5 +30,4 @@ function restart(){
     echo "the new ip address is $publicIp"
     updateIPAddress $balloonName $publicIp
 
-	updateOrAppend $instanceName $publicIp
 }

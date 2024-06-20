@@ -72,9 +72,11 @@ function openSSHTunnel(){
     ssh -i /root/.ssh/$sshkey root@$instanceIp 'screen -m -d bash -c "service ssh restart"'
     sleep 2
 
-    treehouses sshtunnel add host "$monitorPort" root@"$instanceIp"
+    #treehouses sshtunnel add host "$monitorPort" root@"$instanceIp"
     #deleteUnusedSShtunnel $instanceIp $sshtunnelPortArray
-    openNonDefaultSShtunnel $instanceIp $sshtunnelPortArray
+    #openNonDefaultSShtunnel $instanceIp $sshtunnelPortArray
+    createSshConfig "myserver" $instanceIp "user" "22" "~/.ssh/id_rsa" "8888:80,9999:443"
+    autossh  -f  -T -N -q -4 -M 2200 myserver
 
     echo "Below sshtunnels are configured"
     treehouses sshtunnel ports

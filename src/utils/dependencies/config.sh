@@ -1,2 +1,2 @@
-#CONFIG=~/.ssh/config
-CONFIG=~/Projects/luftballon/config # Test
+CONFIG=~/.ssh/config
+#CONFIG=~/Projects/luftballon/config # Test

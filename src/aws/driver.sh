@@ -34,7 +34,7 @@ function awsDriver() {
             installAwsCli "${@:2}"
             ;;
         test)
-            testConfigDriver 
+            testConfigDriver "${@:2}"
             ;;
         *)
             echo "Error: Invalid command."
