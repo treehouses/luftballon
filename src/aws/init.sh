@@ -51,7 +51,7 @@ function createSecurityGroups(){
 		portConfigArray="8080:80,8443:443,2022:22"
 	fi
 
-    portArray=($(makePortArray "$portString1"))
+    portArray=($(makePortArray "$portConfigArray"))
 
 	for i in "${portArray[@]}"
 	do
