@@ -54,7 +54,7 @@ function delete(){
     fi
   done
 
-  deleteSshConfig myserver
+  deleteSshConfig $balloonName
   deleteObsoleteKeyValue $balloonName
 
 }
