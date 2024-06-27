@@ -11,6 +11,7 @@ source $manageConfigPath/src/aws/dependencies/manageConfig.sh
 source $manageConfigPath/src/aws/dependencies/sshtunnelFunction.sh
 source $manageConfigPath/src/aws/dependencies/reverseShell.sh
 source $manageConfigPath/src/aws/dependencies/updateOrAppend.sh
+source $manageConfigPath/src/aws/dependencies/getProcessNumber.sh
 
 source $manageConfigPath/src/utils/dependencies/config.sh
 source $manageConfigPath/src/utils/dependencies/array.sh

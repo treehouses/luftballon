@@ -1,5 +1,3 @@
-source array.sh
-source replace.sh
 
 test_extractBlocks() {
     local input_string="$1"

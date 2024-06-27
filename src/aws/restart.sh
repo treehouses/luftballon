@@ -30,4 +30,7 @@ function restart(){
     echo "the new ip address is $publicIp"
     updateIPAddress $balloonName $publicIp
 
+    closeSSHTunnel
+    restartSSHTunnel
+    echo "open ssh tunnel"
 }

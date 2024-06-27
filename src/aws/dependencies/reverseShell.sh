@@ -36,3 +36,17 @@ function openSSHTunnel(){
     createSshConfig $instanceName $instanceIp "root" "22" "~/.ssh/id_rsa" $sshtunnelPortArray
     autossh  -f  -T -N -q -4 -M $monitorPort $instanceName
 }
+
+function closeSSHTunnel(){
+    local instanceName=$1
+    local processNumber=$(getProcessNumber "$instanceName" "$(getProcessInfo)")
+    if [ -n "$processNumber" ]; then
+        kill -9 $processNumber
+    fi
+}
+
+function restartSSHTunnel(){
+    local instanceName=$1
+    local instanceIp=$2
+    updateSshConfigInterface $instanceName HostName $instanceIp
+}
