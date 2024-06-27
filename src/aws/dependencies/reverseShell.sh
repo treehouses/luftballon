@@ -48,5 +48,7 @@ function closeSSHTunnel(){
 function restartSSHTunnel(){
     local instanceName=$1
     local instanceIp=$2
+    local monitorPort=2200
     updateSshConfigInterface $instanceName HostName $instanceIp
+    autossh  -f  -T -N -q -4 -M $monitorPort $instanceName
 }
