@@ -31,6 +31,6 @@ function restart(){
     updateIPAddress $balloonName $publicIp
 
     closeSSHTunnel
-    restartSSHTunnel
+    restartSSHTunnel $balloonName $publicIp
     echo "open ssh tunnel"
 }
