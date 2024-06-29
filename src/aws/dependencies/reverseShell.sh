@@ -37,18 +37,34 @@ function openSSHTunnel(){
     autossh  -f  -T -N -q -4 -M $monitorPort $instanceName
 }
 
+killProcess() {
+    local processNumber="$1"
+
+    if [ -n "$processNumber" ]; then
+        kill -9 "$processNumber"
+        echo "Killed process $processNumber"
+    else
+        echo "No process to kill"
+    fi
+}
+
 function closeSSHTunnel(){
     local instanceName=$1
     local processNumber=$(getProcessNumber "$instanceName" "$(getProcessInfo)")
-    if [ -n "$processNumber" ]; then
-        kill -9 $processNumber
-    fi
+    killProcess $processNumber
+    processNumber=$(getProcessNumber "$instanceName" "$(getProcessNumberSsh)")
+    killProcess $processNumber
 }
 
 function restartSSHTunnel(){
     local instanceName=$1
     local instanceIp=$2
     local monitorPort=2200
+
+    ssh -i /root/.ssh/$sshkey root@$instanceIp 'echo hello world'
+    sleep 2
+
     updateSshConfigInterface $instanceName HostName $instanceIp
+    sleep 2
     autossh  -f  -T -N -q -4 -M $monitorPort $instanceName
 }

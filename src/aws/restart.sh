@@ -31,6 +31,9 @@ function restart(){
     updateIPAddress $balloonName $publicIp
 
     closeSSHTunnel
+    echo "remove old ssh tunnel settings"
+    sleep 5
+
     restartSSHTunnel $balloonName $publicIp
-    echo "open ssh tunnel"
+    echo "open new ssh tunnel"
 }
