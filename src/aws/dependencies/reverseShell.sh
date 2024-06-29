@@ -9,9 +9,27 @@ sshkey=`treehouses sshtunnel key name | cut -d ' ' -f 5`
 #luftballonHostPort=2222
 #serverPort=22
 
+# Fetches the SSH host key of the remote server and adds it to known_hosts
+# to prevent SSH from asking for confirmation during automated connections
 function addKeyFingerprintToKnownHost(){
     local instanceIp=$1
     ssh-keyscan -H $instanceIp | grep ecdsa-sha2-nistp256 >> /home/pi/.ssh/known_hosts
+}
+
+function establishPersistenceSSHTunnel(){
+    local monitorPort=$1 
+    local instanceName=$2
+
+    # autossh command breakdown:
+    # -f: Run in the background before executing the command.
+    # -T: Disable pseudo-tty allocation.
+    # -N: Do not execute remote commands.
+    # -q: Enable quiet mode, suppresses most warning and diagnostic messages.
+    # -4: Use IPv4 addresses only.
+    # -M $monitorPort: Set up the monitoring port for autossh to keep the connection alive.
+    # $instanceName: The hostname or IP address of the remote server.
+
+    autossh  -f  -T -N -q -4 -M $monitorPort $instanceName
 }
 
 function openSSHTunnel(){
@@ -56,15 +74,25 @@ function closeSSHTunnel(){
     killProcess $processNumber
 }
 
+# This step is necessary because the client, being behind a firewall or NAT,
+# may not be directly accessible from outside its network.
+# By connecting to the remote server, the client creates a pathway 
+# through which connections can be routed.
+function establishSSHConnectionBeforeEstablishSSHTunnel(){
+    local instanceIp=$1
+    ssh -i /root/.ssh/$sshkey -o StrictHostKeyChecking=no root@$instanceIp 'echo hello world'
+    sleep 2
+}
+
 function restartSSHTunnel(){
     local instanceName=$1
     local instanceIp=$2
     local monitorPort=2200
 
-    ssh -i /root/.ssh/$sshkey -o StrictHostKeyChecking=no root@$instanceIp 'echo hello world'
-    sleep 2
+    addKeyFingerprintToKnownHost $instanceIp
+    establishSSHConnectionBeforeEstablishSSHTunnel $instanceIp
 
     updateSshConfigInterface $instanceName HostName $instanceIp
     sleep 2
-    autossh  -f  -T -N -q -4 -M $monitorPort $instanceName
+    establishPersistenceSSHTunnel $monitorPort $instanceName
 }
