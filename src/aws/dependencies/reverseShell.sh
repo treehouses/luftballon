@@ -61,7 +61,7 @@ function restartSSHTunnel(){
     local instanceIp=$2
     local monitorPort=2200
 
-    ssh -i /root/.ssh/$sshkey root@$instanceIp 'echo hello world'
+    ssh -i /root/.ssh/$sshkey -o StrictHostKeyChecking=no root@$instanceIp 'echo hello world'
     sleep 2
 
     updateSshConfigInterface $instanceName HostName $instanceIp
