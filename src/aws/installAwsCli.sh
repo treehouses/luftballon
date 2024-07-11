@@ -4,4 +4,3 @@ function installAwsCli(){
     apt update; 
     apt install awscli
 }
-
