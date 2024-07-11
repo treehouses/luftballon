@@ -81,6 +81,7 @@ function closeSSHTunnel(){
 function establishSSHConnectionBeforeEstablishSSHTunnel(){
     local instanceIp=$1
     ssh -i /root/.ssh/$sshkey -o StrictHostKeyChecking=no root@$instanceIp 
+    echo "Established SSH connection to $instanceIp"
     sleep 2
 }
 

@@ -138,7 +138,7 @@ function getBucketByBucketKey(){
 
 function stringfy(){
     local data="$1"
-    local string=$(echo "$data"  | jq '.|tostring' |tr -d '\' | sed 's/"{/{/' | sed 's/}"/}/' 2>/dev/null)
+    local string=$(echo "$data"  | jq '.|tostring' |tr -d '\' 2>/dev/null | sed 's/"{/{/' | sed 's/}"/}/')
     echo $string
 }
 
