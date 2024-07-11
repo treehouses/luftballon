@@ -82,7 +82,6 @@ function createEc2(){
 		--instance-type t2.micro \
 		--key-name $keyname \
 		--security-groups $groupName 
-        --user-data file://./setupIpTables.txt
 }
 
 function findData(){

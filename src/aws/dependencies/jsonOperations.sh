@@ -109,7 +109,7 @@ function merge(){
 
 function stringfy(){
     local data="$1"
-    local string=$(echo "$data"  | jq '.|tostring' |tr -d '\' | sed 's/"{/{/' | sed 's/}"/}/' )
+    local string=$(echo "$data"  | jq '.|tostring' |tr -d '\' | sed 's/"{/{/' | sed 's/}"/}/' 2>/dev/null) 
     echo $string
 }
 
