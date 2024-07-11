@@ -182,5 +182,3 @@ function init {
 
 	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
 }
-
-
