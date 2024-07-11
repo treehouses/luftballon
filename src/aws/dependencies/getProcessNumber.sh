@@ -33,4 +33,3 @@ getProcessInfo() {
     local processInfo=$(ps aux | grep ssh)
     echo "$processInfo"
 }
-
