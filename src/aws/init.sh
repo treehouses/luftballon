@@ -1,16 +1,4 @@
 #!/bin/bash
-manageConfigPath=$(pwd)
-source $manageConfigPath/dependencies/config.sh
-source $manageConfigPath/dependencies/utilitiyFunction.sh
-source $manageConfigPath/dependencies/isBalloonNameValid.sh
-source $manageConfigPath/dependencies/jsonOperations.sh
-source $manageConfigPath/dependencies/configOperations.sh
-source $manageConfigPath/dependencies/configFunctions.sh
-source $manageConfigPath/dependencies/getLatestIpAddress.sh
-source $manageConfigPath/dependencies/securitygroupFunction.sh
-source $manageConfigPath/dependencies/manageConfig.sh
-source $manageConfigPath/dependencies/sshtunnelFunction.sh
-source $manageConfigPath/dependencies/reverseShell.sh
 
 portConfigArray=
 udpPortConfigArray=
@@ -22,11 +10,7 @@ groupName=luftballons-sg
 instanceName=luftballon
 checkSSH=~/.ssh/$publickey
 
-aws --version || ( echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1 )
 
-if test ! -f "$checkSSH"; then
-	echo "Run 'ssh-keygen' first, with an empty passphrase for no passphrase. Missing ssh key." && exit 1
-fi
 
 function importSshKey()
 {
@@ -56,15 +40,6 @@ function addUDPPort() {
 		--cidr 0.0.0.0/0
 }
 
-function getNewPortinterval {
-  local portinterval=$1
-  local portint_offset=0
-  while grep -qs -e "M $((portinterval - 1))" -e "M $portinterval" -e "M $((portinterval + 1))" /etc/tunnel; do
-    portinterval=$((portinterval + 1))
-    portint_offset=$((portint_offset + 1))
-  done
-  echo $portinterval
-}
 
 function createSecurityGroups(){
 	aws ec2 create-security-group \
@@ -73,10 +48,10 @@ function createSecurityGroups(){
 
 	if [ -z "$portConfigArray" ]
 	then
-		portConfigArray="22 2222 $(getNewPortinterval 2200)"
+		portConfigArray="8080:80,8443:443,2022:22"
 	fi
 
-    portArray=($portConfigArray)
+    portArray=($(makePortArray "$portConfigArray"))
 
 	for i in "${portArray[@]}"
 	do
@@ -107,7 +82,6 @@ function createEc2(){
 		--instance-type t2.micro \
 		--key-name $keyname \
 		--security-groups $groupName 
-        --user-data file://./setupIpTables.txt
 }
 
 function findData(){
@@ -126,7 +100,7 @@ function getValueByKeyword(){
 }
 
 function usage {
-		echo "script usage: $(basename \$0) [-n ssh key name] [-p] [-a change key name, instance name, and group name]" >&2
+		echo "script usage: $(basename \$0 aws init) [-n ssh key name] [-p] [-a change key name, instance name, and group name]" >&2
         echo 'Start Luftballon.'
         echo '   -n          Change SSH key name on AWS'
         echo '   -a          Change SSH key name, instance name, and group name'
@@ -164,6 +138,11 @@ function init {
 	done
 	shift "$(($OPTIND -1))"
 
+	aws --version || ( echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1 )
+
+	if test ! -f "$checkSSH"; then
+		echo "Run 'ssh-keygen' first, with an empty passphrase for no passphrase. Missing ssh key." && exit 1
+	fi
 
 	if [ -z $keyname ]
 	then
@@ -199,8 +178,7 @@ function init {
 	isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
 	echo "Opened ssh tunnel"
 
-	openSSHTunnel $publicIp $portConfigArray
+	openSSHTunnel $instanceName $publicIp $portConfigArray
+
 	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
 }
-
-

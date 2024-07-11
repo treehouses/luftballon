@@ -20,3 +20,26 @@ function waitForOutput(){
     echo $result
 }
 
+setBalloonName() {
+    if [ -z "$1" ]; then
+        echo "luftballon"
+    else
+        echo "$1"
+    fi
+}
+
+function makePortArray {
+    local portString="$1"
+    local -a portArray
+
+    IFS=',' read -ra pairs <<< "$portString"
+
+    for pair in "${pairs[@]}"; do
+        IFS=':' read -ra ports <<< "$pair"
+        for port in "${ports[@]}"; do
+            portArray+=("$port")
+        done
+    done
+
+    echo "${portArray[@]}"
+}

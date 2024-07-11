@@ -1,4 +1,3 @@
-
 function addKeyValue(){
     local input="$1"
     local name="$2"
@@ -92,7 +91,7 @@ function deleteKeyValue(){
     echo "$output"
 }
 
-function init(){
+function initJqObject(){
     local name="$1"
     local output=$( echo null \
         | jq --arg name $name \
@@ -109,7 +108,7 @@ function merge(){
 
 function stringfy(){
     local data="$1"
-    local string=$(echo "$data"  | jq '.|tostring' |tr -d '\' | sed 's/"{/{/' | sed 's/}"/}/' )
+    local string=$(echo "$data"  | jq '.|tostring' |tr -d '\' 2>/dev/null | sed 's/"{/{/' | sed 's/}"/}/') 
     echo $string
 }
 
@@ -141,8 +140,7 @@ function getBucketByBucketKey(){
     local buckets="$1"
     local key="$2"
     local theBucket=$(echo "$buckets" | jq --arg key $key 'getpath([$key])')
-    local emptyBucket=$(init "$key")
+    local emptyBucket=$(initJqObject "$key")
     local theBucketWithKey=$(makeBucket "$emptyBucket" "$key" "$theBucket" )
     echo "$theBucketWithKey"
 }
-
