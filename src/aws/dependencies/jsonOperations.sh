@@ -1,4 +1,3 @@
-
 function addKeyValue(){
     local input="$1"
     local name="$2"
@@ -145,4 +144,3 @@ function getBucketByBucketKey(){
     local theBucketWithKey=$(makeBucket "$emptyBucket" "$key" "$theBucket" )
     echo "$theBucketWithKey"
 }
-
