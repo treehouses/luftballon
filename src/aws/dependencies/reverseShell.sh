@@ -80,8 +80,7 @@ function closeSSHTunnel(){
 # through which connections can be routed.
 function establishSSHConnectionBeforeEstablishSSHTunnel(){
     local instanceIp=$1
-    ssh -i /root/.ssh/$sshkey -o StrictHostKeyChecking=no root@$instanceIp 
-    echo "Established SSH connection to $instanceIp"
+    ssh -i /root/.ssh/$sshkey -o StrictHostKeyChecking=no root@$instanceIp 'echo A new IP address is acquired'
     sleep 2
 }
 
