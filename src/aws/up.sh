@@ -100,7 +100,7 @@ function getValueByKeyword(){
 }
 
 function usage {
-		echo "script usage: $(basename \$0 aws init) [-n ssh key name] [-p] [-a change key name, instance name, and group name]" >&2
+		echo "script usage: $(basename \$0 aws up) [-n ssh key name] [-p] [-a change key name, instance name, and group name]" >&2
         echo 'Start Luftballon.'
         echo '   -n          Change SSH key name on AWS'
         echo '   -a          Change SSH key name, instance name, and group name'
@@ -108,7 +108,7 @@ function usage {
         exit 1
 }
 
-function init {
+function up {
 	while getopts 'n:pN:a:' OPTION; do
 	case "$OPTION" in
 		n)

@@ -4,17 +4,17 @@ This script is designed to simplify the management of AWS EC2 instances. It prov
 
 ## Usage
 
-This script supports two main commands: init and delete.
+This script supports two main commands: up and delete.
 
-### Command: init
+### Command: up
 
-The init command verifies the AWS CLI installation, checks for the existence of an SSH key, and defines functions for importing an SSH key and adding ports in AWS EC2.
+The up command verifies the AWS CLI installation, checks for the existence of an SSH key, and defines functions for importing an SSH key and adding ports in AWS EC2.
 
 ```bash
-./driver.sh init [additional options]
+./driver.sh up [additional options]
 ```
 
-Options for init:
+Options for up:
 
 - -n [ssh key name]: Specify a name for the SSH key on AWS.
 - -a [balloon name]: Change the SSH key name, instance name, and group name, based on the provided balloon name.

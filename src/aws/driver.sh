@@ -2,7 +2,7 @@
 awsUsage() {
     echo "Usage: aws [command]"
     echo "Commands:"
-    echo "   init   - Verify AWS CLI installation, SSH key existence, and defines functions for SSH key import and port addition in AWS EC2"
+    echo "   up   - Verify AWS CLI installation, SSH key existence, and defines functions for SSH key import and port addition in AWS EC2"
     echo "   delete - deletes an AWS EC2 instance and its related resources, identified by a given "balloon name", and handles associated cleanup tasks such as removing SSH tunnels and deleting security keys"
     echo "   stop   - stops a specified AWS EC2 instance and removes its associated SSH tunnel"
     echo "   start- restarts a specified Amazon EC2 instance, updates its IP address, and opens a new SSH tunnel to it"
@@ -18,8 +18,8 @@ function awsDriver() {
 
     # Execute the appropriate command
     case "$1" in
-        init)
-            init "${@:2}"
+        up)
+            up "${@:2}"
             ;;
         delete)
             delete "${@:2}"

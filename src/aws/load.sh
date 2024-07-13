@@ -25,7 +25,7 @@ source $manageConfigPath/src/utils/delete.sh
 source $manageConfigPath/src/utils/callUpdate.sh
 source $manageConfigPath/src/utils/driver.sh
 
-source $manageConfigPath/src/aws/init.sh
+source $manageConfigPath/src/aws/up.sh
 source $manageConfigPath/src/aws/delete.sh
 source $manageConfigPath/src/aws/stop.sh
 source $manageConfigPath/src/aws/start.sh

@@ -48,7 +48,7 @@ If you have the properly configured AWS CLI, you can start Luftballon by a comma
 Execute the below command
 
 ```
-./init.sh
+./up.sh
 ```
 
 This command does several things
@@ -78,7 +78,7 @@ You can login to your Raspberry Pi via the EC2 instance.
 ### Start Luftballon with different name
 
 ```
-./init.sh -a [name]
+./up.sh -a [name]
 ```
 
 This a flag changes three names
@@ -101,7 +101,7 @@ This a flag changes three names
 
 ### Add other ports to sshtunnel
 
-The init.sh only makes the sshtunnel connecting the port 2222 of EC2 instance to the port 22 of the Raspberry Pi.
+The up.sh only makes the sshtunnel connecting the port 2222 of EC2 instance to the port 22 of the Raspberry Pi.
 You can make another sshtunnel by the below command.
 
 `./addPort.sh [EC2 port number] [Raspberry Pi port number]`
@@ -125,7 +125,7 @@ The below comand delete the Luftballon.
 
 `./delete.sh`
 
-This command basically does the opposite of the `init.sh`
+This command basically does the opposite of the `up.sh`
 
 1. Close sshtunnels
 2. Delete EC2 instance
