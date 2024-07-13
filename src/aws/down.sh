@@ -3,7 +3,7 @@
 #BASE=$HOME
 BASE=/home/pi
 
-function delete(){
+function down(){
 
   balloonName=$(setBalloonName "$1")
 

@@ -20,12 +20,12 @@ Options for up:
 - -a [balloon name]: Change the SSH key name, instance name, and group name, based on the provided balloon name.
 - -p: Use stored port numbers instead of the default port number.
 
-### Command: delete
+### Command: down
 
-The delete command deletes an AWS EC2 instance and its related resources, identified by a given "balloon name". It also handles cleanup tasks such as removing SSH tunnels and deleting security keys.
+The down command deletes an AWS EC2 instance and its related resources, identified by a given "balloon name". It also handles cleanup tasks such as removing SSH tunnels and deleting security keys.
 
 ```bash
-./driver.sh delete [balloon name]
+./driver.sh down [balloon name]
 ```
 
 ### Command: stop
