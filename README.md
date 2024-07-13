@@ -96,7 +96,7 @@ This a flag changes three names
 ### Restart Luftballon (currently unstable)
 
 ```
-./restart.sh [name]
+./start.sh [name]
 ```
 
 ### Add other ports to sshtunnel

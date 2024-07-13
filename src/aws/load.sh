@@ -28,7 +28,7 @@ source $manageConfigPath/src/utils/driver.sh
 source $manageConfigPath/src/aws/init.sh
 source $manageConfigPath/src/aws/delete.sh
 source $manageConfigPath/src/aws/stop.sh
-source $manageConfigPath/src/aws/restart.sh
+source $manageConfigPath/src/aws/start.sh
 source $manageConfigPath/src/aws/installAwsCli.sh
 source $manageConfigPath/src/aws/callUtils.sh
 source $manageConfigPath/src/aws/driver.sh

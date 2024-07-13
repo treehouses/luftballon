@@ -36,12 +36,12 @@ The stop command stops a specified AWS EC2 instance and removes its associated S
 ./driver.sh stop [balloon name]
 ```
 
-### Command: restart
+### Command: start
 
-The restart command restarts a specified Amazon EC2 instance, updates its IP address, and opens a new SSH tunnel to it.
+The start command restarts a specified Amazon EC2 instance, updates its IP address, and opens a new SSH tunnel to it.
 
 ```bash
-./driver.sh restart [balloon name]
+./driver.sh start [balloon name]
 ```
 
 ### Help
