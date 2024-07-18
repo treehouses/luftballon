@@ -3,7 +3,7 @@
 #BASE=$HOME
 BASE=/home/pi
 
-function restart(){
+function start(){
     balloonName=$(setBalloonName "$1")
 
     if ! isBalloonNameValid "$balloonName"; then

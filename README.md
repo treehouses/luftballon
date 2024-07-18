@@ -48,7 +48,7 @@ If you have the properly configured AWS CLI, you can start Luftballon by a comma
 Execute the below command
 
 ```
-./init.sh
+./up.sh
 ```
 
 This command does several things
@@ -78,7 +78,7 @@ You can login to your Raspberry Pi via the EC2 instance.
 ### Start Luftballon with different name
 
 ```
-./init.sh -a [name]
+./up.sh -a [name]
 ```
 
 This a flag changes three names
@@ -96,12 +96,12 @@ This a flag changes three names
 ### Restart Luftballon (currently unstable)
 
 ```
-./restart.sh [name]
+./start.sh [name]
 ```
 
 ### Add other ports to sshtunnel
 
-The init.sh only makes the sshtunnel connecting the port 2222 of EC2 instance to the port 22 of the Raspberry Pi.
+The up.sh only makes the sshtunnel connecting the port 2222 of EC2 instance to the port 22 of the Raspberry Pi.
 You can make another sshtunnel by the below command.
 
 `./addPort.sh [EC2 port number] [Raspberry Pi port number]`
@@ -112,7 +112,7 @@ If you host a web application on your Raspberry Pi on the port 80, people can ac
 
 ### Delete ports from the sshtunnel
 
-You can delete the sshtunnel by the below command
+You can down the sshtunnel by the below command
 
 `./deletePort.sh [EC2 port number] [Raspberry Pi port number]`
 
@@ -121,11 +121,11 @@ You can delete the sshtunnel by the below command
 It is nice to connect to your Raspberry Pi by sshtunnel, but you have to pay money to Amazon to have the sshtunnels.
 If you do not need to use the sshtunnel, you do not want to pay money for nothing.
 
-The below comand delete the Luftballon.
+The below comand down the Luftballon.
 
-`./delete.sh`
+`./down.sh`
 
-This command basically does the opposite of the `init.sh`
+This command basically does the opposite of the `up.sh`
 
 1. Close sshtunnels
 2. Delete EC2 instance
@@ -173,13 +173,13 @@ These commands adjust the specified configurations, replacing old values with ne
 #### Delete Command
 
 **What it does:**  
-The `delete` command removes an entire SSH configuration block for a specified host from the SSH config file, effectively discontinuing the SSH management for that host through the configuration file.
+The `down` command removes an entire SSH configuration block for a specified host from the SSH config file, effectively discontinuing the SSH management for that host through the configuration file.
 
 **How to execute:**  
 To remove the configuration for a host:
 
 ```
-delete myserver
+down myserver
 ```
 
 This command deletes all settings associated with the host `myserver`, cleaning up the SSH config file by removing unused or outdated entries.
