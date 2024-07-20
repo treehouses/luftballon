@@ -20,6 +20,18 @@ function start(){
 
     oldPublicIp=$(getValueByAttribute $balloonName publicIp)
 
+    state=$(getState $instanceId)
+
+    if [ "$state" == "\"running\"" ]; then
+        echo "The instance is already running"
+        exit 1
+    fi
+
+    if [ "$state" == "\"stopping\"" ]; then
+        echo "The instance is stopping"
+        exit 1
+    fi
+
     aws ec2 start-instances --instance-ids $instanceId
 
     echo "get the new ip address. The procedure might take time for a while"
