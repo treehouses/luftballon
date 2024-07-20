@@ -17,6 +17,12 @@ function stop(){
         exit 1
     fi
 
+    state=$(getState $instanceId)
+    if [ "$state" == "\"stopped\"" || "$state" == "\"stopping\"" ]; then
+        echo "The instance is already stopped"
+        exit 1
+    fi
+
     groupName=$(getValueByAttribute $balloonName groupName)
     storePortArrayString $groupName tcp $balloonName
     storePortArrayString $groupName udp $balloonName
