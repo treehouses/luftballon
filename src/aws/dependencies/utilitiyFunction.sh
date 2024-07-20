@@ -44,7 +44,7 @@ function makePortArray {
     echo "${portArray[@]}"
 }
 
-functrion getState(){
+function getState(){
     local instanceId=$1
     local state=$(aws ec2 describe-instances --instance-ids $instanceId | jq '.Reservations[].Instances[].State.Name')
     echo $state
