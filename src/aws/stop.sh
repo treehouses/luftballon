@@ -18,7 +18,7 @@ function stop(){
     fi
 
     state=$(getState $instanceId)
-    if [ "$state" == "\"stopped\"" || "$state" == "\"stopping\"" ]; then
+    if [[ "$state" == "\"stopped\"" || "$state" == "\"stopping\"" ]]; then
         echo "The instance is already stopped"
         exit 1
     fi
