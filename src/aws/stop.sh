@@ -13,8 +13,14 @@ function stop(){
     instanceId=$(getValueByAttribute $balloonName instanceId)
 
     if [ "$instanceId" = "null" ]; then
-        echo "$balloonName is already deleted"
+        echo "$balloonName does not exist"
         exit 1
+    fi
+
+    state=$(getState $instanceId)
+    if [[ "$state" == "\"stopped\"" || "$state" == "\"stopping\"" ]]; then
+        echo "The instance is already stopped"
+        exit 0
     fi
 
     groupName=$(getValueByAttribute $balloonName groupName)

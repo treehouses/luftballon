@@ -15,8 +15,8 @@ function down(){
   instanceId=$(getValueByAttribute $balloonName instanceId)
 
   if [ "$instanceId" = "null" ]; then
-      echo "$balloonName is already deleted"
-      exit 1
+      echo "$balloonName does not exist"
+      exit 0
   fi
 
   keyName=$(getValueByAttribute $balloonName key)
