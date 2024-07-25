@@ -7,7 +7,7 @@ function stop(){
     balloonName=$(setBalloonName "$1")
     if ! isBalloonNameValid "$balloonName"; then
         echo "Please provide a valid balloon name"
-        exit 0
+        exit 1
     fi
 
     instanceId=$(getValueByAttribute $balloonName instanceId)
@@ -20,7 +20,7 @@ function stop(){
     state=$(getState $instanceId)
     if [[ "$state" == "\"stopped\"" || "$state" == "\"stopping\"" ]]; then
         echo "The instance is already stopped"
-        exit 1
+        exit 0
     fi
 
     groupName=$(getValueByAttribute $balloonName groupName)
