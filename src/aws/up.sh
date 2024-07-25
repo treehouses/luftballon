@@ -15,7 +15,7 @@ checkKeyName() {
 
   for key in "${key_pairs[@]}"
   do
-    if [ "$key" == "$keyName" ]; then
+    if [ "$key" == "$keyname" ]; then
       echo "Error: Key Pair '$key' matches the specified keyName '$keyName'. Exiting..."
       exit 1
     fi
