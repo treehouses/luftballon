@@ -10,7 +10,17 @@ groupName=luftballons-sg
 instanceName=luftballon
 checkSSH=~/.ssh/$publickey
 
+checkKeyName() {
+  key_pairs=($(aws ec2 describe-key-pairs --query "KeyPairs[*].KeyName" --output text))
 
+  for key in "${key_pairs[@]}"
+  do
+    if [ "$key" == "$keyName" ]; then
+      echo "Error: Key Pair '$key' matches the specified keyName '$keyName'. Exiting..."
+      exit 1
+    fi
+  done
+}
 
 function importSshKey()
 {
@@ -149,6 +159,7 @@ function up {
 		keyname=luftballon
 	fi
 
+	checkKeyName
 
 	keyName=$(importSshKey | getValueByKeyword KeyName )
 
