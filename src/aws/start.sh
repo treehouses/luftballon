@@ -14,7 +14,7 @@ function start(){
     instanceId=$(getValueByAttribute $balloonName instanceId)
 
     if [ "$instanceId" = "null" ]; then
-        echo "$balloonName is already deleted"
+        echo "$balloonName does not exist"
         exit 1
     fi
 
@@ -24,7 +24,7 @@ function start(){
 
     if [ "$state" == "\"running\"" ]; then
         echo "The instance is already running"
-        exit 1
+        exit 0
     fi
 
     if [ "$state" == "\"stopping\"" ]; then
