@@ -7,7 +7,7 @@ function stop(){
     balloonName=$(setBalloonName "$1")
     if ! isBalloonNameValid "$balloonName"; then
         echo "Please provide a valid balloon name"
-        exit 1
+        exit 0
     fi
 
     instanceId=$(getValueByAttribute $balloonName instanceId)
