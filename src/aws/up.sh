@@ -11,9 +11,9 @@ instanceName=luftballon
 checkSSH=~/.ssh/$publickey
 
 checkKeyName() {
-  key_pairs=($(aws ec2 describe-key-pairs --query "KeyPairs[*].KeyName" --output text))
+  keyPairs=($(aws ec2 describe-key-pairs --query "KeyPairs[*].KeyName" --output text))
 
-  for key in "${key_pairs[@]}"
+  for key in "${keyPairs[@]}"
   do
     if [ "$key" == "$keyname" ]; then
       echo "Error: Key Pair '$key' matches the specified keyName '$keyName'. Exiting..."
