@@ -16,7 +16,7 @@ checkKeyName() {
   for key in "${keyPairs[@]}"
   do
     if [ "$key" == "$keyname" ]; then
-      echo "Error: Key Pair '$key' matches the specified keyName '$keyName'. Exiting..."
+      echo "Error: Key Pair '$key' matches the specified key name '$keyname'. Exiting..."
       exit 1
     fi
   done
@@ -161,14 +161,14 @@ function up {
 
 	checkKeyName
 
-	keyName=$(importSshKey | getValueByKeyword KeyName )
+	importedKeyName=$(importSshKey | getValueByKeyword KeyName )
 
-	if [ -z $keyName ]
+	if [ -z $importedKeyName ]
 	then 
 		exit 1
 	fi
 
-	echo "Success to add ssh key: $keyName"
+	echo "Success to add ssh key: $importedKeyName"
 
 	createSecurityGroups
 	echo "Add security group"
@@ -191,5 +191,5 @@ function up {
 
 	openSSHTunnel $instanceName $publicIp $portConfigArray
 
-	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $keyName $instanceId $publicIp $groupName
+	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $importedKeyName $instanceId $publicIp $groupName
 }
