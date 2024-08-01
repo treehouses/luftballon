@@ -193,7 +193,7 @@ function up {
 		instanceState=$(checkInstanceState $instanceId)
 	fi
 
-	if [ -z "$instanceId" ] || [ "$instanceState" = "terminated" ]; then
+	if [ -z "$instanceId" ]; then
 		instanceId=$(createEc2 | getValueByKeyword InstanceId)
 		echo "Creating and running EC2 instance..."
 
