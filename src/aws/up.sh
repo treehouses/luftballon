@@ -176,6 +176,7 @@ function up {
 		echo "Success to add ssh key: $importedKeyName"
 	else
 		echo "The key pair $keyname already exists. Please use another key name."
+	fi
 
 	if ! checkSecurityGroup; then
 		createSecurityGroups
