@@ -206,7 +206,7 @@ function up {
 
 		storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $importedKeyName $instanceId $publicIp $groupNameaws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
 	else
-		instanceState=$(check_instance_state $instanceId)
+		instanceState=$(checkInstanceState $instanceId)
 		if [ "$instanceState" = "running" ]; then
 			echo "EC2 instance is already running."
 		elif [ "$instanceState" = "stopped" ]; then
