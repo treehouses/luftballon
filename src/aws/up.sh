@@ -188,7 +188,13 @@ function up {
 
 	instanceId=$(checkInstance)
 	if [ -z "$instanceId" ]; then
-		instanceId=$(createEc2 | getValueByKeyword InstanceId )
+		instanceState=""
+	else
+		instanceState=$(checkInstanceState $instanceId)
+	fi
+
+	if [ -z "$instanceId" ] || [ "$instanceState" = "terminated" ]; then
+		instanceId=$(createEc2 | getValueByKeyword InstanceId)
 		echo "Creating and running EC2 instance..."
 
 		echo "Instance id is $instanceId"
@@ -206,7 +212,6 @@ function up {
 
 		storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $importedKeyName $instanceId $publicIp $groupNameaws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
 	else
-		instanceState=$(checkInstanceState $instanceId)
 		if [ "$instanceState" = "running" ]; then
 			echo "EC2 instance is already running."
 		elif [ "$instanceState" = "stopped" ]; then
