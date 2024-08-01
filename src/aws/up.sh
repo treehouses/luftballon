@@ -10,16 +10,23 @@ groupName=luftballons-sg
 instanceName=luftballon
 checkSSH=~/.ssh/$publickey
 
-checkKeyName() {
-  keyPairs=($(aws ec2 describe-key-pairs --query "KeyPairs[*].KeyName" --output text))
+checkSshKey() {
+  aws ec2 describe-key-pairs --key-names $keyname &> /dev/null
+  return $?
+}
 
-  for key in "${keyPairs[@]}"
-  do
-    if [ "$key" == "$keyname" ]; then
-      echo "Error: Key Pair '$key' matches the specified key name '$keyname'. Exiting..."
-      exit 1
-    fi
-  done
+checkSecurityGroup() {
+  aws ec2 describe-security-groups --group-names $groupName &> /dev/null
+  return $?
+}
+
+checkInstance() {
+  aws ec2 describe-instances --filters "Name=tag:Name,Values=$instanceName" --query "Reservations[*].Instances[*].InstanceId" --output text
+}
+
+checkInstanceState() {
+  ID=$1
+  aws ec2 describe-instances --instance-ids $ID --query "Reservations[*].Instances[*].State.Name" --output text
 }
 
 function importSshKey()
@@ -158,38 +165,54 @@ function up {
 	then
 		keyname=luftballon
 	fi
+	
 
-	checkKeyName
+	if ! checkSshKey ; then
+		importedKeyName=$(importSshKey | getValueByKeyword KeyName )
+		if [ -z $importedKeyName ]
+			then 
+				exit 1
+		fi
+		echo "Success to add ssh key: $importedKeyName"
+	else
+		echo "The key pair $keyname already exists. Please use another key name."
 
-	importedKeyName=$(importSshKey | getValueByKeyword KeyName )
-
-	if [ -z $importedKeyName ]
-	then 
-		exit 1
+	if ! checkSecurityGroup; then
+		createSecurityGroups
+		echo "Add security group"
+	# Add rules to Security Group as needed
+	else
+		echo "Security Group already exists."
 	fi
 
-	echo "Success to add ssh key: $importedKeyName"
+	instanceId=$(checkInstance)
+	if [ -z "$instanceId" ]; then
+		instanceId=$(createEc2 | getValueByKeyword InstanceId )
+		echo "Creating and running EC2 instance..."
 
-	createSecurityGroups
-	echo "Add security group"
+		echo "Instance id is $instanceId"
+		aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=$instanceName
+		aws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
 
-	instanceId=$(createEc2 | getValueByKeyword InstanceId )
-	echo "Create EC2 Instance"
-	echo "Instance id is $instanceId"
+		publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
+		echo "Public IP Address is $publicIp"
 
+		echo "Will open ssh tunnel soon"
+		isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
+		echo "Opened ssh tunnel"
 
-	aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=$instanceName
-	aws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
+		openSSHTunnel $instanceName $publicIp $portConfigArray
 
-
-	publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
-	echo "Public IP Address is $publicIp"
-
-	echo "Will open ssh tunnel soon"
-	isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
-	echo "Opened ssh tunnel"
-
-	openSSHTunnel $instanceName $publicIp $portConfigArray
-
-	storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $importedKeyName $instanceId $publicIp $groupName
+		storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $importedKeyName $instanceId $publicIp $groupNameaws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
+	else
+		instanceState=$(check_instance_state $instanceId)
+		if [ "$instanceState" = "running" ]; then
+			echo "EC2 instance is already running."
+		elif [ "$instanceState" = "stopped" ]; then
+			echo "Starting stopped EC2 instance..."
+			start $instanceName
+		else
+			echo "EC2 instance is in state: $instanceState."
+		fi
+	fi
 }
