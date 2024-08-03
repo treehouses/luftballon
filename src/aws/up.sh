@@ -42,24 +42,24 @@ function importSshKey()
 
 function addPort(){
   aws ec2 authorize-security-group-ingress \
-          --group-name $groupName \
-          --protocol tcp \
-          --port $1 \
-          --cidr 0.0.0.0/0
+    --group-name $groupName \
+    --protocol tcp \
+    --port $1 \
+    --cidr 0.0.0.0/0
 }
 
 function addUDPPort() {
   aws ec2 authorize-security-group-ingress \
-          --group-name $groupName \
-          --protocol udp \
-          --port $1 \
-          --cidr 0.0.0.0/0
+    --group-name $groupName \
+    --protocol udp \
+    --port $1 \
+    --cidr 0.0.0.0/0
 }
 
 function createSecurityGroups(){
   aws ec2 create-security-group \
-          --group-name $groupName \
-          --description "luftballons security group"
+    --group-name $groupName \
+    --description "luftballons security group"
   if [ -z "$portConfigArray" ]; then
     portConfigArray="8080:80,8443:443,2022:22"
   fi
@@ -82,11 +82,11 @@ function createEc2(){
   image="ami-0750fb43a63427eff"
   #image="ami-01e5ff16fd6e8c542"
   aws ec2 run-instances \
-          --count 1 \
-          --image-id $image \
-          --instance-type t2.micro \
-          --key-name $keyname \
-          --security-groups $groupName 
+    --count 1 \
+    --image-id $image \
+    --instance-type t2.micro \
+    --key-name $keyname \
+    --security-groups $groupName 
 }
 
 function findData(){
@@ -105,12 +105,12 @@ function getValueByKeyword(){
 }
 
 function usage {
-		echo "script usage: $(basename \$0 aws up) [-n ssh key name] [-p] [-a change key name, instance name, and group name]" >&2
-        echo 'Start Luftballon.'
-        echo '   -n          Change SSH key name on AWS'
-        echo '   -a          Change SSH key name, instance name, and group name'
-        echo '   -p          Use stored port Numbers instead of the default port number.'
-        exit 1
+  echo "script usage: $(basename \$0 aws up) [-n ssh key name] [-p] [-a change key name, instance name, and group name]" >&2
+  echo 'Start Luftballon.'
+  echo '   -n          Change SSH key name on AWS'
+  echo '   -a          Change SSH key name, instance name, and group name'
+  echo '   -p          Use stored port Numbers instead of the default port number.'
+  exit 1
 }
 
 function up {
