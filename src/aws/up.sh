@@ -191,7 +191,11 @@ function up {
   if [ -z "$instanceId" ]; then
     createAndTagInstance
   else
-    instanceState=$(checkInstanceState $instanceId)
+    instanceState=$(waitForConditionalOutput "checkInstanceState $instanceId" "\"stopping\"" "different")
+    if [ $? -ne 0 ]; then
+      echo "Wait for starting on start command until instance is stopped."
+      exit 1
+    fi
 
     case "$instanceState" in
     "running")
