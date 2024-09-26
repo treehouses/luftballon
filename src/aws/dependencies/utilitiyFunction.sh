@@ -89,7 +89,7 @@ function waitForConditionalOutput() {
       fi
     fi
     attempt=$((attempt + 1))
-    sleep 5
+    sleep 10
   done
 
   echo "Error: Failed to meet the condition after $maxAttempts attempts."

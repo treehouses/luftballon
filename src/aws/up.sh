@@ -3,7 +3,7 @@
 portConfigArray=
 udpPortConfigArray=
 
-publickey=`treehouses sshtunnel key name | cut -d ' ' -f 5`.pub
+publickey=$(treehouses sshtunnel key name | cut -d ' ' -f 5).pub
 
 keyname=
 groupName=luftballons-sg
@@ -11,12 +11,12 @@ instanceName=luftballon
 checkSSH=~/.ssh/$publickey
 
 checkSshKey() {
-  aws ec2 describe-key-pairs --key-names $keyname &> /dev/null
+  aws ec2 describe-key-pairs --key-names $keyname &>/dev/null
   return $?
 }
 
 checkSecurityGroup() {
-  aws ec2 describe-security-groups --group-names $groupName &> /dev/null
+  aws ec2 describe-security-groups --group-names $groupName &>/dev/null
   return $?
 }
 
@@ -29,10 +29,9 @@ checkInstanceState() {
   aws ec2 describe-instances --instance-ids $ID --query "Reservations[*].Instances[*].State.Name" --output text
 }
 
-function importSshKey()
-{
+function importSshKey() {
   if [[ -f ~/.ssh/$publickey ]]; then
-    aws ec2 import-key-pair --key-name "$keyname" --public-key-material fileb://~/.ssh/$publickey  
+    aws ec2 import-key-pair --key-name "$keyname" --public-key-material fileb://~/.ssh/$publickey
   else
     echo 'ssh key pair (~/.ssh/$publickey) do not exist ~/.ssh/$publickey'
     echo 'Please generate the ssh key by the commad "ssh-keygen -t rsa"'
@@ -40,7 +39,7 @@ function importSshKey()
   fi
 }
 
-function addPort(){
+function addPort() {
   aws ec2 authorize-security-group-ingress \
     --group-name $groupName \
     --protocol tcp \
@@ -56,7 +55,7 @@ function addUDPPort() {
     --cidr 0.0.0.0/0
 }
 
-function createSecurityGroups(){
+function createSecurityGroups() {
   aws ec2 create-security-group \
     --group-name $groupName \
     --description "luftballons security group"
@@ -78,7 +77,7 @@ function createSecurityGroups(){
   done
 }
 
-function createEc2(){
+function createEc2() {
   image="ami-0750fb43a63427eff"
   #image="ami-01e5ff16fd6e8c542"
   aws ec2 run-instances \
@@ -86,20 +85,20 @@ function createEc2(){
     --image-id $image \
     --instance-type t2.micro \
     --key-name $keyname \
-    --security-groups $groupName 
+    --security-groups $groupName
 }
 
-function findData(){
+function findData() {
   keyWord=$1
-  grep $keyWord | awk -F':' '{ print $2 }' | sed 's/ //g; s/"//g; s/,//g' 
+  grep $keyWord | awk -F':' '{ print $2 }' | sed 's/ //g; s/"//g; s/,//g'
 }
 
-function deleteKeyword(){
+function deleteKeyword() {
   keyWord=$1
   sed "s/$keyWord//g; s/ //g"
 }
 
-function getValueByKeyword(){
+function getValueByKeyword() {
   keyWord=$1
   findData $keyWord | deleteKeyword $keyWord
 }
@@ -116,83 +115,102 @@ function usage {
 function up {
   while getopts 'n:pN:a:' OPTION; do
     case "$OPTION" in
-      n)
-        keyname=$OPTARG
-        ;;
-      p)
-        portConfigArray=$(getArrayValueAsStringByKey $instanceName tcpPortArray)
-        udpPortConfigArray=$(getArrayValueAsStringByKey $instanceName udpPortArray)
-        if [ -z "$portConfigArray" ]; then
-          echo "There is no stored port numbers. The default port numbers are used"
-        fi
-        if [ -z "$udpPortConfigArray" ]; then
-          echo "There is no stored udp port numbers. The default port numbers are used"
-        fi
-        ;;
-      a)
-        groupName=$OPTARG-sg
-        instanceName=$OPTARG
-        keyname=$OPTARG
-        ;;
-      ?)
-        usage
-	;;
-      esac
-    done
-    shift "$(($OPTIND -1))"
-
-    aws --version || ( echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1 )
-
-    if test ! -f "$checkSSH"; then
-      echo "Run 'ssh-keygen' first, with an empty passphrase for no passphrase. Missing ssh key." && exit 1
-    fi
-
-    if [ -z $keyname ]; then
-      keyname=luftballon
-    fi
-
-    if ! checkSshKey ; then
-      importedKeyName=$(importSshKey | getValueByKeyword KeyName )
-      if [ -z $importedKeyName ]; then 
-        exit 1
+    n)
+      keyname=$OPTARG
+      ;;
+    p)
+      portConfigArray=$(getArrayValueAsStringByKey $instanceName tcpPortArray)
+      udpPortConfigArray=$(getArrayValueAsStringByKey $instanceName udpPortArray)
+      if [ -z "$portConfigArray" ]; then
+        echo "There is no stored port numbers. The default port numbers are used"
       fi
-      echo "Success to add ssh key: $importedKeyName"
-    else
-      echo "The key pair $keyname already exists. Please use another key name."
+      if [ -z "$udpPortConfigArray" ]; then
+        echo "There is no stored udp port numbers. The default port numbers are used"
+      fi
+      ;;
+    a)
+      groupName=$OPTARG-sg
+      instanceName=$OPTARG
+      keyname=$OPTARG
+      ;;
+    ?)
+      usage
+      ;;
+    esac
+  done
+  shift "$(($OPTIND - 1))"
+
+  aws --version || (echo "Run './installAwsCli.sh' first. AWS CLI is not installed." && exit 1)
+
+  if test ! -f "$checkSSH"; then
+    echo "Run 'ssh-keygen' first, with an empty passphrase for no passphrase. Missing ssh key." && exit 1
+  fi
+
+  if [ -z $keyname ]; then
+    keyname=luftballon
+  fi
+
+  if ! checkSshKey; then
+    importedKeyName=$(importSshKey | getValueByKeyword KeyName)
+    if [ -z $importedKeyName ]; then
+      exit 1
+    fi
+    echo "Success to add ssh key: $importedKeyName"
+  else
+    echo "The key pair $keyname already exists. Please use another key name."
+  fi
+
+  if ! checkSecurityGroup; then
+    createSecurityGroups
+    echo "Add security group"
+    # Add rules to Security Group as needed
+  else
+    echo "Security Group already exists."
+  fi
+
+  createAndTagInstance() {
+    instanceId=$(createEc2 | getValueByKeyword InstanceId)
+    echo "Creating and running EC2 instance..."
+    echo "Instance id is $instanceId"
+
+    aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=$instanceName
+    aws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
+
+    publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
+    echo "Public IP Address is $publicIp"
+    echo "Will open ssh tunnel soon"
+
+    isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
+    echo "Opened ssh tunnel"
+
+    openSSHTunnel $instanceName $publicIp $portConfigArray
+    storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $importedKeyName $instanceId $publicIp $groupName
+  }
+
+  instanceId=$(checkInstance)
+  if [ -z "$instanceId" ]; then
+    createAndTagInstance
+  else
+    instanceState=$(waitForConditionalOutput "checkInstanceState $instanceId" "\"stopping\"" "different")
+    if [ $? -ne 0 ]; then
+      echo "Wait for starting on start command until instance is stopped."
+      exit 1
     fi
 
-    if ! checkSecurityGroup; then
-      createSecurityGroups
-      echo "Add security group"
-      # Add rules to Security Group as needed
-    else
-      echo "Security Group already exists."
-    fi
-
-    instanceId=$(checkInstance)
-    if [ -z "$instanceId" ]; then
-      instanceState=""
-      instanceId=$(createEc2 | getValueByKeyword InstanceId)
-      echo "Creating and running EC2 instance..."
-      echo "Instance id is $instanceId"
-      aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=$instanceName
-      aws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
-      publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
-      echo "Public IP Address is $publicIp"
-      echo "Will open ssh tunnel soon"
-      isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
-      echo "Opened ssh tunnel"
-      openSSHTunnel $instanceName $publicIp $portConfigArray
-      storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $importedKeyName $instanceId $publicIp $groupNameaws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
-    else
-      instanceState=$(checkInstanceState $instanceId)
-    if [ "$instanceState" = "running" ]; then
+    case "$instanceState" in
+    "running")
       echo "EC2 instance is already running."
-    elif [ "$instanceState" = "stopped" ]; then
+      ;;
+    "stopped")
       echo "Starting stopped EC2 instance..."
       start $instanceName
-    else
+      ;;
+    "terminated")
+      createAndTagInstance
+      ;;
+    *)
       echo "EC2 instance is in state: $instanceState."
-    fi
+      ;;
+    esac
   fi
 }
