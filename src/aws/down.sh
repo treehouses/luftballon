@@ -3,32 +3,32 @@
 #BASE=$HOME
 BASE=/home/pi
 
-function down(){
+function down() {
 
   balloonName=$(setBalloonName "$1")
+  keyName=$(getValueByAttribute $balloonName key)
+  groupName=$(getValueByAttribute $balloonName groupName)
+
+  detectIncompleteState "luftballon" "luftballons-sg" "luftballon"
 
   if ! isBalloonNameValid "$balloonName"; then
-      echo "Please provide a valid balloon name"
-      exit 1
+    echo "Please provide a valid balloon name"
+    exit 1
   fi
 
   instanceId=$(getValueByAttribute $balloonName instanceId)
 
   if [ "$instanceId" = "null" ]; then
-      echo "$balloonName does not exist"
-      exit 0
+    echo "$balloonName does not exist"
+    exit 0
   fi
-
-  keyName=$(getValueByAttribute $balloonName key)
-  groupName=$(getValueByAttribute $balloonName groupName)
-
 
   storePortArrayString $groupName tcp $balloonName
   storePortArrayString $groupName udp $balloonName
   updateSshtunnelConfig $balloonName
 
   echo $instanceId
-  aws ec2 terminate-instances --instance-ids $instanceId 
+  aws ec2 terminate-instances --instance-ids $instanceId
   echo "ec2 instance delete"
 
   echo $keyName
