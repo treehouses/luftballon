@@ -158,7 +158,6 @@ function up {
     echo "Success to add ssh key: $importedKeyName"
   else
     echo "The key pair $keyname already exists. Please use another key name."
-    importedKeyName=$keyname
   fi
 
   if ! checkSecurityGroup; then
@@ -169,44 +168,54 @@ function up {
     echo "Security Group already exists."
   fi
 
-  instanceId=$(checkInstance)
-  if [ -z "$instanceId" ]; then
-    instanceState=""
+  createAndTagInstance() {
     instanceId=$(createEc2 | getValueByKeyword InstanceId)
     echo "Creating and running EC2 instance..."
     echo "Instance id is $instanceId"
+
     aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=$instanceName
     aws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
+
     publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
     echo "Public IP Address is $publicIp"
     echo "Will open ssh tunnel soon"
+
     isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
     echo "Opened ssh tunnel"
+
     openSSHTunnel $instanceName $publicIp $portConfigArray
-    storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $importedKeyName $instanceId $publicIp $groupNameaws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
+    storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $importedKeyName $instanceId $publicIp $groupName
+  }
+
+  instanceId=$(checkInstance)
+  if [ -z "$instanceId" ]; then
+    createAndTagInstance
   else
-    instanceState=$(checkInstanceState $instanceId)
-    if [ "$instanceState" = "running" ]; then
+    instanceState=$(waitForConditionalOutput "checkInstanceState $instanceId" "\"stopping\"" "different")
+    if [ $? -ne 0 ]; then
+      echo "Wait for starting on start command until instance is stopped."
+      exit 1
+    fi
+    echo "Success to add ssh key: $importedKeyName"
+  else
+    echo "The key pair $keyname already exists. Please use another key name."
+    importedKeyName=$keyname
+  fi
+
+    case "$instanceState" in
+    "running")
       echo "EC2 instance is already running."
-    elif [ "$instanceState" = "stopped" ]; then
+      ;;
+    "stopped")
       echo "Starting stopped EC2 instance..."
       start $instanceName
-    elif [ "$instanceState" = "terminated" ]; then
-      instanceState=""
-      instanceId=$(createEc2 | getValueByKeyword InstanceId)
-      echo "Creating and running EC2 instance..."
-      echo "Instance id is $instanceId"
-      aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=$instanceName
-      aws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
-      publicIp=$(waitForOutput "getLatestIpAddress $instanceId")
-      echo "Public IP Address is $publicIp"
-      echo "Will open ssh tunnel soon"
-      isOpen=$(waitForOutput "ssh-keyscan -H $publicIp | grep ecdsa-sha2-nistp256")
-      echo "Opened ssh tunnel"
-      openSSHTunnel $instanceName $publicIp $portConfigArray
-      storeConfigIntoTreehousesConfigAsStringfiedJson $instanceName $importedKeyName $instanceId $publicIp $groupNameaws ec2 create-tags --resources $instanceId --tags Key=Class,Value=treehouses
-    else
+      ;;
+    "terminated")
+      createAndTagInstance
+      ;;
+    *)
       echo "EC2 instance is in state: $instanceState."
-    fi
+      ;;
+    esac
   fi
 }
