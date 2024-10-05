@@ -64,6 +64,21 @@ checkKeyPairExists() {
   fi
 }
 
+instanceExists() {
+  local binaryState=$1
+  ! ((binaryState & 4))
+}
+
+securityGroupExists() {
+  local binaryState=$1
+  ! ((binaryState & 2))
+}
+
+keyPairExists() {
+  local binaryState=$1
+  ! ((binaryState & 1))
+}
+
 # Parent function to detect the state of the instance, security group, and key pair
 # Accepts three arguments:
 #   $1: instanceName (for describeInstanceByName)
@@ -101,50 +116,20 @@ detectIncompleteState() {
   # Bit 0 -> keyPairExists
   local binaryState=$(((instanceExists << 2) | (securityGroupExists << 1) | keyPairExists))
 
-  # Output the binary value (as a decimal number)
-  echo "Binary state (in decimal): $binaryState"
-
-  # Return the binary state (as an integer)
+  echo "Binary state (in binary): $(echo "obase=2; $binaryState" | bc)"
   return $binaryState
 }
 
-# Example usage:
-# To use the parent function `detectIncompleteState`, provide three arguments:
-# 1. The name of the instance to check
-# 2. The name of the security group to check
-# 3. The name of the key pair to check
-#
-# Example:
-# detectIncompleteState "luftballon" "luftballons-sg" "luftballon"
 detectIncompleteState "luftballon" "luftballons-sg" "luftballon"
 binaryState=$?
 
-# Output the binary state in binary format for easier understanding
-echo "Binary state (in binary): $(echo "obase=2; $binaryState" | bc)"
-
-# Example: Interpret the binary state
-if [[ $binaryState -eq 0 ]]; then
-  echo "All resources exist."
-else
-  # Analyze each bit
-  if ((binaryState & 4)); then
-    echo "Instance does not exist."
-  fi
-  if ((binaryState & 2)); then
-    echo "Security Group does not exist."
-  fi
-  if ((binaryState & 1)); then
-    echo "Key Pair does not exist."
-  fi
+# Analyze each bit
+if instanceExists $binaryState; then
+  echo "Instance exists."
 fi
-
-# Example usage:
-# To use the parent function `detectIncompleteState`, provide three arguments:
-# 1. The name of the instance to check
-# 2. The name of the security group to check
-# 3. The name of the key pair to check
-#
-# Example:
-# detectIncompleteState "my-instance-name" "my-security-group-name" "my-key-pair-name"
-detectIncompleteState "luftballon" "luftballons-sg" "luftballon"
-echo $?
+if securityGroupExists $binaryState; then
+  echo "Security Group exists."
+fi
+if keyPairExists $binaryState; then
+  echo "Key Pair exists."
+fi
