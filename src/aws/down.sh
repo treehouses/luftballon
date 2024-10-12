@@ -87,7 +87,7 @@ function down() {
   keyName=$(getValueByAttribute "$balloonName" key)
   groupName=$(getValueByAttribute "$balloonName" groupName)
 
-  detectIncompleteState "$balloonName" "$groupName" "$groupName"
+  detectIncompleteState "$balloonName" "$groupName" "$keyName"
   binaryState=$?
 
   if instanceExists "$binaryState" && securityGroupExists "$binaryState"; then

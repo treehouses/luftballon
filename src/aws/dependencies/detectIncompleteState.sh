@@ -116,20 +116,5 @@ detectIncompleteState() {
   # Bit 0 -> keyPairExists
   local binaryState=$(((instanceExists << 2) | (securityGroupExists << 1) | keyPairExists))
 
-  echo "Binary state (in binary): $(echo "obase=2; $binaryState" | bc)"
   return $binaryState
 }
-
-detectIncompleteState "luftballon" "luftballons-sg" "luftballon"
-binaryState=$?
-
-# Analyze each bit
-if instanceExists $binaryState; then
-  echo "Instance exists."
-fi
-if securityGroupExists $binaryState; then
-  echo "Security Group exists."
-fi
-if keyPairExists $binaryState; then
-  echo "Key Pair exists."
-fi
