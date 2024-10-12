@@ -158,6 +158,7 @@ function up {
     echo "Success to add ssh key: $importedKeyName"
   else
     echo "The key pair $keyname already exists. Please use another key name."
+    importedKeyName=$keyname
   fi
 
   if ! checkSecurityGroup; then
@@ -196,21 +197,22 @@ function up {
       echo "Wait for starting on start command until instance is stopped."
       exit 1
     fi
-
-    case "$instanceState" in
-    "running")
-      echo "EC2 instance is already running."
-      ;;
-    "stopped")
-      echo "Starting stopped EC2 instance..."
-      start $instanceName
-      ;;
-    "terminated")
-      createAndTagInstance
-      ;;
-    *)
-      echo "EC2 instance is in state: $instanceState."
-      ;;
-    esac
+    echo "Success to add ssh key: $importedKeyName"
   fi
+
+  case "$instanceState" in
+  "running")
+    echo "EC2 instance is already running."
+    ;;
+  "stopped")
+    echo "Starting stopped EC2 instance..."
+    start $instanceName
+    ;;
+  "terminated")
+    createAndTagInstance
+    ;;
+  *)
+    echo "EC2 instance is in state: $instanceState."
+    ;;
+  esac
 }
