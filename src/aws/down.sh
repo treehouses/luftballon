@@ -81,11 +81,30 @@ storePortAndDeleteSecurityGroupWithSleepAndRetry() {
   done
 }
 
+treehousesConfigHas() {
+  local keyName=$1
+  local groupName=$2
+
+  if [ "$keyName" == "null" ] || [ "$groupName" == "null" ]; then
+    return 1
+  fi
+
+  return 0
+}
+
 function down() {
 
   balloonName=$(setBalloonName "$1")
   keyName=$(getValueByAttribute "$balloonName" key)
   groupName=$(getValueByAttribute "$balloonName" groupName)
+
+  treehousesConfigHas "$keyName" "$groupName"
+  checkResult=$?
+
+  if [ $checkResult -eq 1 ]; then
+    echo "Treehouses config is corrupted, manual cleanup required"
+    exit 1
+  fi
 
   detectIncompleteState "$balloonName" "$groupName" "$keyName"
   binaryState=$?
